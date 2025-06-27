@@ -13,7 +13,8 @@
     "@types/node": "^22.15.3"
   },
   "dependencies": {
-    "mongoose": "^8.16.1",
-    "ts": "^0.2.2"
+    "@types/bcrypt": "^5.0.2",
+    "bcrypt": "^6.0.0",
+    "mongoose": "^8.16.1"
   }
 }
