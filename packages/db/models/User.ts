@@ -1,5 +1,5 @@
 import mongoose, { model, models, Schema } from "mongoose";
-import bcrypt from "bcrypt";
+import {bcryptjs} from "@repo/auth"
 
 export interface IUser {
   _id: mongoose.ObjectId;
@@ -27,7 +27,7 @@ const userSchema = new Schema<IUser>(
 
 userSchema.pre("save", async function (next) {
   if (this.isModified("password")) {
-    this.password = await bcrypt.hash(this.password, 10);
+    this.password = await bcryptjs.hash(this.password, 10);
   }
   next();
 });

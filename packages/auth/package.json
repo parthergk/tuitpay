@@ -1,19 +1,17 @@
 {
-  "name": "db",
+  "name": "@repo/auth",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "exports": {"./bcryptjs": "./index.ts"},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "devDependencies": {
-    "@types/node": "^22.15.3",
-    "@repo/auth": "workspace:*"
-  },
   "dependencies": {
-    "mongoose": "^8.16.1"
+    "@types/bcryptjs": "^3.0.0",
+    "bcryptjs": "^3.0.2"
   }
 }
