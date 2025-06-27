@@ -8,6 +8,7 @@ interface IStudent {
   sub: string;
   monthlyFee: number;
   isActivate: boolean;
+  joinDate: Date;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -21,6 +22,7 @@ const studentSchema = new Schema<IStudent>(
     sub: { type: String, required: true },
     monthlyFee: { type: Number, required: true },
     isActivate: { type: Boolean, default: true },
+    joinDate: { type: Date, required: true },
   },
   { timestamps: true }
 );
