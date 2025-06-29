@@ -10,7 +10,8 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@repo/typescript-config": "workspace:*"
+    "@repo/typescript-config": "workspace:*",
+    "@repo/validation": "workspace:*"
   },
   "dependencies": {
     "@types/cors": "^2.8.19",
