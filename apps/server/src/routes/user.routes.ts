@@ -1,10 +1,10 @@
-import { Request, Response, Router } from "express";
+import express, { Request, Response, Router } from "express";
 import { UserSchema } from "@repo/validation";
 
-const userRouter = Router();
+const userRouter: express.Router = Router();
 
 userRouter.post("/user", async (req: Request, res: Response) => {
-  const body = await req.body;
+  const body = req.body;
 
   const parsedBody = UserSchema.safeParse(body);
 
