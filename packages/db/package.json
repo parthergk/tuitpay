@@ -13,10 +13,10 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@types/node": "^22.15.3",
-    "@repo/auth": "workspace:*"
+    "@repo/auth": "workspace:*",
+    "@types/node": "^22.15.3"
   },
-  "dependencies": {
+  "peerDependencies": {
     "mongoose": "^8.16.1"
   }
 }

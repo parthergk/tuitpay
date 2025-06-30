@@ -45,6 +45,9 @@ importers:
       '@repo/ui':
         specifier: workspace:*
         version: link:../../packages/ui
+      mongoose:
+        specifier: ^8.16.1
+        version: 8.16.1(socks@2.8.4)
       next:
         specifier: ^15.3.0
         version: 15.3.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)

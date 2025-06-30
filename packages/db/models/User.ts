@@ -1,5 +1,5 @@
 import mongoose, { model, models, Schema } from "mongoose";
-import {bcryptjs} from "@repo/auth"
+import { bcryptjs } from "@repo/auth";
 import { Model } from "mongoose";
 
 export interface IUser {

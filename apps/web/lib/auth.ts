@@ -1,7 +1,7 @@
 import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { connectTodb, User } from "@repo/db";
-import { bcryptjs } from "@repo/auth/bcryptjs";
+import { bcryptjs } from "@repo/auth";
 
 export const authOptions: NextAuthOptions = {
   providers: [
