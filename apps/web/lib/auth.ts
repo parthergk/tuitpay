@@ -3,7 +3,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { connectTodb, User } from "@repo/db";
 import { bcryptjs } from "@repo/auth/bcryptjs";
 
-export const nextOption: NextAuthOptions = {
+export const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
       name: "Credentials",
