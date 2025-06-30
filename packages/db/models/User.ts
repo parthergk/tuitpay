@@ -1,5 +1,6 @@
 import mongoose, { model, models, Schema } from "mongoose";
 import {bcryptjs} from "@repo/auth"
+import { Model } from "mongoose";
 
 export interface IUser {
   _id: mongoose.ObjectId;
@@ -10,7 +11,7 @@ export interface IUser {
   plan: "free" | "pro" | "custom";
   createdAt: Date;
   updatedAt: Date;
-  expiresAt: Date;
+  expiresAt?: Date;
 }
 
 const userSchema = new Schema<IUser>(
@@ -32,6 +33,9 @@ userSchema.pre("save", async function (next) {
   next();
 });
 
-const User = models.User || model<IUser>("User", userSchema);
+userSchema.index({ email: 1 });
+userSchema.index({ phone: 1 });
+
+const User = (models.User as Model<IUser>) || model<IUser>("User", userSchema);
 
 export default User;
