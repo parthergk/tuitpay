@@ -1,8 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { UserSchema } from "@repo/validation";
 import { connectTodb, User } from "@repo/db";
+import { sendOTP } from "../../../../helpers/sendOTP";
 
 export async function POST(req: NextRequest) {
+  
   const body = await req.json();
   const parsedBody = UserSchema.safeParse(body);
 
@@ -37,12 +39,29 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    const verificationCode = Math.floor(Math.random() * 10000).toString();
+
     const user = await User.create({
       name: parsedBody.data.name,
       email: parsedBody.data.email,
       password: parsedBody.data.password,
       phone: parsedBody.data.phone,
+      verifyCode: verificationCode,
+      isVerified: false
     });
+
+    const emailResponse = await sendOTP(
+      parsedBody.data.email,
+      parsedBody.data.name,
+      verificationCode
+    );
+
+    if (!emailResponse.success) {
+      return NextResponse.json({
+        success: false,
+        message: emailResponse.message,
+      });
+    }
 
     return NextResponse.json(
       {

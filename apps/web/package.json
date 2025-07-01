@@ -12,9 +12,11 @@
   },
   "dependencies": {
     "@repo/ui": "workspace:*",
+    "@types/nodemailer": "^6.4.17",
     "mongoose": "^8.16.1",
     "next": "^15.3.0",
     "next-auth": "^4.24.11",
+    "nodemailer": "^7.0.4",
     "react": "^19.1.0",
     "react-dom": "^19.1.0"
   },
