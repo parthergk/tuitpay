@@ -8,6 +8,8 @@ export interface IUser {
   email: string;
   phone: string;
   password: string;
+  isVerified: boolean;
+  verifyCode: string;
   plan: "free" | "pro" | "custom";
   createdAt: Date;
   updatedAt: Date;
@@ -20,6 +22,8 @@ const userSchema = new Schema<IUser>(
     email: { type: String, required: true, unique: true },
     phone: { type: String, required: true, unique: true },
     password: { type: String, required: true },
+    isVerified: {type: Boolean, default:false, required: true},
+    verifyCode: {type: String, minlength: 4},
     plan: { type: String, enum: ["free", "pro", "custom"], default: "free" },
     expiresAt: { type: Date },
   },
@@ -33,8 +37,8 @@ userSchema.pre("save", async function (next) {
   next();
 });
 
-userSchema.index({ email: 1 });
-userSchema.index({ phone: 1 });
+// userSchema.index({ email: 1 });
+// userSchema.index({ phone: 1 });
 
 const User = (models.User as Model<IUser>) || model<IUser>("User", userSchema);
 
