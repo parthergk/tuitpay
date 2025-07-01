@@ -10,6 +10,8 @@ export interface IUser {
   password: string;
   isVerified: boolean;
   verifyCode: string;
+  verifyCodePurpose: string;
+  verifyCodeExpires: Date;
   plan: "free" | "pro" | "custom";
   createdAt: Date;
   updatedAt: Date;
@@ -22,8 +24,10 @@ const userSchema = new Schema<IUser>(
     email: { type: String, required: true, unique: true },
     phone: { type: String, required: true, unique: true },
     password: { type: String, required: true },
-    isVerified: {type: Boolean, default:false, required: true},
-    verifyCode: {type: String, minlength: 4},
+    isVerified: { type: Boolean, default: false, required: true },
+    verifyCode: { type: String, minlength: 4 },
+    verifyCodePurpose: { type: String },
+    verifyCodeExpires: { type: Date },
     plan: { type: String, enum: ["free", "pro", "custom"], default: "free" },
     expiresAt: { type: Date },
   },

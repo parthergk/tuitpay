@@ -4,7 +4,6 @@ import { connectTodb, User } from "@repo/db";
 import { sendOTP } from "../../../../helpers/sendOTP";
 
 export async function POST(req: NextRequest) {
-  
   const body = await req.json();
   const parsedBody = UserSchema.safeParse(body);
 
@@ -47,7 +46,9 @@ export async function POST(req: NextRequest) {
       password: parsedBody.data.password,
       phone: parsedBody.data.phone,
       verifyCode: verificationCode,
-      isVerified: false
+      verifyCodePurpose: "register",
+      verifyCodeExpires: new Date(Date.now() + 15 * 60 * 1000),
+      isVerified: false,
     });
 
     const emailResponse = await sendOTP(

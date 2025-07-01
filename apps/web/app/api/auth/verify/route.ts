@@ -1,11 +1,14 @@
 import { User } from "@repo/db";
 import { NextRequest, NextResponse } from "next/server";
+import { CodeSchema } from "@repo/validation";
 
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
 
-    if (!body.email || !body.code) {
+    const parsedBody = CodeSchema.safeParse(body);
+
+    if (!parsedBody.success) {
       return NextResponse.json(
         {
           success: false,
@@ -15,7 +18,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const user = await User.findOne({ email: body.email });
+    const user = await User.findOne({ email: parsedBody.data.email });
 
     if (!user) {
       return NextResponse.json(
@@ -27,44 +30,91 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    if (user.isVerified) {
+    if (user.verifyCodePurpose === "register") {
+      if (user.isVerified) {
+        return NextResponse.json(
+          {
+            success: true,
+            message: "User is already verified",
+          },
+          { status: 200 }
+        );
+      }
+
+      if (user.verifyCode !== parsedBody.data.code) {
+        return NextResponse.json(
+          {
+            success: false,
+            message: "Invalid verification code",
+          },
+          { status: 400 }
+        );
+      }
+
+      await User.updateOne(
+        { email: body.email },
+        {
+          $set: { isVerified: true },
+          $unset: {
+            verifyCode: "",
+            verifyCodePurpose: "",
+            verifyCodeExpires: "",
+          },
+        }
+      );
+
       return NextResponse.json(
         {
           success: true,
-          message: "User is already verified",
+          message: "User verified successfully",
         },
         { status: 200 }
       );
     }
 
-    if (user.verifyCode !== body.code) {
+    if (user.verifyCodePurpose === "forgot-password") {
+      if (user.verifyCode !== parsedBody.data.code) {
+        return NextResponse.json(
+          {
+            success: false,
+            message: "Invalid verification code",
+          },
+          { status: 400 }
+        );
+      }
+
+      if (user.verifyCodeExpires && user.verifyCodeExpires < new Date()) {
+        return NextResponse.json(
+          {
+            success: false,
+            message: "Verification code expired",
+          },
+          { status: 400 }
+        );
+      }
+
+      await User.updateOne(
+        { email: body.email },
+        {
+          $set: { verifyCodePurpose: "reset-allowed" },
+        }
+      );
+
       return NextResponse.json(
         {
-          success: false,
-          message: "Invalid verification code",
+          success: true,
+          message: "OTP verified, you can now reset your password",
         },
-        { status: 400 }
+        { status: 200 }
       );
     }
 
-    await User.updateOne(
-      { email: body.email },
-      {
-        $set: {
-          isVerified: true,
-        },
-        $unset: {
-          verifyCode: "",
-        },
-      }
-    );
-
     return NextResponse.json(
       {
-        success: true,
-        message: "User verified successfully",
+        success: false,
+        message: "Invalid OTP purpose",
       },
-      { status: 200 }
+      { status: 400 }
     );
   } catch (error) {
     console.error("Error verifying user:", error);
