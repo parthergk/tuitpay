@@ -2,6 +2,8 @@ import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { connectTodb, User } from "@repo/db";
 import { bcryptjs } from "@repo/auth";
+import { JWT } from "next-auth/jwt";
+import jwt from "jsonwebtoken";
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -20,7 +22,9 @@ export const authOptions: NextAuthOptions = {
 
         try {
           await connectTodb();
-          const user = await User.findOne({ email: credentials.email }).select('+password');
+          const user = await User.findOne({ email: credentials.email }).select(
+            "+password"
+          );
 
           if (!user) {
             throw new Error("No user found with this email");
@@ -58,8 +62,8 @@ export const authOptions: NextAuthOptions = {
     },
 
     async session({ session, token }) {
-        (session.user.id = token.id as string),
-        (session.user.plan = token.plan as string)
+      ((session.user.id = token.id as string),
+        (session.user.plan = token.plan as string));
       return session;
     },
   },
@@ -73,6 +77,14 @@ export const authOptions: NextAuthOptions = {
     strategy: "jwt",
     maxAge: 30 * 24 * 60 * 60,
   },
+  jwt: {
+  encode: async ({ token, secret }) => {
+    return jwt.sign(token!, secret, { algorithm: "HS256" });
+  },
+  decode: async ({ token, secret }) => {
+    return jwt.verify(token!, secret) as JWT;
+  },
+},
 
   secret: process.env.NEXTAUTH_SECRET,
 };
