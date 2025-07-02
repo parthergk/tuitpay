@@ -1,11 +1,11 @@
 import { bcryptjs } from "@repo/auth";
-import { User } from "@repo/db";
+import { connectTodb, User } from "@repo/db";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
   const body = await req.json();
 
-  if (!body.email || !body.newPassword) {
+  if (!body.email || !body.resetPassword) {
     return NextResponse.json(
       { success: false, message: "Email and new password are required" },
       { status: 400 }
@@ -13,6 +13,7 @@ export async function POST(req: NextRequest) {
   }
 
   try {
+    await connectTodb();
     const user = await User.findOne({ email: body.email });
 
     if (!user) {
@@ -29,7 +30,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const hashedPassword = await bcryptjs.hash(body.newPassword, 10);
+    const hashedPassword = await bcryptjs.hash(body.resetPassword, 10);
 
     await User.updateOne(
       { email: body.email },

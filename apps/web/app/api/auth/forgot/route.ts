@@ -1,4 +1,4 @@
-import { User } from "@repo/db";
+import { connectTodb, User } from "@repo/db";
 import { NextRequest, NextResponse } from "next/server";
 import { sendOTP } from "../../../../helpers/sendOTP";
 
@@ -16,6 +16,7 @@ export async function POST(req: NextRequest) {
   }
 
   try {
+    await connectTodb();
     const user = await User.findOne({ email: body.email });
     if (!user) {
       return NextResponse.json(

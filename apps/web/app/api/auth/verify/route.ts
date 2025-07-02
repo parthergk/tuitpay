@@ -1,12 +1,15 @@
-import { User } from "@repo/db";
+import { connectTodb, User } from "@repo/db";
 import { NextRequest, NextResponse } from "next/server";
 import { CodeSchema } from "@repo/validation";
 
 export async function POST(req: NextRequest) {
   try {
+
     const body = await req.json();
+    console.log("Body", body);
 
     const parsedBody = CodeSchema.safeParse(body);
+    
 
     if (!parsedBody.success) {
       return NextResponse.json(
@@ -17,7 +20,8 @@ export async function POST(req: NextRequest) {
         { status: 400 }
       );
     }
-
+    
+    await connectTodb();
     const user = await User.findOne({ email: parsedBody.data.email });
 
     if (!user) {
@@ -72,7 +76,8 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    if (user.verifyCodePurpose === "forgot-password") {
+    if (user.verifyCodePurpose === "forgot-password") {    
+        
       if (user.verifyCode !== parsedBody.data.code) {
         return NextResponse.json(
           {
@@ -83,15 +88,15 @@ export async function POST(req: NextRequest) {
         );
       }
 
-      if (user.verifyCodeExpires && user.verifyCodeExpires < new Date()) {
-        return NextResponse.json(
-          {
-            success: false,
-            message: "Verification code expired",
-          },
-          { status: 400 }
-        );
-      }
+      // if (user.verifyCodeExpires < new Date()) {
+      //   return NextResponse.json(
+      //     {
+      //       success: false,
+      //       message: "Verification code expired",
+      //     },
+      //     { status: 400 }
+      //   );
+      // }
 
       await User.updateOne(
         { email: body.email },
