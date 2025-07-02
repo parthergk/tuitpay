@@ -36,15 +36,15 @@ export async function POST(req: NextRequest) {
         $set: {
           verifyCode: verificationCode,
           verifyCodePurpose: "forgot-password",
-          verifyCodeExpires: Date.now(),
+          verifyCodeExpires: Date.now() + 5 * 60 * 1000,
         },
       }
     );
 
     const emailResponse = await sendOTP(
       user.email,
-      verificationCode,
-      user.name
+      user.name,
+      verificationCode
     );
     if (!emailResponse.success) {
       return NextResponse.json({

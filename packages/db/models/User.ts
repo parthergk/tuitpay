@@ -11,7 +11,7 @@ export interface IUser {
   isVerified: boolean;
   verifyCode: string;
   verifyCodePurpose: string;
-  verifyCodeExpires: Date;
+  verifyCodeExpires: number;
   plan: "free" | "pro" | "custom";
   createdAt: Date;
   updatedAt: Date;
@@ -27,7 +27,7 @@ const userSchema = new Schema<IUser>(
     isVerified: { type: Boolean, default: false, required: true },
     verifyCode: { type: String, minlength: 4 },
     verifyCodePurpose: { type: String },
-    verifyCodeExpires: { type: Date },
+    verifyCodeExpires: { type: Number },
     plan: { type: String, enum: ["free", "pro", "custom"], default: "free" },
     expiresAt: { type: Date },
   },

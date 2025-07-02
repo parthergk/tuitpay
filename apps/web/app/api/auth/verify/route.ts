@@ -87,16 +87,16 @@ export async function POST(req: NextRequest) {
           { status: 400 }
         );
       }
-
-      // if (user.verifyCodeExpires < new Date()) {
-      //   return NextResponse.json(
-      //     {
-      //       success: false,
-      //       message: "Verification code expired",
-      //     },
-      //     { status: 400 }
-      //   );
-      // }
+      
+      if (user.verifyCodeExpires < Date.now()) {
+        return NextResponse.json(
+          {
+            success: false,
+            message: "Verification code expired",
+          },
+          { status: 400 }
+        );
+      }
 
       await User.updateOne(
         { email: body.email },
