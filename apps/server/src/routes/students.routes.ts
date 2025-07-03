@@ -16,12 +16,13 @@ studentRouter.get("/", verifyJwt, async (req, res) => {
 studentRouter.post("/", verifyJwt, async (req: Request, res: Response) => {
   
   const {data} = await req.body;
-  console.log("Body", data);
   
   const userBody = req.user;
   try {
   const parsedBody = StudentSchema.safeParse(data);
 
+  console.log("Error body parse", parsedBody.error);
+  
   if (!parsedBody.success) {
     res.status(400).json({ message: "Invalid inputs" });
     return;
@@ -50,7 +51,7 @@ studentRouter.post("/", verifyJwt, async (req: Request, res: Response) => {
       contact: parsedBody.data.contact,
       monthlyFee: parsedBody.data.monthlyFee,
       isActivate: parsedBody.data.isActivate,
-      joinDate: parsedBody.data.joinDate,
+      joinDate: new Date(),
     });
 
     console.log("student", student);

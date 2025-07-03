@@ -10,7 +10,7 @@ const Student = () => {
       contact: '9876543210',
       monthlyFee: 2000,
       isActivate: true,
-      joinDate: new Date().toISOString(),
+      joinDate: new Date(),
     };
 
     try {

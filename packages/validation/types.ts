@@ -16,7 +16,7 @@ export const StudentSchema = z.object({
     contact: z.string().min(10),
     monthlyFee: z.number(),
     isActivate: z.boolean(),
-    joinDate: z.date()
+    joinDate: z.string()
 })
 
 
