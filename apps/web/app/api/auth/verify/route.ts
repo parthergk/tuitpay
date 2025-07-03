@@ -1,6 +1,6 @@
 import { connectTodb, User } from "@repo/db";
 import { NextRequest, NextResponse } from "next/server";
-import { CodeSchema } from "@repo/validation";
+import { CodeSchema } from "@repo/validation/types";
 
 export async function POST(req: NextRequest) {
   try {

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { UserSchema } from "@repo/validation";
+import { UserSchema } from "@repo/validation/types";
 import { connectTodb, User } from "@repo/db";
 import { sendOTP } from "../../../../helpers/sendOTP";
 

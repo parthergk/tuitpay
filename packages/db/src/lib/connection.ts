@@ -1,5 +1,5 @@
-import mongoose from "mongoose";
-console.log("Env uri",process.env.MONGODB_URI);
+import mongoose, { Connection } from "mongoose";
+
 
 const DB_URI = process.env.MONGODB_URI;
 
@@ -7,13 +7,15 @@ if (!DB_URI) {
   throw new Error("please check the db uri string");
 }
 
-let cached = global.mongoose;
+let cached: {
+  conn: Connection | null;
+  promis: Promise<Connection> | null;
+} = {
+  conn: null,
+  promis: null
+};
 
-if (!cached) {
-  cached = globalThis.mongoose = { conn: null, promis: null };
-}
-
-export async function connectTodb(){
+async function connectTodb(){
   if (cached.conn) {
     return cached.conn;
   }
@@ -31,3 +33,5 @@ export async function connectTodb(){
 
   return cached.conn;
 }
+
+export default connectTodb;

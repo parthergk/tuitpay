@@ -1,4 +1,4 @@
-import mongoose, { model, models, Schema } from "mongoose";
+import mongoose, { Model, model, models, Schema } from "mongoose";
 
 interface IStudent {
   teacherId: mongoose.ObjectId;
@@ -27,6 +27,6 @@ const studentSchema = new Schema<IStudent>(
   { timestamps: true }
 );
 
-const Student = models.Student || model<IStudent>("Student", studentSchema);
+const Student = (models.Student as Model<IStudent>) || model<IStudent>("Student", studentSchema);
 
 export default Student;
