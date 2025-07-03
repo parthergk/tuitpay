@@ -1,32 +1,34 @@
 import { Request, Response, Router } from "express";
 import { verifyJwt } from "../middleware/verifyJwt";
 import { StudentSchema } from "@repo/validation/types";
-import { connectTodb, Student } from "@repo/db";
+import { connectTodb, Student, User } from "@repo/db";
 
 const studentRouter: Router = Router();
 
-
 studentRouter.get("/", verifyJwt, async (req, res) => {
-
   console.log("Request data", req.user);
 
   res.send("Hello");
 });
 
 studentRouter.post("/", verifyJwt, async (req: Request, res: Response) => {
-  
-  const {data} = await req.body;
-  
+  const { data } = await req.body;
+
   const userBody = req.user;
   try {
-  const parsedBody = StudentSchema.safeParse(data);
+    const teacher = await User.findById(userBody.id);
+    if (!teacher) {
+      throw new Error("Teacher not found");
+    }
+    
+    const parsedBody = StudentSchema.safeParse(data);
 
-  console.log("Error body parse", parsedBody.error);
-  
-  if (!parsedBody.success) {
-    res.status(400).json({ message: "Invalid inputs" });
-    return;
-  }
+    console.log("Error body parse", parsedBody.error);
+
+    if (!parsedBody.success) {
+      res.status(400).json({ message: "Invalid inputs" });
+      return;
+    }
 
     await connectTodb();
 
