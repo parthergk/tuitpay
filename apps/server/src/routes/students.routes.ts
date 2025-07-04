@@ -6,22 +6,38 @@ import { connectTodb, Student, User, FeePayment } from "@repo/db";
 const studentRouter: Router = Router();
 
 studentRouter.get("/", verifyJwt, async (req, res) => {
-  console.log("Request data", req.user);
+  const teacherId = req.user;
 
-  res.send("Hello");
+  try {
+      const students = await Student.find({ 
+        teacherId: teacherId,
+        isActive: true 
+      }).sort({ name: 1 });
+      
+      res.status(200).json({message: "All students", students})
+        return;
+    } catch (error) {
+      console.error('Error fetching teacher students:', error);
+      res.status(500).json({message: "student not found try again"});
+    }
 });
 
 studentRouter.post("/", verifyJwt, async (req: Request, res: Response) => {
-  const { data } = await req.body;
+  const { data } = req.body;
 
   const userBody = req.user;
+
   try {
     const parsedBody = StudentSchema.safeParse(data);
 
-    console.log("Error body parse", parsedBody.error);
-
     if (!parsedBody.success) {
-      res.status(400).json({ message: "Invalid inputs" });
+      console.error("Validation error:", parsedBody.error);
+      res
+        .status(422)
+        .json({
+          message: "Invalid student inputs",
+          errors: parsedBody.error.format(),
+        });
       return;
     }
 
@@ -29,7 +45,8 @@ studentRouter.post("/", verifyJwt, async (req: Request, res: Response) => {
 
     const teacher = await User.findById(userBody.id);
     if (!teacher) {
-      throw new Error("Teacher not found");
+      res.status(404).json({ message: "Teacher not found" });
+      return;
     }
 
     const existStudent = await Student.findOne({
@@ -39,11 +56,13 @@ studentRouter.post("/", verifyJwt, async (req: Request, res: Response) => {
     });
 
     if (existStudent) {
-      res.status(400).json({ message: "student already exist" });
+      res
+        .status(409)
+        .json({ message: "Student already exists with same name and contact" });
       return;
     }
 
-    const student = await Student.create({
+    const student = new Student({
       teacherId: userBody.id,
       name: parsedBody.data.name,
       class: parsedBody.data.class,
@@ -56,10 +75,9 @@ studentRouter.post("/", verifyJwt, async (req: Request, res: Response) => {
 
     await student.save();
 
-    const joinDate = new Date(student.joinDate);
-    let dueDate = new Date(joinDate);
-
-    dueDate.setMonth(joinDate.getMonth() + 1);
+    const joinDate = student.joinDate;
+    const dueDate = new Date(joinDate);
+    dueDate.setMonth(dueDate.getMonth() + 1);
 
     await FeePayment.create({
       studentId: student._id,
@@ -69,9 +87,17 @@ studentRouter.post("/", verifyJwt, async (req: Request, res: Response) => {
       status: "pending",
     });
 
-    console.log("student", student);
+    res.status(201).json({ message: "Student created successfully", student });
+    return;
   } catch (error) {
-    console.log("error", error);
+    console.error("Server error while adding student:", error);
+    res
+      .status(500)
+      .json({
+        message:
+          "Internal server error. Student was not added. Please try again.",
+      });
+    return;
   }
 });
 
