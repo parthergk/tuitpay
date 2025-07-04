@@ -4,11 +4,11 @@ import React from 'react';
 const Student = () => {
   const handleCreateStudent = async () => {
     const studentData = {
-      name: 'John Doe',
-      class: '10th',
-      sub: 'Math',
-      contact: '9876543210',
-      monthlyFee: 2000,
+      name: 'Rohan Kumar',
+      class: '11th',
+      sub: 'Hindi',
+      contact: '7351500283',
+      monthlyFee: 2500,
       isActivate: true,
       joinDate: new Date(),
     };
