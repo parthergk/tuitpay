@@ -1,6 +1,7 @@
 import mongoose, { Model, model, models, Schema } from "mongoose";
 
 interface IStudent {
+  _id: mongoose.ObjectId;
   teacherId: mongoose.ObjectId;
   name: string;
   contact: string;
