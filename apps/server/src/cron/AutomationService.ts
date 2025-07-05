@@ -29,6 +29,10 @@ export class FeeAutomationService {
           student,
           today
         );
+
+        if (shouldGenerateFee) {
+          await this.createFeeRecord(student, today);
+        }
       }
     } catch (error) {}
   }
@@ -51,5 +55,32 @@ export class FeeAutomationService {
     
     const dueDate = new Date(currentYear, currentMonth, student.feeDay);
     return today >= dueDate;
+  }
+
+  private static async createFeeRecord(student:IStudent, today:Date){
+    const currentMonth = today.getMonth()
+    const currentYear = today.getFullYear()
+
+    const dueDate = new Date(currentYear, currentMonth, student.feeDay);
+
+    const firstReminderDate = new Date(dueDate);
+    firstReminderDate.setDate(firstReminderDate.getDate() - 1);
+
+    const feePayment = new FeePayment({
+      studentId: student._id,
+      teacherId: student.teacherId,
+      amount: student.monthlyFee,
+      status: "pending",
+      dueDate: dueDate,
+      reminderCount: 0,
+      nextReminderAt: firstReminderDate
+    });
+    await feePayment.save();
+
+    await Student.findByIdAndUpdate(student._id,{
+      lastFeeDueDate: dueDate
+    });
+
+    console.log(`Fee record created for student ${student.name} - Due: ${dueDate.toDateString()}`);
   }
 }

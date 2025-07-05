@@ -36,20 +36,20 @@ feeStatusRouter.post("/", verifyJwt, async (req: Request, res: Response) => {
 
     await feeRecord.save();
 
-    const newDueDate = new Date(feeRecord.dueDate);
-    newDueDate.setMonth(newDueDate.getMonth() + 1);
+    const dueDate = new Date(feeRecord.dueDate);
+    dueDate.setMonth(dueDate.getMonth() + 1);
 
-    const nextReminderAt = new Date(newDueDate);
-    nextReminderAt.setDate(nextReminderAt.getDate() - 3);
+    const firstReminderDate = new Date(dueDate);
+    firstReminderDate.setDate(firstReminderDate.getDate() - 3);
 
     await FeePayment.create({
       studentId: feeRecord.studentId,
       teacherId: feeRecord.teacherId,
       amount: feeRecord.amount,
-      dueDate: newDueDate,
+      dueDate: dueDate,
       status: "pending",
       reminderCount: 0,
-      nextReminderAt: nextReminderAt
+      nextReminderAt: firstReminderDate
     });
 
     res.status(200).json({ message: "Fee marked as paid. Next month fee created successfully." });
