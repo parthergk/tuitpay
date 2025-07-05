@@ -7,10 +7,11 @@ const studentRouter: Router = Router();
 
 studentRouter.get("/", verifyJwt, async (req, res) => {
   const teacherId = req.user;
+  
   try {
+    await connectTodb();
     const students = await Student.find({
-      teacherId: teacherId,
-      isActive: true,
+      teacherId: teacherId.id,
     }).sort({ name: 1 });
 
     res.status(200).json({ message: "All students", students });
