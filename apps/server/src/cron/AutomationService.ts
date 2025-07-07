@@ -1,5 +1,7 @@
-import { connectTodb, FeePayment, Student, User } from "@repo/db";
+import { connectTodb, FeePayment, NotificationLog, Student } from "@repo/db";
 import mongoose from "mongoose";
+import { smsSender } from "../lib/twilioClient";
+import { whatsappSender } from "../lib/whatsappClient";
 
 interface IStudent {
   _id: mongoose.ObjectId;
@@ -13,8 +15,6 @@ interface IStudent {
   joinDate: Date;
   feeDay: number;
   lastFeeDueDate: Date;
-  createdAt: Date;
-  updatedAt: Date;
 }
 
 interface IFeePayment {
@@ -24,37 +24,26 @@ interface IFeePayment {
   amount: number;
   paidAmount: number;
   dueDate: Date;
-  paidDate?: Date;
   status: "pending" | "paid" | "overdue" | "partial";
-  paymentMethod?: "cash" | "card" | "upi" | "bank_transfer" | "other";
   reminderCount: number;
   lastReminderAt: Date;
   nextReminderAt: Date;
-  notes?: string;
-  createdAt: Date;
-  updatedAt: Date;
 }
 
 export class FeeAutomationService {
+  static async start(): Promise<void> {
+    await connectTodb();
+  }
+
   static async generateMonthlyFees(): Promise<void> {
-    try {
-      await connectTodb();
+    const today = new Date();
+    const activeStudents = await Student.find({ isActivate: true });
 
-      const activeStudents = await Student.find({ isActivate: true });
-      const today = new Date();
-
-      for (const student of activeStudents) {
-        const shouldGenerateFee = await this.shouldGenerateNewFee(
-          student,
-          today
-        );
-
-        if (shouldGenerateFee) {
-          await this.createFeeRecord(student, today);
-        }
+    for (const student of activeStudents) {
+      const shouldGenerate = await this.shouldGenerateNewFee(student, today);
+      if (shouldGenerate) {
+        await this.createFeeRecord(student, today);
       }
-    } catch (error) {
-      console.error("Error generating monthly fees:", error);
     }
   }
 
@@ -62,7 +51,7 @@ export class FeeAutomationService {
     const currentMonth = today.getMonth();
     const currentYear = today.getFullYear();
 
-    const existingFee = await FeePayment.findOne({
+    const feeExists = await FeePayment.findOne({
       studentId: student._id,
       dueDate: {
         $gte: new Date(currentYear, currentMonth, 1),
@@ -70,94 +59,126 @@ export class FeeAutomationService {
       },
     });
 
-    if (existingFee) {
-      return false;
-    }
+    if (feeExists) return false;
 
     const dueDate = new Date(currentYear, currentMonth, student.feeDay);
     return today >= dueDate;
   }
 
   private static async createFeeRecord(student: IStudent, today: Date) {
-    const currentMonth = today.getMonth();
-    const currentYear = today.getFullYear();
+    const dueDate = new Date(today.getFullYear(), today.getMonth(), student.feeDay);
+    const reminderDate = new Date(dueDate);
+    reminderDate.setDate(reminderDate.getDate() - 1);
 
-    const dueDate = new Date(currentYear, currentMonth, student.feeDay);
-
-    const firstReminderDate = new Date(dueDate);
-    firstReminderDate.setDate(firstReminderDate.getDate() - 1);
-
-    const feePayment = new FeePayment({
+    await new FeePayment({
       studentId: student._id,
       teacherId: student.teacherId,
       amount: student.monthlyFee,
       status: "pending",
       dueDate: dueDate,
       reminderCount: 0,
-      nextReminderAt: firstReminderDate,
-    });
-    await feePayment.save();
+      nextReminderAt: reminderDate,
+    }).save();
 
-    await Student.findByIdAndUpdate(student._id, {
-      lastFeeDueDate: dueDate,
-    });
+    await Student.findByIdAndUpdate(student._id, { lastFeeDueDate: dueDate });
 
-    console.log(
-      `Fee record created for student ${student.name} - Due: ${dueDate.toDateString()}`
-    );
+    console.log(`[✅] Fee record created for ${student.name} due ${dueDate.toDateString()}`);
   }
 
   static async sendFeeReminders(): Promise<void> {
-    try {
-      const students = await Student.find({ isVerified: true });
+    const students = await Student.find({ isActivate: true });
 
-      for (const student of students) {
-        await this.processStudentReminders(student);
+    for (const student of students) {
+      await this.processStudentReminders(student);
+    }
+  }
+
+  private static async processStudentReminders(student: IStudent): Promise<void> {
+    const pendingFees = await FeePayment.find({
+      studentId: student._id,
+      status: "pending",
+    });
+
+    for (const fee of pendingFees) {
+      if (fee.reminderCount >= 3) {
+        await FeePayment.findByIdAndUpdate(fee._id, { status: "overdue" });
+      } else {
+        await this.sendNotification(student, fee, "reminder");
       }
-    } catch (error) {
-      console.error("Error sending fee reminders:", error);
     }
   }
 
-  private static async processStudentReminders(
-    student: IStudent
+  private static async sendNotification(
+    student: IStudent,
+    fee: IFeePayment,
+    type: "reminder" | "overdue" | "payment_received"
   ): Promise<void> {
-    const upcomingFees = await FeePayment.find({
+    const channel = "sms"; // or "whatsapp" based on your app config
+
+    const log = await NotificationLog.create({
+      teacherId: student.teacherId,
       studentId: student._id,
+      feePaymentId: fee._id,
+      channel: channel,
+      type: type,
       status: "pending",
-      reminderCount: {
-        $lte: 3,
-      },
     });
 
-    const overdueFees = await FeePayment.find({
-      studentId: student._id,
-      status: "pending",
-      reminderCount: {
-        $gte: 3,
-      },
-    });
+    try {
+      await this.sendNotificationViaChannel(student, fee, type, channel);
 
-    if (overdueFees.length > 0) {
-      await FeePayment.updateMany(
-        {
-          studentId: student._id,
-          status: "pending",
-          reminderCount: {
-            $gte: 3,
-          },
-        },
-        { status: "overdue" }
-      );
-    }
+      log.status = "sent";
+      log.sentAt = new Date();
+      await log.save();
 
-    for (const fee of upcomingFees) {
-      await this.sendNotification(student, fee, "reminder");
+      console.log(`[📣] ${type} sent to ${student.contact} via ${channel}`);
+    } catch (err) {
+      log.status = "failed";
+      log.errorMessage = err instanceof Error ? err.message : "Unknown";
+      await log.save();
+
+      console.error(`[❌] Failed to send ${type}:`, err);
     }
   }
 
-  private static async sendNotification(student: IStudent, feePayment: IFeePayment, 
-    type: 'reminder' | 'overdue' | 'payment_received'): Promise<void> {
+  private static async sendNotificationViaChannel(
+    student: IStudent,
+    fee: IFeePayment,
+    type: string,
+    channel: string
+  ): Promise<void> {
+    const message = this.generateNotificationMessage(student, fee, type);
 
+    switch (channel) {
+      case "sms":
+        smsSender(student.contact, message);
+        console.log(`Sending SMS to ${student.contact}: ${message}`);
+        break;
+      case "whatsapp":
+        whatsappSender(student.contact, message);
+        console.log(`Sending WhatsApp to ${student.contact}: ${message}`);
+        break;
+      default:
+        throw new Error(`Unsupported channel: ${channel}`);
     }
+  }
+
+  private static generateNotificationMessage(
+    student: IStudent,
+    fee: IFeePayment,
+    type: string
+  ): string {
+    const dueDate = fee.dueDate.toDateString();
+    switch (type) {
+      case "reminder":
+        return `Reminder: ${student.name}'s fee of ₹${fee.amount} is due on ${dueDate}.`;
+      case "overdue":
+        return `Overdue Alert: ${student.name}'s fee of ₹${fee.amount} was due on ${dueDate}.`;
+      case "payment_received":
+        return `Payment Received: ${student.name} paid ₹${fee.amount} for ${dueDate}.`;
+      default:
+        return `Fee update for ${student.name}.`;
+    }
+  }
 }
+

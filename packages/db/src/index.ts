@@ -4,3 +4,4 @@ export {default as Student} from "./models/Student";
 export {default as Payment} from "./models/Payment";
 export {default as Plan} from "./models/Plan";
 export {default as FeePayment} from "./models/FeePayment";
+export {default as NotificationLog} from "./models/NotificationLog";
