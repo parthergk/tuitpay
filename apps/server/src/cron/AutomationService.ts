@@ -31,12 +31,10 @@ interface IFeePayment {
 }
 
 export class FeeAutomationService {
-  static async start(): Promise<void> {
-    await connectTodb();
-  }
 
   static async generateMonthlyFees(): Promise<void> {
     const today = new Date();
+    await connectTodb();
     const activeStudents = await Student.find({ isActivate: true });
 
     for (const student of activeStudents) {
@@ -51,6 +49,7 @@ export class FeeAutomationService {
     const currentMonth = today.getMonth();
     const currentYear = today.getFullYear();
 
+    await connectTodb()
     const feeExists = await FeePayment.findOne({
       studentId: student._id,
       dueDate: {
@@ -70,6 +69,8 @@ export class FeeAutomationService {
     const reminderDate = new Date(dueDate);
     reminderDate.setDate(reminderDate.getDate() - 1);
 
+    await connectTodb();
+
     await new FeePayment({
       studentId: student._id,
       teacherId: student.teacherId,
@@ -86,6 +87,7 @@ export class FeeAutomationService {
   }
 
   static async sendFeeReminders(): Promise<void> {
+    await connectTodb();
     const students = await Student.find({ isActivate: true });
 
     for (const student of students) {
@@ -94,6 +96,7 @@ export class FeeAutomationService {
   }
 
   private static async processStudentReminders(student: IStudent): Promise<void> {
+    await connectTodb();
     const pendingFees = await FeePayment.find({
       studentId: student._id,
       status: "pending",
@@ -114,7 +117,7 @@ export class FeeAutomationService {
     type: "reminder" | "overdue" | "payment_received"
   ): Promise<void> {
     const channel = "sms"; // or "whatsapp" based on your app config
-
+    await connectTodb();
     const log = await NotificationLog.create({
       teacherId: student.teacherId,
       studentId: student._id,
@@ -182,3 +185,7 @@ export class FeeAutomationService {
   }
 }
 
+export const cronJobs = {
+  generateMonthlyFees: ()=> FeeAutomationService.generateMonthlyFees(),
+  sendsendFeeReminders: ()=> FeeAutomationService.sendFeeReminders()
+}

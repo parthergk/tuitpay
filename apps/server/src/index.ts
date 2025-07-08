@@ -5,6 +5,7 @@ import cookieParser from "cookie-parser";
 dotenv.config();
 import student from "./routes/students.routes";
 import dashboardRouter from "./routes/dashboard.routes";
+import "./cron/index"
 
 const app = express();
 const PORT = process.env.PORT || 8080;

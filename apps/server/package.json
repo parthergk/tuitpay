@@ -12,9 +12,9 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@repo/db": "workspace:*",
     "@repo/typescript-config": "workspace:*",
-    "@repo/validation": "workspace:*",
-    "@repo/db": "workspace:*"
+    "@repo/validation": "workspace:*"
   },
   "dependencies": {
     "@types/cookie-parser": "^1.4.9",
@@ -26,6 +26,7 @@
     "cors": "^2.8.5",
     "dotenv": "^17.0.1",
     "express": "^5.1.0",
-    "jsonwebtoken": "^9.0.2"
+    "jsonwebtoken": "^9.0.2",
+    "node-cron": "^4.2.0"
   }
 }
