@@ -60,25 +60,34 @@ studentRouter.post("/", verifyJwt, async (req: Request, res: Response) => {
       return;
     }
 
+    const joinDate = new Date();
+    const feeDay = parsedBody.data.feeDay || joinDate.getDate();
+
     const student = new Student({
       teacherId: userBody.id,
       name: parsedBody.data.name,
+      contact: parsedBody.data.contact,
       class: parsedBody.data.class,
       sub: parsedBody.data.sub,
-      contact: parsedBody.data.contact,
       monthlyFee: parsedBody.data.monthlyFee,
       isActivate: parsedBody.data.isActivate,
-      joinDate: new Date(),
+      joinDate: joinDate,
+      feeDay: feeDay
     });
 
     await student.save();
 
-    const joinDate = student.joinDate;
-    const dueDate = new Date(joinDate);
-    dueDate.setMonth(dueDate.getMonth() + 1);
+    let dueDate = new Date(student.joinDate);
+
+    if (parsedBody.data.feeDay) {
+      dueDate = new Date(joinDate.getFullYear(), joinDate.getMonth(), student.feeDay)
+    };
 
     const firstReminderDate = new Date(dueDate);
+
+    if (dueDate > new Date()) {
     firstReminderDate.setDate(firstReminderDate.getDate() - 1);
+    }
 
     await FeePayment.create({
       studentId: student._id,

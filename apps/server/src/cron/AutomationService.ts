@@ -61,11 +61,18 @@ export class FeeAutomationService {
     if (feeExists) return false;
 
     const dueDate = new Date(currentYear, currentMonth, student.feeDay);
+    console.log("due date from the check create or not", dueDate);
+    
+    console.log("due date true/false", today>=dueDate);
+    
     return today >= dueDate;
   }
 
   private static async createFeeRecord(student: IStudent, today: Date) {
-    const dueDate = new Date(today.getFullYear(), today.getMonth(), student.feeDay);
+    
+    const dueDate = new Date(today.getFullYear(), today.getMonth()+1, student.feeDay);
+    console.log("due date from the create fee record", dueDate);
+    
     const reminderDate = new Date(dueDate);
     reminderDate.setDate(reminderDate.getDate() - 1);
 
@@ -116,7 +123,7 @@ export class FeeAutomationService {
     fee: IFeePayment,
     type: "reminder" | "overdue" | "payment_received"
   ): Promise<void> {
-    const channel = "sms"; // or "whatsapp" based on your app config
+    const channel = "sms";
     await connectTodb();
     const log = await NotificationLog.create({
       teacherId: student.teacherId,
