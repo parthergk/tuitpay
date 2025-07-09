@@ -31,10 +31,10 @@ interface IFeePayment {
 }
 
 export class FeeAutomationService {
-
   static async generateMonthlyFees(): Promise<void> {
     const today = new Date();
     await connectTodb();
+
     const activeStudents = await Student.find({ isActivate: true });
 
     for (const student of activeStudents) {
@@ -49,7 +49,6 @@ export class FeeAutomationService {
     const currentMonth = today.getMonth();
     const currentYear = today.getFullYear();
 
-    await connectTodb()
     const feeExists = await FeePayment.findOne({
       studentId: student._id,
       dueDate: {
@@ -61,22 +60,24 @@ export class FeeAutomationService {
     if (feeExists) return false;
 
     const dueDate = new Date(currentYear, currentMonth, student.feeDay);
-    console.log("due date from the check create or not", dueDate);
-    
-    console.log("due date true/false", today>=dueDate);
-    
-    return today >= dueDate;
+
+    const todayDate = new Date(
+      today.getFullYear(),
+      today.getMonth(),
+      today.getDate()
+    );
+    return todayDate >= dueDate;
   }
 
   private static async createFeeRecord(student: IStudent, today: Date) {
-    
-    const dueDate = new Date(today.getFullYear(), today.getMonth()+1, student.feeDay);
-    console.log("due date from the create fee record", dueDate);
-    
+    const dueDate = new Date(
+      today.getFullYear(),
+      today.getMonth(),
+      student.feeDay
+    );
+
     const reminderDate = new Date(dueDate);
     reminderDate.setDate(reminderDate.getDate() - 1);
-
-    await connectTodb();
 
     await new FeePayment({
       studentId: student._id,
@@ -90,7 +91,9 @@ export class FeeAutomationService {
 
     await Student.findByIdAndUpdate(student._id, { lastFeeDueDate: dueDate });
 
-    console.log(`[✅] Fee record created for ${student.name} due ${dueDate.toDateString()}`);
+    console.log(
+      `[✅] Fee record created for ${student.name} due ${dueDate.toDateString()}`
+    );
   }
 
   static async sendFeeReminders(): Promise<void> {
@@ -102,8 +105,10 @@ export class FeeAutomationService {
     }
   }
 
-  private static async processStudentReminders(student: IStudent): Promise<void> {
-    await connectTodb();
+  private static async processStudentReminders(
+    student: IStudent
+  ): Promise<void> {
+    const now = new Date();
     const pendingFees = await FeePayment.find({
       studentId: student._id,
       status: "pending",
@@ -112,8 +117,24 @@ export class FeeAutomationService {
     for (const fee of pendingFees) {
       if (fee.reminderCount >= 3) {
         await FeePayment.findByIdAndUpdate(fee._id, { status: "overdue" });
-      } else {
+        console.log(
+          `[⚠️] Marked overdue: ${student.name}, Due: ${fee.dueDate.toDateString()}`
+        );
+        continue;
+      }
+
+      if (fee.nextReminderAt && fee.nextReminderAt <= now) {
         await this.sendNotification(student, fee, "reminder");
+
+        const nextReminderAt = new Date();
+        nextReminderAt.setDate(nextReminderAt.getDate() + 1);
+
+        fee.reminderCount=+1;
+        fee.lastReminderAt=now;
+        fee.nextReminderAt = nextReminderAt;
+
+        await fee.save();
+        console.log(`[🔔] Reminder sent to ${student.name}, next on ${nextReminderAt.toDateString()}`);
       }
     }
   }
@@ -123,8 +144,9 @@ export class FeeAutomationService {
     fee: IFeePayment,
     type: "reminder" | "overdue" | "payment_received"
   ): Promise<void> {
+    
     const channel = "sms";
-    await connectTodb();
+
     const log = await NotificationLog.create({
       teacherId: student.teacherId,
       studentId: student._id,
@@ -193,6 +215,6 @@ export class FeeAutomationService {
 }
 
 export const cronJobs = {
-  generateMonthlyFees: ()=> FeeAutomationService.generateMonthlyFees(),
-  sendsendFeeReminders: ()=> FeeAutomationService.sendFeeReminders()
-}
+  generateMonthlyFees: () => FeeAutomationService.generateMonthlyFees(),
+  sendsendFeeReminders: () => FeeAutomationService.sendFeeReminders(),
+};
