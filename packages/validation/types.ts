@@ -27,7 +27,7 @@ export const CodeSchema = z.object({
 })
 
 export const PlanSchema = z.object({
-  type: z.string(),
+  type: z.enum(["free", "pro", "custom"]),
   price: z.number(),
   studentLimit: z.number()
 })

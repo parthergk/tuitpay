@@ -1,8 +1,7 @@
-import mongoose, { Schema, model, models } from "mongoose";
+import mongoose, { Model, Schema, model, models } from "mongoose";
 
 export interface IPayment {
   userId: mongoose.ObjectId;
-  studentId: mongoose.ObjectId;
   planId: mongoose.ObjectId;
   razorpayOrderId: string;
   razorpayPaymentId: string;
@@ -14,7 +13,6 @@ export interface IPayment {
 
 const paymentSchema = new Schema<IPayment>({
   userId: { type: mongoose.Types.ObjectId, ref: "User", required: true },
-  studentId: { type: mongoose.Types.ObjectId, ref: "Student", required: true },
   planId: { type: mongoose.Types.ObjectId, ref: "Plan", required: true },
   razorpayOrderId: { type: String, required: true },
   razorpayPaymentId: { type: String, required: true },
@@ -27,6 +25,6 @@ const paymentSchema = new Schema<IPayment>({
   },
 }, { timestamps: true });
 
-const Payment = models.Payment || model<IPayment>("Payment", paymentSchema);
+const Payment = (models.Payment as Model<IPayment>) || model<IPayment>("Payment", paymentSchema);
 
 export default Payment;
