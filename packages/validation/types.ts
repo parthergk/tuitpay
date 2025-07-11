@@ -25,3 +25,9 @@ export const CodeSchema = z.object({
     email: z.string().email(),
     code: z.string()
 })
+
+export const PlanSchema = z.object({
+  type: z.string(),
+  price: z.number(),
+  studentLimit: z.number()
+})

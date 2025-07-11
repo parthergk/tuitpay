@@ -1,4 +1,4 @@
-import { model, models, Schema } from "mongoose";
+import { Model, model, models, Schema } from "mongoose";
 
 export interface IPlan {
   type: "free" | "pro" | "custom";
@@ -19,6 +19,6 @@ const plansSchema = new Schema<IPlan>({
   studentLimit: { type: Number, required: true },
 },{ timestamps: true });
 
-const Plan = models.Plan || model<IPlan>("Plan", plansSchema);
+const Plan = (models.Plan as Model<IPlan>) || model<IPlan>("Plan", plansSchema);
 
 export default Plan;
