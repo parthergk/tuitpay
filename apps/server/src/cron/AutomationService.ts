@@ -145,7 +145,7 @@ export class FeeAutomationService {
     type: "reminder" | "overdue" | "payment_received"
   ): Promise<void> {
     
-    const channel = "sms";
+    const channel = "whatsapp";
 
     const log = await NotificationLog.create({
       teacherId: student.teacherId,
@@ -187,8 +187,8 @@ export class FeeAutomationService {
         console.log(`Sending SMS to ${student.contact}: ${message}`);
         break;
       case "whatsapp":
-        whatsappSender(student.contact, message);
         console.log(`Sending WhatsApp to ${student.contact}: ${message}`);
+        whatsappSender(student.contact, message);
         break;
       default:
         throw new Error(`Unsupported channel: ${channel}`);

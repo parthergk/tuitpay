@@ -1,10 +1,10 @@
 import cron from "node-cron";
 import { cronJobs } from "./AutomationService";
 
-cron.schedule('59 14 * * *', cronJobs.generateMonthlyFees, {
+cron.schedule('55 16 * * *', cronJobs.generateMonthlyFees, {
   timezone: "Asia/Kolkata"
 });
 
-cron.schedule('00 15 * * *', cronJobs.sendsendFeeReminders, {
+cron.schedule('56 16 * * *', cronJobs.sendsendFeeReminders, {
   timezone: "Asia/Kolkata"
 });
