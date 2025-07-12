@@ -2,12 +2,13 @@ import { Request, Response, Router } from "express";
 import { verifyJwt } from "../middleware/verifyJwt";
 import { StudentSchema } from "@repo/validation/types";
 import { connectTodb, Student, User, FeePayment } from "@repo/db";
+import { checkPlanLimit } from "../middleware/checkPlanLimit";
 
 const studentRouter: Router = Router();
 
 studentRouter.get("/", verifyJwt, async (req, res) => {
   const teacherId = req.user;
-  
+
   try {
     await connectTodb();
     const students = await Student.find({
@@ -22,7 +23,7 @@ studentRouter.get("/", verifyJwt, async (req, res) => {
   }
 });
 
-studentRouter.post("/", verifyJwt, async (req: Request, res: Response) => {
+studentRouter.post("/", verifyJwt, checkPlanLimit, async (req: Request, res: Response) => {
   const { data } = req.body;
 
   const userBody = req.user;
@@ -60,6 +61,7 @@ studentRouter.post("/", verifyJwt, async (req: Request, res: Response) => {
       return;
     }
 
+
     const joinDate = new Date();
     const feeDay = parsedBody.data.feeDay || joinDate.getDate();
 
@@ -72,7 +74,7 @@ studentRouter.post("/", verifyJwt, async (req: Request, res: Response) => {
       monthlyFee: parsedBody.data.monthlyFee,
       isActivate: parsedBody.data.isActivate,
       joinDate: joinDate,
-      feeDay: feeDay
+      feeDay: feeDay,
     });
 
     await student.save();
@@ -80,13 +82,17 @@ studentRouter.post("/", verifyJwt, async (req: Request, res: Response) => {
     let dueDate = new Date(student.joinDate);
 
     if (parsedBody.data.feeDay) {
-      dueDate = new Date(joinDate.getFullYear(), joinDate.getMonth(), student.feeDay)
-    };
+      dueDate = new Date(
+        joinDate.getFullYear(),
+        joinDate.getMonth(),
+        student.feeDay
+      );
+    }
 
     const firstReminderDate = new Date(dueDate);
 
     if (dueDate > new Date()) {
-    firstReminderDate.setDate(firstReminderDate.getDate() - 1);
+      firstReminderDate.setDate(firstReminderDate.getDate() - 1);
     }
 
     await FeePayment.create({
@@ -119,12 +125,10 @@ studentRouter.put("/:id", verifyJwt, async (req: Request, res: Response) => {
   try {
     const parsedBody = StudentSchema.safeParse(data);
     if (!parsedBody.success) {
-      res
-        .status(422)
-        .json({
-          message: "Invalid student inputs",
-          errors: parsedBody.error.format(),
-        });
+      res.status(422).json({
+        message: "Invalid student inputs",
+        errors: parsedBody.error.format(),
+      });
       return;
     }
 
@@ -176,11 +180,9 @@ studentRouter.delete("/:id", verifyJwt, async (req: Request, res: Response) => {
     // Optional: Also remove related fee payments
     await FeePayment.deleteMany({ studentId: id });
 
-    res
-      .status(200)
-      .json({
-        message: "Student and related fee records deleted successfully",
-      });
+    res.status(200).json({
+      message: "Student and related fee records deleted successfully",
+    });
     return;
   } catch (error) {
     console.error("Error deleting student:", error);

@@ -1,6 +1,5 @@
-import mongoose, { model, models, Schema } from "mongoose";
+import mongoose, { model, models, Schema, Model } from "mongoose";
 import { bcryptjs } from "@repo/auth";
-import { Model } from "mongoose";
 
 export interface IUser {
   _id: mongoose.ObjectId;
@@ -9,13 +8,21 @@ export interface IUser {
   phone: string;
   password: string;
   isVerified: boolean;
+
   verifyCode: string;
   verifyCodePurpose: string;
   verifyCodeExpires: number;
-  plan: "free" | "pro" | "custom";
+
+  planId?: mongoose.ObjectId;
+  planType: "free" | "pro" | "custom";
+  planStatus: "active" | "expired" | "canceled";
+  planActivatedAt?: Date;
+  planExpiresAt?: Date;
+  studentLimit: number;
+  planPrice: number;
+
   createdAt: Date;
   updatedAt: Date;
-  expiresAt?: Date;
 }
 
 const userSchema = new Schema<IUser>(
@@ -25,11 +32,27 @@ const userSchema = new Schema<IUser>(
     phone: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     isVerified: { type: Boolean, default: false, required: true },
+
     verifyCode: { type: String, minlength: 4 },
     verifyCodePurpose: { type: String },
     verifyCodeExpires: { type: Number },
-    plan: { type: String, enum: ["free", "pro", "custom"], default: "free" },
-    expiresAt: { type: Date },
+
+    planId: { type: mongoose.Types.ObjectId, ref: "Plan" },
+    planType: {
+      type: String,
+      enum: ["free", "pro", "custom"],
+      default: "free",
+    },
+    planStatus: {
+      type: String,
+      enum: ["active", "expired", "canceled"],
+      default: "active",
+    },
+    planActivatedAt: { type: Date },
+    planExpiresAt: { type: Date },
+    studentLimit: { type: Number, default: 10 },
+    planPrice: { type: Number, default: 0 },
+
   },
   { timestamps: true }
 );
@@ -40,9 +63,6 @@ userSchema.pre("save", async function (next) {
   }
   next();
 });
-
-// userSchema.index({ email: 1 });
-// userSchema.index({ phone: 1 });
 
 const User = (models.User as Model<IUser>) || model<IUser>("User", userSchema);
 

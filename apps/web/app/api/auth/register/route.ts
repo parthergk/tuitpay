@@ -72,7 +72,7 @@ export async function POST(req: NextRequest) {
           id: user._id,
           email: user.email,
           name: user.name,
-          plan: user.plan,
+          plan: user.planType,
         },
       },
       { status: 201 }
