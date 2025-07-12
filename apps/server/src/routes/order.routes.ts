@@ -11,10 +11,10 @@ const razorpay = new Razorpay({
 });
 
 orderRouter.post("/", verifyJwt, async (req: Request, res: Response) => {
-  const { productId, variant } = req.body;
+  const { planId, variant } = req.body;
   const { id } = req.user;
 
-  if (!productId || !variant?.price) {
+  if (!planId || !variant?.price) {
     res.status(400).json({ error: "Missing productId or variant" });
     return;
   }
@@ -29,13 +29,13 @@ orderRouter.post("/", verifyJwt, async (req: Request, res: Response) => {
         currency: "INR",
         receipt: `receipt_${Date.now()}`,
         notes: {
-            productId: productId.toString()
+            planId: planId.toString()
         }
     });
 
     const order = await Payment.create({
         userId: id,
-        planId: productId,
+        planId,
         razorpayOrderId: razorpayOrder.id,
         amount: razorpayOrder.amount,
         status: "pending",

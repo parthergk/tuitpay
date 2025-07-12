@@ -1,11 +1,13 @@
 import { Request, Response, Router } from "express";
 import crypto from "crypto";
-import { connectTodb, Payment } from "@repo/db";
+import { connectTodb, Payment, User } from "@repo/db";
 import { verifyJwt } from "../../../middleware/verifyJwt";
+import { IPlan } from "../../../../../../packages/db/dist/models/Plan";
+import { IUser } from "../../../../../../packages/db/dist/models/User";
 
 const paymentRouter: Router = Router();
 
-paymentRouter.post("/", verifyJwt, async (req: Request, res: Response) => {
+paymentRouter.post("/", async (req: Request, res: Response) => {
   const body = req.body;
   const razorpaySignature = req.headers["x-razorpay-signature"] as string;
 
@@ -15,7 +17,7 @@ paymentRouter.post("/", verifyJwt, async (req: Request, res: Response) => {
   }
 
   // Convert body to string if it's an object
-  const rawBody = typeof body === 'string' ? body : JSON.stringify(body);
+  const rawBody = typeof body === "string" ? body : JSON.stringify(body);
 
   const expectedSignature = crypto
     .createHmac("sha256", process.env.RAZORPAY_WEBHOOK_SECRET!)
@@ -28,7 +30,7 @@ paymentRouter.post("/", verifyJwt, async (req: Request, res: Response) => {
   }
 
   // Parse event data
-  const event = typeof body === 'string' ? JSON.parse(body) : body;
+  const event = typeof body === "string" ? JSON.parse(body) : body;
 
   try {
     await connectTodb();
@@ -47,19 +49,34 @@ paymentRouter.post("/", verifyJwt, async (req: Request, res: Response) => {
           updatedAt: new Date(),
         },
         { new: true }
-      ).populate([
-        { path: "planId", select: "name type price" },
+      ).populate<{ planId: IPlan, userId: IUser }>([
+        { path: "planId", select: "type price studentLimit durationDays" },
         { path: "userId", select: "email name" },
       ]);
+
+      const user = order?.userId;
+      const plan = order?.planId;
+
+      const durationDays = plan?.durationDays || 30;
+      const expiresAt = new Date();
+      expiresAt.setDate(expiresAt.getDate() + durationDays);
+
+      await User.findByIdAndUpdate(user?._id, {
+        planType: plan?.type,
+        planStatus: "active",
+        studentLimit: plan?.studentLimit,
+        planActivatedAt: new Date(),
+        planExpiresAt: expiresAt,
+      });
 
       if (order) {
         console.log("Payment completed for order:", order._id);
         // console.log("User email:", order.userId?.email);
         // console.log("Plan:", order.planId?.name);
-        
+
         // TODO: Send confirmation email
         // await sendPaymentConfirmationEmail(order.userId.email, order);
-        
+
         res.status(200).json({
           message: "Payment processed successfully",
           orderId: order._id,
