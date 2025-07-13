@@ -1,6 +1,7 @@
 import { Request, Response, Router } from "express";
 import { verifyJwt } from "../middleware/verifyJwt";
 import { connectTodb, FeePayment } from "@repo/db";
+import { getTodayDate } from "../utils/dateUtils";
 
 const feeStatusRouter: Router = Router();
 
@@ -32,7 +33,7 @@ feeStatusRouter.post("/", verifyJwt, async (req: Request, res: Response) => {
     }
 
     feeRecord.status = "paid";
-    feeRecord.paidDate = new Date();
+    feeRecord.paidDate = getTodayDate();
 
     await feeRecord.save();
 
@@ -61,3 +62,5 @@ feeStatusRouter.post("/", verifyJwt, async (req: Request, res: Response) => {
     return;
   }
 });
+
+export default feeStatusRouter;

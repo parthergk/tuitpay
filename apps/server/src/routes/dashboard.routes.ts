@@ -1,6 +1,7 @@
 import { Request, Response, Router } from "express";
 import { verifyJwt } from "../middleware/verifyJwt";
 import { connectTodb, FeePayment, Student } from "@repo/db";
+import { getTodayDate } from "../utils/dateUtils";
 
 const dashboardRouter: Router = Router();
 
@@ -16,7 +17,7 @@ dashboardRouter.get(
         teacherId: teacher.id,
       }).sort({ name: 1 });
 
-      const now = new Date();
+      const now = getTodayDate();
 
       const firstDay = new Date(now.getFullYear(), now.getMonth(), 1);
       const lastDay = new Date(now.getFullYear(), now.getMonth() + 1, 0);
@@ -39,7 +40,7 @@ dashboardRouter.get(
         },
       });
 
-      const today = new Date();
+      const today = getTodayDate();
       const totalOverdue = await FeePayment.find({
         teacherId: teacher.id,
         status: "pending",

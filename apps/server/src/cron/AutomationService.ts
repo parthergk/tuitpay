@@ -2,6 +2,7 @@ import { connectTodb, FeePayment, NotificationLog, Student } from "@repo/db";
 import mongoose from "mongoose";
 import { smsSender } from "../lib/twilioClient";
 import { whatsappSender } from "../lib/whatsappClient";
+import { getTodayDate } from "../utils/dateUtils";
 
 interface IStudent {
   _id: mongoose.ObjectId;
@@ -32,7 +33,7 @@ interface IFeePayment {
 
 export class FeeAutomationService {
   static async generateMonthlyFees(): Promise<void> {
-    const today = new Date();
+    const today = getTodayDate();
     await connectTodb();
 
     const activeStudents = await Student.find({ isActivate: true });
@@ -108,7 +109,7 @@ export class FeeAutomationService {
   private static async processStudentReminders(
     student: IStudent
   ): Promise<void> {
-    const now = new Date();
+    const now = getTodayDate();
     const pendingFees = await FeePayment.find({
       studentId: student._id,
       status: "pending",
@@ -131,7 +132,7 @@ export class FeeAutomationService {
         
         await this.sendNotification(student, fee, "reminder");
 
-        const nextReminderAt = new Date();
+        const nextReminderAt = getTodayDate();
         nextReminderAt.setDate(nextReminderAt.getDate() + 1);
 
         fee.reminderCount=+1;
@@ -165,7 +166,7 @@ export class FeeAutomationService {
       await this.sendNotificationViaChannel(student, fee, type, channel);
 
       log.status = "sent";
-      log.sentAt = new Date();
+      log.sentAt = getTodayDate();
       await log.save();
 
       console.log(`[📣] ${type} sent to ${student.contact} via ${channel}`);

@@ -3,6 +3,7 @@ import { verifyJwt } from "../middleware/verifyJwt";
 import { StudentSchema } from "@repo/validation/types";
 import { connectTodb, Student, User, FeePayment } from "@repo/db";
 import { checkPlanLimit } from "../middleware/checkPlanLimit";
+import { getTodayDate } from "../utils/dateUtils";
 
 const studentRouter: Router = Router();
 
@@ -62,7 +63,7 @@ studentRouter.post("/", verifyJwt, checkPlanLimit, async (req: Request, res: Res
     }
 
 
-    const joinDate = new Date();
+    const joinDate = getTodayDate();
     const feeDay = parsedBody.data.feeDay || joinDate.getDate();
 
     const student = new Student({

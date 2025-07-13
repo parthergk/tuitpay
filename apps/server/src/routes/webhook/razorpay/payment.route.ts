@@ -4,6 +4,7 @@ import { connectTodb, Payment, User } from "@repo/db";
 import { verifyJwt } from "../../../middleware/verifyJwt";
 import { IPlan } from "../../../../../../packages/db/dist/models/Plan";
 import { IUser } from "../../../../../../packages/db/dist/models/User";
+import { getTodayDate } from "../../../utils/dateUtils";
 
 const paymentRouter: Router = Router();
 
@@ -46,7 +47,7 @@ paymentRouter.post("/", async (req: Request, res: Response) => {
         {
           razorpayPaymentId: payment.id,
           status: "completed",
-          updatedAt: new Date(),
+          updatedAt: getTodayDate(),
         },
         { new: true }
       ).populate<{ planId: IPlan, userId: IUser }>([
@@ -58,14 +59,14 @@ paymentRouter.post("/", async (req: Request, res: Response) => {
       const plan = order?.planId;
 
       const durationDays = plan?.durationDays || 30;
-      const expiresAt = new Date();
+      const expiresAt = getTodayDate();
       expiresAt.setDate(expiresAt.getDate() + durationDays);
 
       await User.findByIdAndUpdate(user?._id, {
         planType: plan?.type,
         planStatus: "active",
         studentLimit: plan?.studentLimit,
-        planActivatedAt: new Date(),
+        planActivatedAt: getTodayDate(),
         planExpiresAt: expiresAt,
       });
 
@@ -99,7 +100,7 @@ paymentRouter.post("/", async (req: Request, res: Response) => {
           razorpayPaymentId: payment.id,
           status: "failed",
           failureReason: payment.error_description || "Payment failed",
-          updatedAt: new Date(),
+          updatedAt: getTodayDate(),
         },
         { new: true }
       );
