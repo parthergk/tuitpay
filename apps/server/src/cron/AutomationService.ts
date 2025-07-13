@@ -123,7 +123,12 @@ export class FeeAutomationService {
         continue;
       }
 
+      console.log("Now date", now);
+      console.log("fee next reminder", fee.nextReminderAt);
+      console.log("less then now", fee.nextReminderAt <= now);
+      
       if (fee.nextReminderAt && fee.nextReminderAt <= now) {
+        
         await this.sendNotification(student, fee, "reminder");
 
         const nextReminderAt = new Date();
