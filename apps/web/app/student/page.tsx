@@ -4,7 +4,7 @@ import React from 'react';
 const Student = () => {
   const handleCreateStudent = async () => {
     const studentData = {
-      name: 'Rohan Kumar',
+      name: 'Rohit Kumar',
       class: '11th',
       sub: 'Hindi',
       contact: '7351500283',
@@ -14,7 +14,7 @@ const Student = () => {
     };
 
     try {
-      const response = await fetch('http://localhost:8080/api/student', {
+      const response = await fetch('http://localhost:8080/api/v1/student', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -40,6 +40,7 @@ export class FeeAutomationService {
 
     for (const student of activeStudents) {
       const shouldGenerate = await this.shouldGenerateNewFee(student, today);
+      console.log("Should generate new fee record", shouldGenerate);
       if (shouldGenerate) {
         await this.createFeeRecord(student, today);
       }
@@ -53,28 +54,29 @@ export class FeeAutomationService {
     const feeExists = await FeePayment.findOne({
       studentId: student._id,
       dueDate: {
-        $gte: new Date(currentYear, currentMonth, 1),
-        $lt: new Date(currentYear, currentMonth + 1, 1),
+        $gte: new Date(Date.UTC(currentYear, currentMonth, 1)),
+        $lt: new Date(Date.UTC(currentYear, currentMonth + 1, 1)),
       },
     });
 
     if (feeExists) return false;
 
-    const dueDate = new Date(currentYear, currentMonth, student.feeDay);
+    const dueDate = new Date(
+      Date.UTC(currentYear, currentMonth, student.feeDay)
+    );
 
     const todayDate = new Date(
-      today.getFullYear(),
-      today.getMonth(),
-      today.getDate()
+      Date.UTC(today.getFullYear(), today.getMonth(), today.getDate())
     );
+
     return todayDate >= dueDate;
   }
 
   private static async createFeeRecord(student: IStudent, today: Date) {
     const dueDate = new Date(
-      today.getFullYear(),
+      Date.UTC(today.getFullYear(),
       today.getMonth(),
-      student.feeDay
+      student.feeDay)
     );
 
     const reminderDate = new Date(dueDate);
@@ -124,23 +126,21 @@ export class FeeAutomationService {
         continue;
       }
 
-      console.log("Now date", now);
-      console.log("fee next reminder", fee.nextReminderAt);
-      console.log("less then now", fee.nextReminderAt <= now);
-      
+
       if (fee.nextReminderAt && fee.nextReminderAt <= now) {
-        
         await this.sendNotification(student, fee, "reminder");
 
         const nextReminderAt = getTodayDate();
         nextReminderAt.setDate(nextReminderAt.getDate() + 1);
 
-        fee.reminderCount=+1;
-        fee.lastReminderAt=now;
+        fee.reminderCount++;
+        fee.lastReminderAt = now;
         fee.nextReminderAt = nextReminderAt;
 
         await fee.save();
-        console.log(`[🔔] Reminder sent to ${student.name}, next on ${nextReminderAt.toDateString()}`);
+        console.log(
+          `[🔔] Reminder sent to ${student.name}, next on ${nextReminderAt.toDateString()}`
+        );
       }
     }
   }
@@ -150,7 +150,6 @@ export class FeeAutomationService {
     fee: IFeePayment,
     type: "reminder" | "overdue" | "payment_received"
   ): Promise<void> {
-    
     const channel = "whatsapp";
 
     const log = await NotificationLog.create({

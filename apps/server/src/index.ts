@@ -7,7 +7,7 @@ import student from "./routes/students.routes";
 import dashboard from "./routes/dashboard.routes";
 import plan from "./routes/plan.routes";
 import order from "./routes/order.routes";
-import feeStatus from "./routes/FeeStatus.routes";
+import feeStatus from "./routes/feeStatus.routes";
 import "./cron/index"
 
 const app = express();
