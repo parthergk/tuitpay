@@ -45,6 +45,7 @@ export async function POST(req: NextRequest) {
       email: parsedBody.data.email,
       password: parsedBody.data.password,
       phone: parsedBody.data.phone,
+      tuitionClassName: parsedBody.data.tuitionClassName,
       verifyCode: verificationCode,
       verifyCodePurpose: "register",
       verifyCodeExpires: new Date(Date.now() + 15 * 60 * 1000),

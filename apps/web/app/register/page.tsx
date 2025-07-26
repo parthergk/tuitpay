@@ -6,11 +6,12 @@ const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [phone, setPhone] = useState("");
+  const [className, setClassName]= useState("");
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
 
-    const payload = { name, email, password, phone };
+    const payload = { name, email, password, phone, tuitionClassName:className };
     console.log("Register payload:", payload);
 
     // Example POST request
@@ -20,7 +21,7 @@ const Register = () => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
-
+      
       if (!res.ok) {
         throw new Error("Registration failed");
       }
@@ -77,6 +78,17 @@ const Register = () => {
             id="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+        </div>
+
+        <div>
+          <label htmlFor="text">Class Name:</label>
+          <input
+            type="text"
+            id="className"
+            value={className}
+            onChange={(e) => setClassName(e.target.value)}
             required
           />
         </div>

@@ -184,39 +184,39 @@ export class FeeAutomationService {
     type: string,
     channel: string
   ): Promise<void> {
-    const message = this.generateNotificationMessage(student, fee, type);
+    // const message = this.generateNotificationMessage(student, fee, type);
 
     switch (channel) {
       case "sms":
-        smsSender(student.contact, message);
-        console.log(`Sending SMS to ${student.contact}: ${message}`);
+        smsSender(student.contact);
+        console.log(`Sending SMS to ${student.contact}`);
         break;
       case "whatsapp":
-        console.log(`Sending WhatsApp to ${student.contact}: ${message}`);
-        whatsappSender(student.contact, message, student.name);
+        console.log(`Sending WhatsApp to ${student.name}`);
+        whatsappSender(student, fee);
         break;
       default:
         throw new Error(`Unsupported channel: ${channel}`);
     }
   }
 
-  private static generateNotificationMessage(
-    student: IStudent,
-    fee: IFeePayment,
-    type: string
-  ): string {
-    const dueDate = fee.dueDate.toDateString();
-    switch (type) {
-      case "reminder":
-        return `Reminder: ${student.name}'s fee of ₹${fee.amount} is due on ${dueDate}.`;
-      case "overdue":
-        return `Overdue Alert: ${student.name}'s fee of ₹${fee.amount} was due on ${dueDate}.`;
-      case "payment_received":
-        return `Payment Received: ${student.name} paid ₹${fee.amount} for ${dueDate}.`;
-      default:
-        return `Fee update for ${student.name}.`;
-    }
-  }
+  // private static generateNotificationMessage(
+  //   student: IStudent,
+  //   fee: IFeePayment,
+  //   type: string
+  // ): string {
+  //   const dueDate = fee.dueDate.toDateString();
+  //   switch (type) {
+  //     case "reminder":
+  //       return `Reminder: ${student.name}'s fee of ₹${fee.amount} is due on ${dueDate}.`;
+  //     case "overdue":
+  //       return `Overdue Alert: ${student.name}'s fee of ₹${fee.amount} was due on ${dueDate}.`;
+  //     case "payment_received":
+  //       return `Payment Received: ${student.name} paid ₹${fee.amount} for ${dueDate}.`;
+  //     default:
+  //       return `Fee update for ${student.name}.`;
+  //   }
+  // }
 }
 
 export const cronJobs = {

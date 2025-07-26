@@ -1,4 +1,4 @@
-export async function smsSender(contact:string, message:string) {
+export async function smsSender(contact:string) {
     console.log("Sms sender");
     
 }

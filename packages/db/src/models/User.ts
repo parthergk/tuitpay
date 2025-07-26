@@ -8,6 +8,7 @@ export interface IUser {
   phone: string;
   password: string;
   isVerified: boolean;
+  tuitionClassName: string;
 
   verifyCode: string;
   verifyCodePurpose: string;
@@ -32,6 +33,7 @@ const userSchema = new Schema<IUser>(
     phone: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     isVerified: { type: Boolean, default: false, required: true },
+    tuitionClassName: {type: String, required: true},
 
     verifyCode: { type: String, minlength: 4 },
     verifyCodePurpose: { type: String },

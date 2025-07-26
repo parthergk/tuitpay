@@ -1,24 +1,71 @@
+import { User } from "@repo/db";
+import mongoose from "mongoose";
 import twilio from "twilio";
+import { IUser } from "../../../../packages/db/dist/models/User";
 
-export async function whatsappSender(contact: string, message: string, name: string) {
-  
+interface IStudent {
+  _id: mongoose.ObjectId;
+  teacherId: mongoose.ObjectId;
+  name: string;
+  contact: string;
+  class: string;
+  sub: string;
+  monthlyFee: number;
+  isActivate: boolean;
+  joinDate: Date;
+  feeDay: number;
+  lastFeeDueDate: Date;
+}
+
+interface IFeePayment {
+  _id: mongoose.ObjectId;
+  studentId: mongoose.ObjectId;
+  teacherId: mongoose.ObjectId;
+  amount: number;
+  paidAmount: number;
+  dueDate: Date;
+  status: "pending" | "paid" | "overdue" | "partial";
+  reminderCount: number;
+  lastReminderAt: Date;
+  nextReminderAt: Date;
+}
+
+function formatDate(date: Date): string {
+  return new Date(date).toLocaleDateString("en-IN", {
+    day: "numeric",
+    month: "long",
+    year: "numeric"
+  });
+}
+
+export async function whatsappSender(student: IStudent, fee: IFeePayment) {
   const accountSid = process.env.TWILIO_ACCOUNT_SID;
   const authToken = process.env.TWILIO_AUTH_TOKEN;
 
-  console.log("id's", accountSid, authToken);
-  
   const client = twilio(accountSid, authToken);
 
+  const teacher = await User.findById(student.teacherId);
+  if (!teacher) {
+    throw new Error("Teacher not found for this student");
+  }
+
   try {
+    const contentVariables = {
+      "1": student.name,
+      "2": formatDate(fee.dueDate),
+      "3": fee.amount.toString(),
+      "4": formatDate(fee.dueDate),
+      "5": student.name,
+      "6": teacher.name,
+      "7": teacher.tuitionClassName || "Your Tuition",
+      "8": teacher.phone
+    };
     const response = await client.messages.create({
-       from: "whatsapp:+14155238886",
-      //  contentSid: "HX72fb5f79fcf30f4b1efdf58c02e34919",
-       contentSid: "HX68372c8616d5bbc2a34f597697febc94",
-       contentVariables: `{"1":"Gaurav Kumar","2":"July 2025", "3": "1500", "4":"21th July 2025", "5":"Gaurav Kumar", "6":"Rohan Sharma", "7":"Math", "8":"+918475997240"}`,
-       to: `whatsapp:+91${contact}` ,
-     });
-   
-     console.log("Response", response);
+      from: "whatsapp:+14155238886",
+      contentSid: "HX68372c8616d5bbc2a34f597697febc94",
+      contentVariables: JSON.stringify(contentVariables),
+      to: `whatsapp:+91${student.contact}`,
+    });
   } catch (error) {
     console.log("Error:", error);
   }
