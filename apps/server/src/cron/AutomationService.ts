@@ -1,35 +1,9 @@
 import { connectTodb, FeePayment, NotificationLog, Student } from "@repo/db";
-import mongoose from "mongoose";
 import { smsSender } from "../lib/twilioClient";
 import { whatsappSender } from "../lib/whatsappClient";
 import { getTodayDate } from "../utils/dateUtils";
+import { IStudent, IFeePayment } from "@repo/types";
 
-interface IStudent {
-  _id: mongoose.ObjectId;
-  teacherId: mongoose.ObjectId;
-  name: string;
-  contact: string;
-  class: string;
-  sub: string;
-  monthlyFee: number;
-  isActivate: boolean;
-  joinDate: Date;
-  feeDay: number;
-  lastFeeDueDate: Date;
-}
-
-interface IFeePayment {
-  _id: mongoose.ObjectId;
-  studentId: mongoose.ObjectId;
-  teacherId: mongoose.ObjectId;
-  amount: number;
-  paidAmount: number;
-  dueDate: Date;
-  status: "pending" | "paid" | "overdue" | "partial";
-  reminderCount: number;
-  lastReminderAt: Date;
-  nextReminderAt: Date;
-}
 
 export class FeeAutomationService {
   static async generateMonthlyFees(): Promise<void> {

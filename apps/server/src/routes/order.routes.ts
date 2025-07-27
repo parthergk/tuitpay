@@ -1,7 +1,7 @@
 import Razorpay from "razorpay";
 import { Request, Response, Router } from "express";
 import { verifyJwt } from "../middleware/verifyJwt";
-import { connectTodb, Payment } from "@repo/db";
+import { Payment } from "@repo/db";
 
 const orderRouter: Router = Router();
 
@@ -20,7 +20,6 @@ orderRouter.post("/", verifyJwt, async (req: Request, res: Response) => {
   }
 
   try {
-    await connectTodb();
     
     const amountInPaise = Math.round(variant.price * 100);
     

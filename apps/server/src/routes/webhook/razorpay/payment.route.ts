@@ -1,7 +1,6 @@
 import { Request, Response, Router } from "express";
 import crypto from "crypto";
-import { connectTodb, Payment, User } from "@repo/db";
-import { verifyJwt } from "../../../middleware/verifyJwt";
+import { Payment, User } from "@repo/db";
 import { IPlan } from "../../../../../../packages/db/dist/models/Plan";
 import { IUser } from "../../../../../../packages/db/dist/models/User";
 import { getTodayDate } from "../../../utils/dateUtils";
@@ -34,7 +33,6 @@ paymentRouter.post("/", async (req: Request, res: Response) => {
   const event = typeof body === "string" ? JSON.parse(body) : body;
 
   try {
-    await connectTodb();
 
     if (event.event === "payment.captured") {
       const payment = event.payload.payment.entity;

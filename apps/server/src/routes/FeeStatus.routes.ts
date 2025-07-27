@@ -1,6 +1,6 @@
 import { Request, Response, Router } from "express";
 import { verifyJwt } from "../middleware/verifyJwt";
-import { connectTodb, FeePayment } from "@repo/db";
+import { FeePayment } from "@repo/db";
 import { getTodayDate } from "../utils/dateUtils";
 
 const feeStatusRouter: Router = Router();
@@ -20,7 +20,6 @@ feeStatusRouter.post("/", verifyJwt, async (req: Request, res: Response) => {
   }
 
   try {
-    await connectTodb();
 
     const feeRecord = await FeePayment.findOne({
       _id: data.feeId,

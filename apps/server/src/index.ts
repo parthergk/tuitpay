@@ -8,7 +8,8 @@ import dashboard from "./routes/dashboard.routes";
 import plan from "./routes/plan.routes";
 import order from "./routes/order.routes";
 import feeStatus from "./routes/feeStatus.routes";
-import "./cron/index"
+import "./cron/index";
+import { connectTodb } from "@repo/db";
 
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -23,12 +24,22 @@ app.use(
 app.use(cookieParser());
 app.use(express.json());
 
-app.use("/api/v1/student", student);
-app.use("/api/v1/dashboard", dashboard);
-app.use("/api/v1/plan", plan);
-app.use("/api/v1/order", order);
-app.use("/api/v1/status", feeStatus);
+async function startServer() {
+  try {
+    await connectTodb();
+    app.use("/api/v1/student", student);
+    app.use("/api/v1/dashboard", dashboard);
+    app.use("/api/v1/plan", plan);
+    app.use("/api/v1/order", order);
+    app.use("/api/v1/status", feeStatus);
 
-app.listen(PORT, () => {
-  console.log(`https server is runing on port ${PORT}`);
-});
+    app.listen(PORT, () => {
+      console.log(`Server is runing on port: ${PORT}`);
+    });
+  } catch (error) {
+    console.error("Failed to connect to DB", error);
+    process.exit(1);
+  }
+}
+
+startServer();

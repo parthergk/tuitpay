@@ -1,4 +1,4 @@
-import { connectTodb, Student, User } from "@repo/db";
+import { Student, User } from "@repo/db";
 import { NextFunction, Request, Response } from "express";
 
 async function checkPlanLimit(req: Request, res: Response, next: NextFunction) {
@@ -12,7 +12,6 @@ async function checkPlanLimit(req: Request, res: Response, next: NextFunction) {
   }
 
   try {
-    await connectTodb();
     
     const user = await User.findById(userId);
 

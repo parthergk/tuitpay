@@ -1,6 +1,6 @@
 import { Request, Response, Router } from "express";
 import { verifyJwt } from "../middleware/verifyJwt";
-import { connectTodb, FeePayment, Student } from "@repo/db";
+import { FeePayment, Student } from "@repo/db";
 import { getTodayDate } from "../utils/dateUtils";
 
 const dashboardRouter: Router = Router();
@@ -11,7 +11,6 @@ dashboardRouter.get(
   async (req: Request, res: Response) => {
     const teacher = req.user;
     try {
-      await connectTodb();
 
       const totalStudents = await Student.find({
         teacherId: teacher.id,

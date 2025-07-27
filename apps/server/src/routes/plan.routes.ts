@@ -1,5 +1,5 @@
 import { Router, Request, Response } from "express";
-import { connectTodb, Plan } from "@repo/db";
+import { Plan } from "@repo/db";
 import { verifyJwt } from "../middleware/verifyJwt";
 import { PlanSchema } from "@repo/validation/types";
 
@@ -19,7 +19,7 @@ planRouter.post("/", verifyJwt, async (req: Request, res: Response) => {
   const { type, price, studentLimit } = parsed.data;
 
   try {
-    await connectTodb();
+
 
     // Optional: prevent duplicate plan types
     const exist = await Plan.findOne({ type });
@@ -48,7 +48,7 @@ planRouter.post("/", verifyJwt, async (req: Request, res: Response) => {
 
 planRouter.get("/", verifyJwt, async (_req: Request, res: Response) => {
   try {
-    await connectTodb();
+
     const plans = await Plan.find().sort({ price: 1 });
      res.status(200).json({ message: "All plans", plans });
      return;
@@ -64,7 +64,7 @@ planRouter.get("/:id", verifyJwt, async (req: Request, res: Response) => {
   const { id } = req.params;
 
   try {
-    await connectTodb();
+
     const plan = await Plan.findById(id);
     if (!plan) {
        res.status(404).json({ message: "Plan not found" });
@@ -95,7 +95,7 @@ planRouter.put("/:id", verifyJwt, async (req: Request, res: Response) => {
   const { type, price, studentLimit } = parsed.data;
 
   try {
-    await connectTodb();
+
 
     const plan = await Plan.findById(id);
     if (!plan) {
@@ -122,7 +122,7 @@ planRouter.delete("/:id", verifyJwt, async (req: Request, res: Response) => {
   const { id } = req.params;
 
   try {
-    await connectTodb();
+
 
     const plan = await Plan.findById(id);
     if (!plan) {

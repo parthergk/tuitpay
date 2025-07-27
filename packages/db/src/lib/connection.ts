@@ -1,6 +1,5 @@
 import mongoose, { Connection } from "mongoose";
 
-
 const DB_URI = process.env.MONGODB_URI;
 
 if (!DB_URI) {
@@ -12,16 +11,16 @@ let cached: {
   promis: Promise<Connection> | null;
 } = {
   conn: null,
-  promis: null
+  promis: null,
 };
 
-async function connectTodb(){
+async function connectTodb() {
   if (cached.conn) {
     return cached.conn;
   }
 
   if (!cached.promis) {
-    cached.promis = mongoose.connect(DB_URI!).then(()=>mongoose.connection);
+    cached.promis = mongoose.connect(DB_URI!).then(() => mongoose.connection);
   }
 
   try {
