@@ -15,6 +15,7 @@
   "devDependencies": {
     "@repo/auth": "workspace:*",
     "@repo/typescript-config": "workspace:*",
+    "@repo/types":"workspace:*",
     "@types/node": "^22.15.3"
   },
   "peerDependencies": {

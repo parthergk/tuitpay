@@ -1,20 +1,5 @@
 import mongoose, { Model, model, models, Schema } from "mongoose";
-
-interface IStudent {
-  _id: mongoose.ObjectId;
-  teacherId: mongoose.ObjectId;
-  name: string;
-  contact: string;
-  class: string;
-  sub: string;
-  monthlyFee: number;
-  isActivate: boolean;
-  joinDate: Date;
-  feeDay: number;
-  lastFeeDueDate: Date;
-  createdAt: Date;
-  updatedAt: Date;
-}
+import { IStudent } from "@repo/types";
 
 const studentSchema = new Schema<IStudent>(
   {

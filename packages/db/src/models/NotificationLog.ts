@@ -1,18 +1,5 @@
 import mongoose, { Model, model, models, Schema } from "mongoose";
-
-interface INotificationLog {
-  _id: mongoose.ObjectId;
-  teacherId: mongoose.ObjectId;
-  studentId: mongoose.ObjectId;
-  feePaymentId: mongoose.ObjectId;
-  type: "reminder" | "overdue" | "payment_received";
-  channel: "email" | "sms" | "whatsapp" | "push";
-  status: "sent" | "failed" | "pending";
-  sentAt?: Date;
-  errorMessage?: string;
-  createdAt: Date;
-  updatedAt: Date;
-}
+import { INotificationLog } from "@repo/types";
 
 const notificationLogSchema = new Schema<INotificationLog>(
   {

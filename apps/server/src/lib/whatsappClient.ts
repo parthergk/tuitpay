@@ -1,34 +1,7 @@
 import { User } from "@repo/db";
-import mongoose from "mongoose";
 import twilio from "twilio";
-import { IUser } from "../../../../packages/db/dist/models/User";
+import {IStudent, IFeePayment} from "@repo/types"
 
-interface IStudent {
-  _id: mongoose.ObjectId;
-  teacherId: mongoose.ObjectId;
-  name: string;
-  contact: string;
-  class: string;
-  sub: string;
-  monthlyFee: number;
-  isActivate: boolean;
-  joinDate: Date;
-  feeDay: number;
-  lastFeeDueDate: Date;
-}
-
-interface IFeePayment {
-  _id: mongoose.ObjectId;
-  studentId: mongoose.ObjectId;
-  teacherId: mongoose.ObjectId;
-  amount: number;
-  paidAmount: number;
-  dueDate: Date;
-  status: "pending" | "paid" | "overdue" | "partial";
-  reminderCount: number;
-  lastReminderAt: Date;
-  nextReminderAt: Date;
-}
 
 function formatDate(date: Date): string {
   return new Date(date).toLocaleDateString("en-IN", {

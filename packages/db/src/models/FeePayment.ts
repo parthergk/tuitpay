@@ -1,22 +1,5 @@
 import mongoose, { Model, Schema, model, models } from "mongoose";
-
-export interface IFeePayment {
-  _id: mongoose.ObjectId;
-  studentId: mongoose.ObjectId;
-  teacherId: mongoose.ObjectId;
-  amount: number;
-  paidAmount: number;
-  dueDate: Date;
-  paidDate?: Date;
-  status: "pending" | "paid" | "overdue" | "partial";
-  paymentMethod?: "cash" | "card" | "upi" | "bank_transfer" | "other";
-  reminderCount: number;
-  lastReminderAt: Date;
-  nextReminderAt: Date;
-  notes?: string;
-  createdAt: Date;
-  updatedAt: Date;
-}
+import { IFeePayment } from "@repo/types";
 
 const feePaymentSchema = new Schema<IFeePayment>(
   {

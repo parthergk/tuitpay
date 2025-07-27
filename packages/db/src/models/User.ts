@@ -1,30 +1,6 @@
 import mongoose, { model, models, Schema, Model } from "mongoose";
 import { bcryptjs } from "@repo/auth";
-
-export interface IUser {
-  _id: mongoose.ObjectId;
-  name: string;
-  email: string;
-  phone: string;
-  password: string;
-  isVerified: boolean;
-  tuitionClassName: string;
-
-  verifyCode: string;
-  verifyCodePurpose: string;
-  verifyCodeExpires: number;
-
-  planId?: mongoose.ObjectId;
-  planType: "free" | "pro" | "custom";
-  planStatus: "active" | "expired" | "canceled";
-  planActivatedAt?: Date;
-  planExpiresAt?: Date;
-  studentLimit: number;
-  planPrice: number;
-
-  createdAt: Date;
-  updatedAt: Date;
-}
+import { IUser } from "@repo/types";
 
 const userSchema = new Schema<IUser>(
   {
@@ -33,7 +9,7 @@ const userSchema = new Schema<IUser>(
     phone: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     isVerified: { type: Boolean, default: false, required: true },
-    tuitionClassName: {type: String, required: true},
+    tuitionClassName: { type: String, required: true },
 
     verifyCode: { type: String, minlength: 4 },
     verifyCodePurpose: { type: String },
@@ -54,7 +30,6 @@ const userSchema = new Schema<IUser>(
     planExpiresAt: { type: Date },
     studentLimit: { type: Number, default: 10 },
     planPrice: { type: Number, default: 0 },
-
   },
   { timestamps: true }
 );

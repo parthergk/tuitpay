@@ -1,13 +1,5 @@
 import { Model, model, models, Schema } from "mongoose";
-
-export interface IPlan {
-  type: "free" | "pro" | "custom";
-  price: number;
-  studentLimit: number | null;
-  durationDays: number;
-  createdAt: Date;
-  updatedAt: Date;
-}
+import {IPlan} from "@repo/types"
 
 const plansSchema = new Schema<IPlan>(
   {

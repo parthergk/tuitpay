@@ -1,15 +1,5 @@
 import mongoose, { Model, Schema, model, models } from "mongoose";
-
-export interface IPayment {
-  userId: mongoose.ObjectId;
-  planId: mongoose.ObjectId;
-  razorpayOrderId: string;
-  razorpayPaymentId: string;
-  amount: number;
-  status: "pending" | "completed" | "failed";
-  createdAt: Date;
-  updatedAt: Date;
-}
+import { IPayment } from "@repo/types";
 
 const paymentSchema = new Schema<IPayment>({
   userId: { type: mongoose.Types.ObjectId, ref: "User", required: true },
