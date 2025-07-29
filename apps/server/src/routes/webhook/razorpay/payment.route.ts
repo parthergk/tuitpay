@@ -1,8 +1,7 @@
 import { Request, Response, Router } from "express";
 import crypto from "crypto";
 import { Payment, User } from "@repo/db";
-import { IPlan } from "../../../../../../packages/db/dist/models/Plan";
-import { IUser } from "../../../../../../packages/db/dist/models/User";
+import { IPlan, IUser } from "@repo/types";
 import { getTodayDate } from "../../../utils/dateUtils";
 
 const paymentRouter: Router = Router();

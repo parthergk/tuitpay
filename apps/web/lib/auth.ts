@@ -42,7 +42,7 @@ export const authOptions: NextAuthOptions = {
           return {
             id: user._id.toString(),
             email: user.email,
-            plan: user.plan,
+            plan: user.planType
           };
         } catch (error) {
           console.error("Auth error", error);
