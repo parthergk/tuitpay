@@ -10,49 +10,47 @@ const razorpay = new Razorpay({
   key_secret: process.env.RAZORPAY_KEY_SECRET!,
 });
 
-orderRouter.post("/", verifyJwt, async (req: Request, res: Response) => {
-  const { planId, variant } = req.body;
+orderRouter.post("/", verifyJwt, async (req: Request, res: Response) => {  
+  const { planId, price } = req.body;
   const { id } = req.user;
 
-  if (!planId || !variant?.price) {
-    res.status(400).json({ error: "Missing productId or variant" });
+  if (!planId || !price) {
+    res.status(400).json({ error: "Missing productId or price" });
     return;
   }
 
   try {
-    
-    const amountInPaise = Math.round(variant.price * 100);
-    
+    const amountInPaise = Math.round(price * 100);
+
     const razorpayOrder = await razorpay.orders.create({
-        amount: amountInPaise,
-        currency: "INR",
-        receipt: `receipt_${Date.now()}`,
-        notes: {
-            planId: planId.toString()
-        }
+      amount: amountInPaise,
+      currency: "INR",
+      receipt: `receipt_${Date.now()}`,
+      notes: {
+        planId: planId.toString(),
+      },
     });
 
     const order = await Payment.create({
-        userId: id,
-        planId,
-        razorpayOrderId: razorpayOrder.id,
-        amount: razorpayOrder.amount,
-        status: "pending",
+      userId: id,
+      planId,
+      razorpayOrderId: razorpayOrder.id,
+      amount: razorpayOrder.amount,
+      status: "pending",
     });
 
-    res.status(201).json({ 
+    res.status(201).json({
       message: "Order created successfully",
       orderId: razorpayOrder.id,
       amount: razorpayOrder.amount,
       currency: razorpayOrder.currency,
       dbOrderId: order._id,
     });
-    
   } catch (error) {
     console.error("Error creating order:", error);
     res.status(500).json({
       error: "Failed to create order",
-      message: "Internal server error"
+      message: "Internal server error",
     });
   }
 });

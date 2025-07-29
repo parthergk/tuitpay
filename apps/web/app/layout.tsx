@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import AuthProviders from "../components/AuthProviders";
+import Script from "next/script";
 
 const forum = localFont({
   src: "./fonts/Forum-Regular.ttf",
@@ -23,6 +24,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${forum.variable}`}>
+        <Script
+          src="https://checkout.razorpay.com/v1/checkout.js"
+          strategy="lazyOnload"
+        />
         <AuthProviders>{children}</AuthProviders>
       </body>
     </html>

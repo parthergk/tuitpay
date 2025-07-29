@@ -10,6 +10,7 @@ import order from "./routes/order.routes";
 import feeStatus from "./routes/feeStatus.routes";
 import "./cron/index";
 import { connectTodb } from "@repo/db";
+import paymentRouter from "./routes/webhook/razorpay/payment.route";
 
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -32,6 +33,7 @@ async function startServer() {
     app.use("/api/v1/plan", plan);
     app.use("/api/v1/order", order);
     app.use("/api/v1/status", feeStatus);
+    app.use("/api/v1/verify", paymentRouter);
 
     app.listen(PORT, () => {
       console.log(`Server is runing on port: ${PORT}`);
