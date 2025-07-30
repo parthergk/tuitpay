@@ -59,28 +59,8 @@ const page = () => {
         description: `${plan.type}`,
         order_id: order.orderId,
         handler: async function (response: any) {
-          const verificationRes = await fetch(
-            "http://localhost:8080/api/v1/verify",
-            {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              credentials: "include",
-              body: JSON.stringify({
-                razorpay_order_id: response.razorpay_order_id,
-                razorpay_payment_id: response.razorpay_payment_id,
-                razorpay_signature: response.razorpay_signature,
-              }),
-            }
-          );
-          const data = await verificationRes.json();
-          console.log("Data", data);
-          
-          if (data.success) {
-            console.log("Payment verified and saved!");
-            router.push("/orders");
-          } else {
-            console.error("Payment verification failed!");
-          }
+          console.log("Razorpay success");
+          router.push(`/payment-status?order_id=${response.razorpay_order_id}`);
         },
         prefill: {
           email: "gauravkumar81464@gmail.com",
