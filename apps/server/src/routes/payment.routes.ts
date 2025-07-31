@@ -27,7 +27,7 @@ paymentStatusRouter.get('/', async (req:Request, res:Response)=>{
       });
       return;
     }
-
+    
     res.json({
       status: payment.status,
       updatedAt: payment.updatedAt
