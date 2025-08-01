@@ -43,7 +43,7 @@ dashboardRouter.get("/", verifyJwt, async (req: Request, res: Response) => {
     const today = getTodayDate();
     const totalOverdue = await FeePayment.find({
       teacherId: id,
-      status: "pending",
+      status: "overdue",
       dueDate: { $lt: today },
     });
 
@@ -51,6 +51,7 @@ dashboardRouter.get("/", verifyJwt, async (req: Request, res: Response) => {
       teacherInfo: {
         name: teacher.name,
         phone: teacher.phone,
+        email: teacher.email,
         tuitionClassName: teacher.tuitionClassName,
         planType: teacher.planType,
         planStatus: teacher.planStatus,

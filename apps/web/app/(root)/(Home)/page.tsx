@@ -21,7 +21,7 @@ export default function Home() {
   console.log("Plans", plans);
   
   return (
-    <div className=" w-full h-screen bg-gray-700 flex flex-col gap-5 text-white p-4">
+    <div className="bg-gray-400 flex flex-col gap-5 p-4 m-2 rounded-lg">
     {plans.length === 0 ? (
       <div>No plans available</div>
     ) : (
@@ -31,7 +31,7 @@ export default function Home() {
           href={`/plan/${plan._id}`}
 
         >
-        <div className="p-2 border border-white flex flex-col gap-2">
+        <div className="p-2 border flex flex-col gap-2">
           <div>Plan Name: {plan.type}</div>
           <div>Plan Price: {plan.price}</div>
           <div>Plan Duration: {plan.durationDays}</div>
