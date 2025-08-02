@@ -5,24 +5,10 @@ import StatCard from "../../../components/dashboard/StatCards";
 import Student from "../../../components/dashboard/Student";
 import { TeacherCard } from "../../../components/dashboard/TeacherCard";
 import { useUserProfile } from "../../../context/UserProfileProvider";
-
-interface TeacherInfo {
-  name: string;
-  phone: string;
-  email: string;
-  tuitionClassName: string;
-  planType: string;
-  planStatus: string;
-  planActivatedAt: string;
-  planExpiresAt: string;
-  planPrice: number;
-  studentLimit: number;
-  isVerified: boolean;
-  createdAt: string;
-}
+import { IUser } from "@repo/types";
 
 interface DashboardData {
-  teacherInfo: TeacherInfo;
+  teacherInfo: IUser;
   students: any[];
   paid: any[];
   unpaid: any[];
@@ -34,9 +20,7 @@ export default function DashboardPage() {
     null
   );
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const profileContext = useUserProfile()
-
-  
+  const profileContext = useUserProfile();
 
   useEffect(() => {
     const fetchDashboardData = async () => {
@@ -53,7 +37,7 @@ export default function DashboardPage() {
 
         const { data } = await response.json();
         setDashboardData(data);
-        profileContext.setUserDetail(data.teacherInfo)
+        profileContext.setUserDetail(data.teacherInfo);
       } catch (error) {
         console.error("Error fetching dashboard data:", error);
       } finally {
@@ -68,17 +52,17 @@ export default function DashboardPage() {
     {
       title: "Total Paid",
       count: dashboardData?.paid.length || 0,
-      color: "bg-green-500",
+      color: "bg-gray-500",
     },
     {
       title: "Total Unpaid",
       count: dashboardData?.unpaid.length || 0,
-      color: "bg-yellow-500",
+      color: "bg-gray-500",
     },
     {
       title: "Total Overdue",
       count: dashboardData?.overDue.length || 0,
-      color: "bg-red-500",
+      color: "bg-gray-500",
     },
   ];
 
@@ -99,6 +83,7 @@ export default function DashboardPage() {
             title="Total Student"
             count={dashboardData?.students.length}
             color="bg-gray-500"
+            textColor="text-black"
           />
           {statCards.map((card) => (
             <StatCard
@@ -106,6 +91,7 @@ export default function DashboardPage() {
               title={card.title}
               count={card.count}
               color={card.color}
+              textColor="text-black"
             />
           ))}
         </div>
@@ -123,17 +109,18 @@ export default function DashboardPage() {
           ))}
         </div>
         {/* teacher data */}
-        {
+        
+          {dashboardData?.teacherInfo &&
           <TeacherCard
-            name={dashboardData?.teacherInfo.name}
-            email={dashboardData?.teacherInfo.email}
-            phone={dashboardData?.teacherInfo.phone}
-            tuitionClassName={dashboardData?.teacherInfo.tuitionClassName}
-            planType={dashboardData?.teacherInfo.planType}
-            planStatus={dashboardData?.teacherInfo.planStatus}
-            studentLimit={dashboardData?.teacherInfo.studentLimit}
-            planActivatedAt={dashboardData?.teacherInfo.planActivatedAt}
-            planExpiresAt={dashboardData?.teacherInfo.planExpiresAt}
+            name={dashboardData.teacherInfo.name}
+            email={dashboardData.teacherInfo.email}
+            phone={dashboardData.teacherInfo.phone}
+            tuitionClassName={dashboardData.teacherInfo.tuitionClassName}
+            planType={dashboardData.teacherInfo.planType}
+            planStatus={dashboardData.teacherInfo.planStatus}
+            studentLimit={dashboardData.teacherInfo.studentLimit}
+            planActivatedAt={dashboardData.teacherInfo.planActivatedAt}
+            planExpiresAt={dashboardData.teacherInfo.planExpiresAt}
           />
         }
       </div>

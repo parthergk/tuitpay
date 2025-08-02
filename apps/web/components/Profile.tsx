@@ -9,8 +9,6 @@ interface ProfileProps {
 
 const Profile: React.FC<ProfileProps> = ({ isShow }) => {
   const userContext = useUserProfile();
-
-  console.log("Context", userContext.userDetail);
   
   return (
     <div

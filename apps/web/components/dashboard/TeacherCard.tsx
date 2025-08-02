@@ -1,6 +1,7 @@
+import { IUser } from "@repo/types";
 import React from "react";
 
-interface TeacherCardProps {
+type TeacherCardProps = {
   name: string;
   email: string;
   phone: string;
@@ -8,9 +9,10 @@ interface TeacherCardProps {
   planType: string;
   planStatus: string;
   studentLimit: number;
-  planActivatedAt: string;
-  planExpiresAt: string;
-}
+  planActivatedAt: Date;
+  planExpiresAt: Date;
+};
+
 
 export const TeacherCard: React.FC<TeacherCardProps> = ({
   name,

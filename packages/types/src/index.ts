@@ -16,8 +16,8 @@ export interface IUser {
   planId?: mongoose.ObjectId;
   planType: "free" | "pro" | "custom";
   planStatus: "active" | "expired" | "canceled";
-  planActivatedAt?: Date;
-  planExpiresAt?: Date;
+  planActivatedAt: Date;
+  planExpiresAt: Date;
   studentLimit: number;
   planPrice: number;
 
