@@ -1,11 +1,14 @@
 import React from "react";
-import Header from "../components/nav/Header";
+import UserProfileProvider from "../../context/UserProfileProvider";
+import Header from "../../components/nav/Header";
 
 const layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <main className=" w-screen">
-      <Header />
-      {children}
+      <UserProfileProvider>
+        <Header />
+        {children}
+      </UserProfileProvider>
     </main>
   );
 };

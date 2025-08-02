@@ -1,9 +1,10 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import StatCards from "../../components/dashboard/StatCards";
-import Student from "../../components/dashboard/Student";
-import { TeacherCard } from "../../components/dashboard/TeacherCard";
+import StatCard from "../../../components/dashboard/StatCards";
+import Student from "../../../components/dashboard/Student";
+import { TeacherCard } from "../../../components/dashboard/TeacherCard";
+import { useUserProfile } from "../../../context/UserProfileProvider";
 
 interface TeacherInfo {
   name: string;
@@ -33,6 +34,9 @@ export default function DashboardPage() {
     null
   );
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const profileContext = useUserProfile()
+
+  
 
   useEffect(() => {
     const fetchDashboardData = async () => {
@@ -49,6 +53,7 @@ export default function DashboardPage() {
 
         const { data } = await response.json();
         setDashboardData(data);
+        profileContext.setUserDetail(data.teacherInfo)
       } catch (error) {
         console.error("Error fetching dashboard data:", error);
       } finally {
@@ -89,14 +94,14 @@ export default function DashboardPage() {
         <p className="mt-4 text-gray-500">Loading...</p>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-4 gap-4 mt-6">
-          <StatCards
+          <StatCard
             key={dashboardData?.students.length}
             title="Total Student"
             count={dashboardData?.students.length}
             color="bg-gray-500"
           />
           {statCards.map((card) => (
-            <StatCards
+            <StatCard
               key={card.title}
               title={card.title}
               count={card.count}
