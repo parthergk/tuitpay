@@ -1,9 +1,9 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import StatCards from "../../../components/dashboard/StatCards";
-import Student from "../../../components/dashboard/Student";
-import { TeacherCard } from "../../../components/dashboard/TeacherCard";
+import StatCards from "../../components/dashboard/StatCards";
+import Student from "../../components/dashboard/Student";
+import { TeacherCard } from "../../components/dashboard/TeacherCard";
 
 interface TeacherInfo {
   name: string;
@@ -109,6 +109,10 @@ export default function DashboardPage() {
       <div className=" grid grid-cols-4 gap-4 mt-6">
         {/* student data */}
         <div className="col-span-3 bg-white shadow flex flex-col items-center p-4 rounded-lg">
+          <div className=" w-full flex justify-between items-center">
+            <h1 className=" font-medium">student</h1>
+            <span>Add student</span>
+          </div>
           {dashboardData?.students.map((student) => (
             <Student name={student.name} />
           ))}

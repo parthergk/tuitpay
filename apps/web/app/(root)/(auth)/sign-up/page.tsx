@@ -12,7 +12,6 @@ const Register = () => {
     e.preventDefault();
 
     const payload = { name, email, password, phone, tuitionClassName:className };
-    console.log("Register payload:", payload);
 
     // Example POST request
     try {

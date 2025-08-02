@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-import AuthProviders from "../components/AuthProviders";
+import AuthProviders from "./components/AuthProviders";
 import Script from "next/script";
 
 const forum = localFont({
