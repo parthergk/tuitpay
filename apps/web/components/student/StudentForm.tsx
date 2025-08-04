@@ -36,7 +36,7 @@ const StudentForm: React.FC<PropInter> = ({ isOpen, setIsOpen }) => {
   };
   return (
     <div
-      className={`${isOpen ? "block" : "hidden"} text-center border px-2 w-48 h-48`}
+      className={`${isOpen ? "block" : "hidden"} absolute right-4 text-center border px-2 w-48 h-48 z-10 bg-white`}
     >
       <div className=" flex justify-between border-b pb-1">
         <button onClick={handleCreateStudent}>Submit</button>
