@@ -1,11 +1,12 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import StatCard from "../../../components/dashboard/StatCards";
 import Student from "../../../components/dashboard/Student";
 import { TeacherCard } from "../../../components/dashboard/TeacherCard";
 import { useUserProfile } from "../../../context/UserProfileProvider";
 import { IUser } from "@repo/types";
+import StudentForm from "../../../components/student/StudentForm";
 
 interface DashboardData {
   teacherInfo: IUser;
@@ -16,6 +17,7 @@ interface DashboardData {
 }
 
 export default function DashboardPage() {
+  const [showForm, setShowForm] = useState(false);
   const [dashboardData, setDashboardData] = useState<DashboardData | null>(
     null
   );
@@ -66,6 +68,10 @@ export default function DashboardPage() {
     },
   ];
 
+  function handleAddStudent() {
+    setShowForm((pre) => !pre);
+  }
+
   return (
     <div className="m-2 bg-gray-400 rounded-lg p-4 shadow">
       <div>
@@ -102,15 +108,21 @@ export default function DashboardPage() {
         <div className="col-span-3 bg-white shadow flex flex-col items-center p-4 rounded-lg">
           <div className=" w-full flex justify-between items-center">
             <h1 className=" font-medium">student</h1>
-            <span>Add student</span>
+            <button
+              className=" border px-2 cursor-pointer"
+              onClick={handleAddStudent}
+            >
+              Add student
+            </button>
           </div>
           {dashboardData?.students.map((student) => (
-            <Student name={student.name} />
+            <Student key={student.name} name={student.name} />
           ))}
+          <StudentForm isOpen={showForm} setIsOpen={setShowForm} />
         </div>
         {/* teacher data */}
-        
-          {dashboardData?.teacherInfo &&
+
+        {dashboardData?.teacherInfo && (
           <TeacherCard
             name={dashboardData.teacherInfo.name}
             email={dashboardData.teacherInfo.email}
@@ -122,7 +134,7 @@ export default function DashboardPage() {
             planActivatedAt={dashboardData.teacherInfo.planActivatedAt}
             planExpiresAt={dashboardData.teacherInfo.planExpiresAt}
           />
-        }
+        )}
       </div>
     </div>
   );

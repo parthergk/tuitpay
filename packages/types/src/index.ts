@@ -42,6 +42,7 @@ export interface IStudent {
 }
 
 export interface IPlan {
+  _id: mongoose.ObjectId
   type: "free" | "pro" | "custom";
   price: number;
   studentLimit: number | null;

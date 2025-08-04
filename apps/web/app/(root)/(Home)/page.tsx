@@ -18,7 +18,6 @@ export default function Home() {
     }
     fetchProducts();
   },[]);
-  console.log("Plans", plans);
   
   return (
     <div className="bg-gray-400 flex flex-col gap-5 p-4 m-2 rounded-lg">
@@ -27,7 +26,7 @@ export default function Home() {
     ) : (
       plans.map((plan) => (
         <Link
-        key={plan._id}
+        key={plan._id.toString()}
           href={`/plan/${plan._id}`}
 
         >

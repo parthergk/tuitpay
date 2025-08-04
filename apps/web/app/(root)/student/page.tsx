@@ -11,6 +11,7 @@ const Student = () => {
       monthlyFee: 2500,
       isActivate: true,
       joinDate: new Date(),
+      feeday: 23
     };
 
     try {

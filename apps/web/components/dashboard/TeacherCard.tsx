@@ -1,4 +1,3 @@
-import { IUser } from "@repo/types";
 import React from "react";
 
 type TeacherCardProps = {
