@@ -1,5 +1,7 @@
 "use client";
+import { Eye, EyeOff } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
@@ -8,7 +10,7 @@ type Inputs = {
   email: string;
   phone: string;
   password: string;
-  className: string;
+  tuitionClassName: string;
 };
 
 type ApiError = {
@@ -27,6 +29,7 @@ const Register = () => {
     mode: "onBlur",
   });
 
+  const router = useRouter();
   const [show, setShow] = useState<boolean>(false);
   const [submitError, setSubmitError] = useState<string>("");
   const [submitSuccess, setSubmitSuccess] = useState<boolean>(false);
@@ -61,13 +64,12 @@ const Register = () => {
         return;
       }
 
-      const result = await response.json();
-      console.log("Registration success:", result);
-
+      const result = await response.json();      
+      localStorage.setItem("verifyEmail", result.data.email);
       setSubmitSuccess(true);
       reset();
 
-      // router.push("/login");
+      router.push("/verify");
     } catch (error) {
       console.error("Registration error:", error);
       setSubmitError(
@@ -75,6 +77,10 @@ const Register = () => {
       );
     }
   };
+
+  function togglePasswordVisibility (){
+    setShow((pre)=>!pre)
+  }
 
   return (
     <div className="max-w-md mx-auto p-6 bg-white rounded-lg shadow-md">
@@ -176,41 +182,49 @@ const Register = () => {
         </div>
 
         <div>
-          <label
-            htmlFor="password"
-            className="block text-sm font-medium text-gray-700 mb-1"
-          >
-            Password <span className="text-red-500">*</span>
-          </label>
-          <div className={`w-full border rounded-md focus:ring-2 focus:ring-blue-500 flex justify-center items-center ${
+            <label
+              htmlFor="password"
+              className="block text-sm font-medium text-gray-700 mb-1"
+            >
+              Password <span className="text-red-500">*</span>
+            </label>
+            <div
+              className={`w-full border rounded-md focus-within:ring-2 focus-within:ring-blue-500 flex justify-center items-center ${
                 errors.password ? "border-red-500" : "border-gray-300"
-              }`}>
-            <input
-              id="password"
-              type={show?"text":"password"}
-              className="w-full px-3 py-2 focus:outline-none"
-              {...register("password", {
-                required: "Password is required",
-                minLength: {
-                  value: 8,
-                  message: "Password must be at least 8 characters",
-                },
-                pattern: {
-                  value:
-                    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/,
-                  message:
-                    "Password must contain uppercase, lowercase, number, and special character",
-                },
-              })}
-            />
-            <span className="px-3 py-2 cursor-pointer" onClick={()=>setShow((pre=>!pre))}>{show?"Hide":"Show"}</span>
+              }`}
+            >
+              <input
+                id="password"
+                type={show ? "text" : "password"}
+                autoComplete="current-password"
+                className="w-full px-3 py-2 focus:outline-none rounded-l-md"
+                {...register("password", {
+                  required: "Password is required",
+                  minLength: {
+                    value: 8,
+                    message: "Password must be at least 8 characters",
+                  },
+                })}
+              />
+              <button
+                type="button"
+                className="px-3 py-2 cursor-pointer hover:bg-gray-50 rounded-r-md transition-colors"
+                onClick={togglePasswordVisibility}
+                aria-label={show ? "Hide password" : "Show password"}
+              >
+                {show ? (
+                  <EyeOff className="h-4 w-4 text-gray-500" />
+                ) : (
+                  <Eye className="h-4 w-4 text-gray-500" />
+                )}
+              </button>
+            </div>
+            {errors.password && (
+              <p className="mt-1 text-sm text-red-600">
+                {errors.password.message}
+              </p>
+            )}
           </div>
-          {errors.password && (
-            <p className="mt-1 text-sm text-red-600">
-              {errors.password.message}
-            </p>
-          )}
-        </div>
 
         <div>
           <label
@@ -223,9 +237,9 @@ const Register = () => {
             id="className"
             type="text"
             className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-              errors.className ? "border-red-500" : "border-gray-300"
+              errors.tuitionClassName ? "border-red-500" : "border-gray-300"
             }`}
-            {...register("className", {
+            {...register("tuitionClassName", {
               required: "Class name is required",
               minLength: {
                 value: 2,
@@ -233,9 +247,9 @@ const Register = () => {
               },
             })}
           />
-          {errors.className && (
+          {errors.tuitionClassName && (
             <p className="mt-1 text-sm text-red-600">
-              {errors.className.message}
+              {errors.tuitionClassName.message}
             </p>
           )}
         </div>

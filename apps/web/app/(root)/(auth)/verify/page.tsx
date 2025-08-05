@@ -5,6 +5,9 @@ const Verify = () => {
   const [code, setCode] = useState("");
   const [email, setEmail] = useState("");
 
+  const verifyEmail = localStorage.getItem("verifyEmail")
+  console.log("Verify email", verifyEmail);
+  
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     const payload = { code, email };

@@ -6,7 +6,7 @@ import { sendOTP } from "../../../../helpers/sendOTP";
 export async function POST(req: NextRequest) {
   const body = await req.json();
   const parsedBody = UserSchema.safeParse(body);
-
+  
   if (!parsedBody.success) {
     return NextResponse.json(
       {
