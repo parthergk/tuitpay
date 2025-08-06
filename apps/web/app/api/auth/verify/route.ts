@@ -6,7 +6,6 @@ export async function POST(req: NextRequest) {
   try {
 
     const body = await req.json();
-    console.log("Body", body);
 
     const parsedBody = CodeSchema.safeParse(body);
     
@@ -33,7 +32,7 @@ export async function POST(req: NextRequest) {
         { status: 404 }
       );
     }
-
+    
     if (user.verifyCodePurpose === "register") {
       if (user.isVerified) {
         return NextResponse.json(
