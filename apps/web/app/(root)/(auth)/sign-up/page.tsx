@@ -71,7 +71,6 @@ const Register = () => {
 
       router.push("/verify");
     } catch (error) {
-      console.error("Registration error:", error);
       setSubmitError(
         "Network error. Please check your connection and try again."
       );

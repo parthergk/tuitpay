@@ -16,7 +16,7 @@ const Verify = () => {
 
   // Resend functionality
   const [canResend, setCanResend] = useState(false);
-  const [resendCountdown, setResendCountdown] = useState(10);
+  const [resendCountdown, setResendCountdown] = useState(60);
   const [isResending, setIsResending] = useState(false);
   const [resendMessage, setResendMessage] = useState("");
 
@@ -25,9 +25,9 @@ const Verify = () => {
     if (storedEmail) {
       setEmail(storedEmail);
     }
+    inputsRef.current[0]?.focus();
   }, []);
 
-  // Countdown timer for resend functionality
   useEffect(() => {
     let timer: NodeJS.Timeout;
 
@@ -67,7 +67,6 @@ const Verify = () => {
     const payload = { code: verificationCode, email };
 
     try {
-      console.log("API call");
       const res = await fetch("/api/auth/verify", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -93,7 +92,6 @@ const Verify = () => {
         inputsRef.current[0]?.focus();
       }
     } catch (error) {
-      console.error("Verification error:", error);
       const errorMessage =
         error instanceof Error
           ? error.message
@@ -134,7 +132,6 @@ const Verify = () => {
       setCode(new Array(4).fill(""));
       inputsRef.current[0]?.focus();
     } catch (error) {
-      console.error("Resend error:", error);
       const errorMessage =
         error instanceof Error
           ? error.message
@@ -163,19 +160,8 @@ const Verify = () => {
     e: React.KeyboardEvent<HTMLInputElement>,
     index: number
   ) {
-    if (e.key === "Backspace") {
-      if (e.currentTarget.value) {
-        // Clear current input
-        const newArray = [...code];
-        newArray[index] = "";
-        setCode(newArray);
-      } else if (index > 0) {
-        // Move to previous input and clear it
-        const newArray = [...code];
-        newArray[index - 1] = "";
-        setCode(newArray);
+    if (e.key === "Backspace"&& index > 0 && !(e.currentTarget.value)) {
         inputsRef.current[index - 1]?.focus();
-      }
     }
 
     if (e.key === "ArrowRight" && index < 3) {
