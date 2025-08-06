@@ -1,16 +1,22 @@
-"use client"
-import React, { useState } from "react";
+"use client";
+import React, { useEffect, useRef, useState } from "react";
 
 const Verify = () => {
-  const [code, setCode] = useState("");
+  const [code, setCode] = useState<string[]>(new Array(4).fill(""));
+  const inputsRef = useRef<Array<HTMLInputElement | null>>([]);
+
   const [email, setEmail] = useState("");
 
-  const verifyEmail = localStorage.getItem("verifyEmail")
-  console.log("Verify email", verifyEmail);
-  
+  useEffect(() => {
+    const storedEmail = localStorage.getItem("verifyEmail");
+    if (storedEmail) {
+      setEmail(storedEmail);
+    }
+  }, []);
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    const payload = { code, email };
+    const payload = { code: code.join(""), email };
     console.log("Register payload:", payload);
     try {
       const res = await fetch("/api/auth/verify", {
@@ -18,7 +24,7 @@ const Verify = () => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
-      
+
       if (!res.ok) {
         throw new Error("Registration failed");
       }
@@ -29,26 +35,44 @@ const Verify = () => {
       console.error(err);
     }
   }
+
+  function handleInputChange(value: string, index: number) {
+    const newValue = value.trim();
+    const newArray = [...code];
+    newArray[index] = newValue;
+    setCode(newArray);
+
+    if (newValue && index < 3) {
+      inputsRef.current[index + 1]?.focus();
+    }
+  }
+
+  function handleBackspace(e: React.KeyboardEvent<HTMLInputElement>, index: number) {
+    if (e.key === "Backspace" && index > 0 && !(e.currentTarget.value)) {
+      inputsRef.current[index - 1]?.focus();
+    }
+  }
+
   return (
-    <div>
+    <div className="shadow-lg w-md m-auto flex justify-center p-2 rounded-lg mt-5">
       <form onSubmit={handleSubmit}>
-        <label>OTP</label>
-        <input
-          type="text"
-          value={code}
-          onChange={(e) => setCode(e.target.value)}
-          />
-          <br />
-          <br />
-          <label>Email</label>
-        <input
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-          <br />
-          <br />
-        <button type="submit">Submit</button>
+        <div className="w-full flex flex-col justify-center items-center">
+          <label className="text-center w-full border-b pb-2">OTP</label>
+          <div className="grid grid-cols-4 gap-2 mt-5">
+            {code.map((otp, index) => (
+              <input
+                key={index}
+                ref={(el) => {inputsRef.current[index] = el}}
+                maxLength={1}
+                className="border h-10 w-10 text-center"
+                value={otp}
+                onChange={(e) => handleInputChange(e.target.value, index)}
+                onKeyDown={(e) => handleBackspace(e, index)}
+              />
+            ))}
+          </div>
+        </div>
+        <button type="submit" className="mt-5 px-2 bg-gray-100 rounded-sm">Submit</button>
       </form>
     </div>
   );
