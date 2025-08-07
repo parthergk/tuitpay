@@ -5,7 +5,9 @@ import { NextRequest, NextResponse } from "next/server";
 export async function POST(req: NextRequest) {
   const body = await req.json();
 
-  if (!body.email || !body.resetPassword) {
+  console.log("Body", body);
+  
+  if (!body.email || !body.password) {
     return NextResponse.json(
       { success: false, message: "Email and new password are required" },
       { status: 400 }
@@ -30,7 +32,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const hashedPassword = await bcryptjs.hash(body.resetPassword, 10);
+    const hashedPassword = await bcryptjs.hash(body.password, 10);
 
     await User.updateOne(
       { email: body.email },

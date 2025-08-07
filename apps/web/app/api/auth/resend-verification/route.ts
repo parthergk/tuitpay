@@ -32,7 +32,6 @@ export async function POST(req: NextRequest) {
 
     user.set({
       verifyCode: verificationCode,
-      verifyCodePurpose: "register",
       verifyCodeExpires: new Date(Date.now() + 15 * 60 * 1000),
       isVerified: false,
     });

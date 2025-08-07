@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 interface Inputs {
@@ -11,6 +11,7 @@ const Reset = () => {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<Inputs>();
 
@@ -24,14 +25,19 @@ const Reset = () => {
         body: JSON.stringify({ email, password }),
       });
 
+      const data = await res.json();
+      
       if (!res.ok) {
-        throw new Error("Registration failed");
+        throw new Error(data.message || `HTTP error! status: ${res.status}`);
+      }
+      if (data.success === false) {
+        throw new Error(data.message || 'Operation failed');
       }
 
-      const data = await res.json();
-      console.log("Registration success:", data);
+      reset();
+      console.log("Success:", data);
     } catch (err) {
-      console.error(err);
+      console.log(err);
     }
   };
   return (

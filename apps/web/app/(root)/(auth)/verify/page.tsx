@@ -44,12 +44,12 @@ const Verify = () => {
     };
   }, [resendCountdown, canResend]);
 
-  useEffect(()=>{
+  useEffect(() => {
     const isComplete = code.every((digit) => digit !== "");
     if (isComplete && !isSubmitting) {
       handleSubmit();
     }
-  },[code]);
+  }, [code]);
 
   const handleSubmit = async (e?: React.FormEvent) => {
     if (e) e.preventDefault();
@@ -83,6 +83,14 @@ const Verify = () => {
         setSubmitSuccess(data.message || "Email verified successfully!");
         localStorage.removeItem("verifyEmail");
 
+        console.log("Purpose", data);
+        
+        if (data.purpose === "forgot-password") {
+          router.push("/reset");
+        }
+        if (data.purpose === "register") {
+          router.push("/sign-in");
+        }
         // setTimeout(() => {
         //   router.push("/login");
         // }, 2000);
@@ -160,8 +168,8 @@ const Verify = () => {
     e: React.KeyboardEvent<HTMLInputElement>,
     index: number
   ) {
-    if (e.key === "Backspace"&& index > 0 && !(e.currentTarget.value)) {
-        inputsRef.current[index - 1]?.focus();
+    if (e.key === "Backspace" && index > 0 && !e.currentTarget.value) {
+      inputsRef.current[index - 1]?.focus();
     }
 
     if (e.key === "ArrowRight" && index < 3) {

@@ -70,6 +70,7 @@ export async function POST(req: NextRequest) {
         {
           success: true,
           message: "User verified successfully",
+          purpose: user.verifyCodePurpose
         },
         { status: 200 }
       );
@@ -108,6 +109,7 @@ export async function POST(req: NextRequest) {
         {
           success: true,
           message: "OTP verified, you can now reset your password",
+          purpose: user.verifyCodePurpose
         },
         { status: 200 }
       );
