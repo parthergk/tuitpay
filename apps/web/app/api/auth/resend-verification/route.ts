@@ -10,7 +10,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json(
       {
         success: false,
-        message: "Email is required",
+        error: "Email is required",
       },
       { status: 400 }
     );
@@ -21,7 +21,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json(
       {
         success: false,
-        message: "No user found with this email",
+        error: "No user found with this email",
       },
       { status: 404 }
     );
@@ -46,7 +46,7 @@ export async function POST(req: NextRequest) {
     if (!emailResponse.success) {
       return NextResponse.json({
         success: false,
-        message: emailResponse.message,
+        message: emailResponse.error,
       });
     }
 
@@ -62,7 +62,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json(
       {
         success: false,
-        message: "Internal server error. Please try again later.",
+        error: "Internal server error. Please try again later.",
       },
       { status: 500 }
     );

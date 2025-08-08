@@ -9,16 +9,16 @@ const Verify = () => {
   const inputsRef = useRef<Array<HTMLInputElement | null>>([]);
 
   // State management
-  const [email, setEmail] = useState("");
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitError, setSubmitError] = useState("");
-  const [submitSuccess, setSubmitSuccess] = useState("");
+  const [email, setEmail] = useState<string>("");
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const [submitError, setSubmitError] = useState<string>("");
+  const [submitSuccess, setSubmitSuccess] = useState<string>("");
 
   // Resend functionality
-  const [canResend, setCanResend] = useState(false);
-  const [resendCountdown, setResendCountdown] = useState(60);
-  const [isResending, setIsResending] = useState(false);
-  const [resendMessage, setResendMessage] = useState("");
+  const [canResend, setCanResend] = useState<boolean>(false);
+  const [resendCountdown, setResendCountdown] = useState<number>(60);
+  const [isResending, setIsResending] = useState<boolean>(false);
+  const [resendMessage, setResendMessage] = useState<string>("");
 
   useEffect(() => {
     const storedEmail = localStorage.getItem("verifyEmail");
@@ -76,7 +76,7 @@ const Verify = () => {
       const data = await res.json();
 
       if (!res.ok) {
-        throw new Error(data.message || "Verification failed");
+        throw new Error(data.error || "Verification failed");
       }
 
       if (data.success) {
@@ -84,7 +84,7 @@ const Verify = () => {
         localStorage.removeItem("verifyEmail");
 
         console.log("Purpose", data);
-        
+
         if (data.purpose === "forgot-password") {
           router.push("/reset");
         }
@@ -95,7 +95,7 @@ const Verify = () => {
         //   router.push("/login");
         // }, 2000);
       } else {
-        setSubmitError(data.message || "Verification failed");
+        setSubmitError(data.error || "Verification failed");
         setCode(new Array(4).fill(""));
         inputsRef.current[0]?.focus();
       }
@@ -129,9 +129,13 @@ const Verify = () => {
       const data = await res.json();
 
       if (!res.ok) {
-        throw new Error(data.message || "Failed to resend code");
+        throw new Error(data.error || "Failed to resend code");
       }
 
+      if (data.success === false) {
+        console.log("Error from the not success");
+        throw new Error(data.error || "Operation failed");
+      }
       setResendMessage("Verification code sent successfully!");
       setCanResend(false);
       setResendCountdown(60);

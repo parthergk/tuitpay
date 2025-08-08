@@ -15,6 +15,7 @@ const ForgotPassword = () => {
   } = useForm<Inputs>();
   const router = useRouter();
   const [message, setMessage] = useState<string>("");
+  const [errorMsg, setErrorMsg] = useState<string>("");
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     const email = data.email;
@@ -24,14 +25,14 @@ const ForgotPassword = () => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email }),
       });
-      
+
       const data = await res.json();
       if (!res.ok) {
-        throw new Error(data.message || `HTTP error! status: ${res.status}`);
+        throw new Error(data.error || `HTTP error! status: ${res.status}`);
       }
 
-       if (data.success === false) {
-        throw new Error(data.message || 'Operation failed');
+      if (data.success === false) {
+        throw new Error(data.error || "Operation failed");
       }
 
       setMessage(data.message);
@@ -42,7 +43,7 @@ const ForgotPassword = () => {
     } catch (err) {
       const errorMessage =
         err instanceof Error ? err.message : "Network error. Please try again.";
-      setMessage(errorMessage);
+      setErrorMsg(errorMessage);
     }
   };
   return (
@@ -50,6 +51,11 @@ const ForgotPassword = () => {
       <form onSubmit={handleSubmit(onSubmit)} className=" w-full">
         <div className=" w-1/2 flex flex-col gap-3">
           {message && <p className="mt-1 text-sm text-green-600">{message}</p>}
+          {errorMsg && (
+            <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
+              {errorMsg}
+            </div>
+          )}
           <label htmlFor="email">Email</label>
           <input
             id="email"

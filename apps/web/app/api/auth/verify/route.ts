@@ -14,7 +14,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json(
         {
           success: false,
-          message: "Email and verification code are required",
+          error: "Email and verification code are required",
         },
         { status: 400 }
       );
@@ -27,7 +27,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json(
         {
           success: false,
-          message: "No user found with this email",
+          error: "No user found with this email",
         },
         { status: 404 }
       );
@@ -37,8 +37,8 @@ export async function POST(req: NextRequest) {
       if (user.isVerified) {
         return NextResponse.json(
           {
-            success: true,
-            message: "User is already verified",
+            success: false,
+            error: "User is already verified",
           },
           { status: 200 }
         );
@@ -48,7 +48,7 @@ export async function POST(req: NextRequest) {
         return NextResponse.json(
           {
             success: false,
-            message: "Invalid verification code",
+            error: "Invalid verification code",
           },
           { status: 400 }
         );
@@ -82,7 +82,7 @@ export async function POST(req: NextRequest) {
         return NextResponse.json(
           {
             success: false,
-            message: "Invalid verification code",
+            error: "Invalid verification code",
           },
           { status: 400 }
         );
@@ -92,7 +92,7 @@ export async function POST(req: NextRequest) {
         return NextResponse.json(
           {
             success: false,
-            message: "Verification code expired",
+            error: "Verification code expired",
           },
           { status: 400 }
         );
@@ -118,7 +118,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json(
       {
         success: false,
-        message: "Invalid OTP purpose",
+        error: "Invalid OTP purpose",
       },
       { status: 400 }
     );
@@ -128,7 +128,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json(
       {
         success: false,
-        message: "Internal server error",
+        error: "Internal server error",
       },
       { status: 500 }
     );
