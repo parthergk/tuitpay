@@ -39,7 +39,7 @@ const Reset = () => {
 
       setMessage(data.message);
       reset();
-      router.push("/sign-in");
+      router.push("/login");
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : "Network error. Please try again.";
       setMessage(errorMessage);

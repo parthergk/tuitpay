@@ -39,7 +39,7 @@ const Login = () => {
       });
 
       if (result?.error) {
-        setSubmitError("Authentication failed. Please try again.");
+        setSubmitError(result.error || "Authentication failed. Please try again.");
         return;
       }
 

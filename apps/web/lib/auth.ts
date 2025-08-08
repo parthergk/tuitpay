@@ -45,8 +45,9 @@ export const authOptions: NextAuthOptions = {
             plan: user.planType
           };
         } catch (error) {
+          const errorMsg = error instanceof Error ? error.message : "Authentication failed"
           console.error("Auth error", error);
-          throw new Error("Authentication failed");
+          throw new Error( errorMsg || "Authentication failed");
         }
       },
     }),

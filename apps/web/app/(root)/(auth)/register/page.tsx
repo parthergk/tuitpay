@@ -47,24 +47,22 @@ const Register = () => {
         body: JSON.stringify(data),
       });
 
-      const resData = await response.json();
+      const result = await response.json();
 
       if (!response.ok) {
         console.log("Error from the not ok");
 
         throw new Error(
-          resData.error || "Registration failed. Please try again."
+          result.error || "Registration failed. Please try again."
         );
       }
 
-      if (resData.success === false) {
+      if (result.success === false) {
         console.log("Error from the not success");
-        throw new Error(resData.error || "Operation failed");
+        throw new Error(result.error || "Operation failed");
       }
 
-      const result = await response.json();
-
-      setMessage(result.data.message);
+      setMessage(result.message);
       localStorage.setItem("verifyEmail", result.data.email);
       reset();
 

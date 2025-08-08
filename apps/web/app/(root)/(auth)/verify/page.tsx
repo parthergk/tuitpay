@@ -89,7 +89,7 @@ const Verify = () => {
           router.push("/reset");
         }
         if (data.purpose === "register") {
-          router.push("/sign-in");
+          router.push("/login");
         }
         // setTimeout(() => {
         //   router.push("/login");
