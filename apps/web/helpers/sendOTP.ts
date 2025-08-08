@@ -13,7 +13,7 @@ export async function sendOTP(
   email: string,
   name: string,
   code: string
-): Promise<{ success: boolean; message: string }> {
+): Promise<{ success: boolean; message?: string; error?:string; status:number }> {
   try {
     await transporter.sendMail({
       from: process.env.SENDGRID_FROM,
@@ -42,9 +42,9 @@ export async function sendOTP(
 
         `,
     });
-    return { success: true, message: "Verification email sent successfully." };
+    return { success: true, message: "Verification email sent successfully.",  status: 201  };
   } catch (error) {
     console.error("Error sending verification email:", error);
-    return { success: false, message: "Failed to send verification email." };
+    return { success: false, error: "Failed to send verification email.", status: 500 };
   }
 }

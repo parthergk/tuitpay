@@ -24,12 +24,16 @@ const ForgotPassword = () => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email }),
       });
-
+      
+      const data = await res.json();
       if (!res.ok) {
-        throw new Error("Registration failed");
+        throw new Error(data.message || `HTTP error! status: ${res.status}`);
       }
 
-      const data = await res.json();
+       if (data.success === false) {
+        throw new Error(data.message || 'Operation failed');
+      }
+
       setMessage(data.message);
       localStorage.setItem("verifyEmail", email);
       reset();

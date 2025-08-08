@@ -12,7 +12,7 @@ export async function POST(req: NextRequest) {
       {
         success: false,
         message: "Invalid Inputs",
-        errors: parsedBody.error.flatten(),
+        error: parsedBody.error.flatten(),
       },
       { status: 400 }
     );
@@ -32,7 +32,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json(
         {
           success: false,
-          message: `User already exists with this ${field}`,
+          error: `User already exists with this ${field}`,
         },
         { status: 409 }
       );
@@ -61,8 +61,8 @@ export async function POST(req: NextRequest) {
     if (!emailResponse.success) {
       return NextResponse.json({
         success: false,
-        message: emailResponse.message,
-      });
+        error: emailResponse.error,
+      },{status: emailResponse.status});
     }
 
     return NextResponse.json(
@@ -83,7 +83,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json(
       {
         success: false,
-        message: "Internal server error. Please try again later.",
+        error: "Internal server error. Please try again later.",
       },
       { status: 500 }
     );

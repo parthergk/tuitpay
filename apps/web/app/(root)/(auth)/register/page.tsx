@@ -22,7 +22,7 @@ const Register = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors, isSubmitting, isSubmitSuccessful },
     reset,
     setError,
   } = useForm<Inputs>({
@@ -32,13 +32,12 @@ const Register = () => {
   const router = useRouter();
   const [show, setShow] = useState<boolean>(false);
   const [submitError, setSubmitError] = useState<string>("");
-  const [submitSuccess, setSubmitSuccess] = useState<boolean>(false);
+  const [message, setMessage] = useState<string>("");
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    
     try {
       setSubmitError("");
-      setSubmitSuccess(false);
+      setMessage("");
 
       const response = await fetch("/api/auth/register", {
         method: "POST",
@@ -48,46 +47,49 @@ const Register = () => {
         body: JSON.stringify(data),
       });
 
-      if (!response.ok) {
-        const errorData: ApiError = await response.json();
+      const resData = await response.json();
 
-        if (errorData.field) {
-          setError(errorData.field as keyof Inputs, {
-            type: "server",
-            message: errorData.message,
-          });
-        } else {
-          setSubmitError(
-            errorData.message || "Registration failed. Please try again."
-          );
-        }
-        return;
+      if (!response.ok) {
+        console.log("Error from the not ok");
+
+        throw new Error(
+          resData.error || "Registration failed. Please try again."
+        );
       }
 
-      const result = await response.json();      
+      if (resData.success === false) {
+        console.log("Error from the not success");
+        throw new Error(resData.error || "Operation failed");
+      }
+
+      const result = await response.json();
+
+      setMessage(result.data.message);
       localStorage.setItem("verifyEmail", result.data.email);
-      setSubmitSuccess(true);
       reset();
 
       router.push("/verify");
-    } catch (error) {
+    } catch (err) {
+      const errorMessage =
+        err instanceof Error ? err.message : "server side error";
       setSubmitError(
-        "Network error. Please check your connection and try again."
+        errorMessage ||
+          "Network error. Please check your connection and try again."
       );
     }
   };
 
-  function togglePasswordVisibility (){
-    setShow((pre)=>!pre)
+  function togglePasswordVisibility() {
+    setShow((pre) => !pre);
   }
 
   return (
     <div className="max-w-md mx-auto p-6 bg-white rounded-lg shadow-md">
       <h1 className="text-2xl font-bold mb-6 text-center">Register</h1>
 
-      {submitSuccess && (
+      {message && (
         <div className="mb-4 p-3 bg-green-100 border border-green-400 text-green-700 rounded">
-          Registration successful! Please check your email for verification.
+          {message}
         </div>
       )}
 
@@ -181,49 +183,49 @@ const Register = () => {
         </div>
 
         <div>
-            <label
-              htmlFor="password"
-              className="block text-sm font-medium text-gray-700 mb-1"
+          <label
+            htmlFor="password"
+            className="block text-sm font-medium text-gray-700 mb-1"
+          >
+            Password <span className="text-red-500">*</span>
+          </label>
+          <div
+            className={`w-full border rounded-md focus-within:ring-2 focus-within:ring-blue-500 flex justify-center items-center ${
+              errors.password ? "border-red-500" : "border-gray-300"
+            }`}
+          >
+            <input
+              id="password"
+              type={show ? "text" : "password"}
+              autoComplete="current-password"
+              className="w-full px-3 py-2 focus:outline-none rounded-l-md"
+              {...register("password", {
+                required: "Password is required",
+                minLength: {
+                  value: 8,
+                  message: "Password must be at least 8 characters",
+                },
+              })}
+            />
+            <button
+              type="button"
+              className="px-3 py-2 cursor-pointer hover:bg-gray-50 rounded-r-md transition-colors"
+              onClick={togglePasswordVisibility}
+              aria-label={show ? "Hide password" : "Show password"}
             >
-              Password <span className="text-red-500">*</span>
-            </label>
-            <div
-              className={`w-full border rounded-md focus-within:ring-2 focus-within:ring-blue-500 flex justify-center items-center ${
-                errors.password ? "border-red-500" : "border-gray-300"
-              }`}
-            >
-              <input
-                id="password"
-                type={show ? "text" : "password"}
-                autoComplete="current-password"
-                className="w-full px-3 py-2 focus:outline-none rounded-l-md"
-                {...register("password", {
-                  required: "Password is required",
-                  minLength: {
-                    value: 8,
-                    message: "Password must be at least 8 characters",
-                  },
-                })}
-              />
-              <button
-                type="button"
-                className="px-3 py-2 cursor-pointer hover:bg-gray-50 rounded-r-md transition-colors"
-                onClick={togglePasswordVisibility}
-                aria-label={show ? "Hide password" : "Show password"}
-              >
-                {show ? (
-                  <EyeOff className="h-4 w-4 text-gray-500" />
-                ) : (
-                  <Eye className="h-4 w-4 text-gray-500" />
-                )}
-              </button>
-            </div>
-            {errors.password && (
-              <p className="mt-1 text-sm text-red-600">
-                {errors.password.message}
-              </p>
-            )}
+              {show ? (
+                <EyeOff className="h-4 w-4 text-gray-500" />
+              ) : (
+                <Eye className="h-4 w-4 text-gray-500" />
+              )}
+            </button>
           </div>
+          {errors.password && (
+            <p className="mt-1 text-sm text-red-600">
+              {errors.password.message}
+            </p>
+          )}
+        </div>
 
         <div>
           <label
@@ -265,7 +267,12 @@ const Register = () => {
           {isSubmitting ? "Registering..." : "Register"}
         </button>
       </form>
-      <div className=" mt-2">Already Have An Account? <Link href={"/sign-in"} className="ml-0.5 underline">Sign-in</Link></div>
+      <div className=" mt-2">
+        Already Have An Account?{" "}
+        <Link href={"/sign-in"} className="ml-0.5 underline">
+          Sign-in
+        </Link>
+      </div>
     </div>
   );
 };

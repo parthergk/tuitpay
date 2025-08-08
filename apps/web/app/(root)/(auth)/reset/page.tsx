@@ -1,5 +1,6 @@
 "use client";
-import React from "react";
+import { useRouter } from "next/navigation";
+import React, { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 interface Inputs {
@@ -12,8 +13,10 @@ const Reset = () => {
     register,
     handleSubmit,
     reset,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<Inputs>();
+  const router = useRouter();
+  const [message, setMessage] = useState<string>("");
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     const { email, password } = data;
@@ -34,16 +37,25 @@ const Reset = () => {
         throw new Error(data.message || 'Operation failed');
       }
 
+      setMessage(data.message);
       reset();
-      console.log("Success:", data);
+      router.push("/sign-in");
     } catch (err) {
-      console.log(err);
+      const errorMessage = err instanceof Error ? err.message : "Network error. Please try again.";
+      setMessage(errorMessage);
     }
   };
   return (
     <div className=" m-auto flex w-xl shadow-xl p-2">
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className=" flex flex-col gap-5">
+          {
+            message && (
+             <p className="mt-1 text-sm text-green-600">
+                {message}
+              </p>
+            )
+          }
           <div className=" flex gap-2">
             <label>New Password</label>
             <input
@@ -83,8 +95,11 @@ const Reset = () => {
               </p>
             )}
           </div>
-          <button type="submit" className=" bg-gray-100">
-            Submit
+          <button type="submit" className=" bg-gray-100" disabled={isSubmitting}>
+            {
+              isSubmitting? "Submitting" : "Submit"
+            }
+            
           </button>
         </div>
       </form>
