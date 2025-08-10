@@ -42,12 +42,13 @@ export const authOptions: NextAuthOptions = {
           return {
             id: user._id.toString(),
             email: user.email,
-            plan: user.planType
+            plan: user.planType,
           };
         } catch (error) {
-          const errorMsg = error instanceof Error ? error.message : "Authentication failed"
+          const errorMsg =
+            error instanceof Error ? error.message : "Authentication failed";
           console.error("Auth error", error);
-          throw new Error( errorMsg || "Authentication failed");
+          throw new Error(errorMsg || "Authentication failed");
         }
       },
     }),
@@ -63,8 +64,8 @@ export const authOptions: NextAuthOptions = {
     },
 
     async session({ session, token }) {
-      ((session.user.id = token.id as string),
-        (session.user.plan = token.plan as string));
+      session.user.id = token.id as string;
+      session.user.plan = token.plan as string;
       return session;
     },
   },
@@ -78,14 +79,14 @@ export const authOptions: NextAuthOptions = {
     strategy: "jwt",
     maxAge: 30 * 24 * 60 * 60,
   },
-  jwt: {
-  encode: async ({ token, secret }) => {
-    return jwt.sign(token!, secret, { algorithm: "HS256" });
-  },
-  decode: async ({ token, secret }) => {
-    return jwt.verify(token!, secret) as JWT;
-  },
-},
+  // jwt: {
+  //   encode: async ({ token, secret }) => {
+  //     return jwt.sign(token!, secret, { algorithm: "HS256" });
+  //   },
+  //   decode: async ({ token, secret }) => {
+  //     return jwt.verify(token!, secret) as JWT;
+  //   },
+  // },
 
   secret: process.env.NEXTAUTH_SECRET,
 };

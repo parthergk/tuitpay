@@ -1,35 +1,27 @@
 import { NextFunction, Request, Response } from "express";
-import jwt, { JwtPayload } from "jsonwebtoken";
+import { getToken } from "next-auth/jwt";
 
-export function verifyJwt(req: Request, res: Response, next: NextFunction) {
-  const token =
-    req.cookies["next-auth.session-token"] ||
-    req.cookies["__Secure-next-auth.session-token"];
-    
-  if (!token) {
-    res.status(400).json({ message: "Not authenticated" });
-    return;
-  }
-
+export async function verifyJwt(req: Request, res: Response, next: NextFunction):Promise<void> {
   try {
-    const secret = process.env.NEXTAUTH_SECRET!;
+    const token = await getToken({
+      req: { cookies: req.cookies, headers: req.headers } as any,
+      secret: process.env.NEXTAUTH_SECRET,
+    });
 
-    const decoded = jwt.verify(token, secret) as JwtPayload;
-
-    if (decoded) {
-      req.user = {
-        id: decoded.id.toString(),
-        email: decoded.email,
-        plan: decoded.plan,
-      };
-      next();
-      return;
+    if (!token) {
+       res.status(401).json({ message: "Not authenticated" });
+       return;
     }
 
-    res.status(401).json({ message: "Unauthorized" });
+    req.user = {
+      id: token.id as string,
+      email: token.email as string,
+      plan: token.plan as string,
+    };
+
+    next();
   } catch (err) {
-    console.log("ERROR : ", err);
+    console.error("ERROR: ", err);
     res.status(401).json({ message: "Invalid token" });
-    return;
   }
 }

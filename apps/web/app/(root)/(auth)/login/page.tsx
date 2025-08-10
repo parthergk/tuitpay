@@ -46,7 +46,8 @@ const Login = () => {
       if (result?.ok) {
         setSubmitSuccess(true);
         reset();
-
+        console.log("Result from login", result);
+        
         setTimeout(() => {
           router.push("/dashboard");
         }, 1000);

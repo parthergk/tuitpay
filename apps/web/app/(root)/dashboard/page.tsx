@@ -38,6 +38,8 @@ export default function DashboardPage() {
         if (!response.ok) throw new Error("Failed to fetch dashboard data");
 
         const { data } = await response.json();
+        console.log("Data",data);
+        
         setDashboardData(data);
         profileContext.setUserDetail(data.teacherInfo);
       } catch (error) {
