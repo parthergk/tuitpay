@@ -9,14 +9,17 @@ import { IUser } from "@repo/types";
 import StudentForm from "../../../components/student/StudentForm";
 
 interface DashboardData {
-  teacherInfo: IUser;
+  teacher: IUser;
   students: any[];
-  paid: any[];
-  unpaid: any[];
-  overDue: any[];
+  payments:{
+    paid: any[];
+    unpaid: any[];
+    overDue: any[];
+  }
 }
 
 export default function DashboardPage() {
+  const [errorMsg, setErrorMsg] = useState("");
   const [showForm, setShowForm] = useState(false);
   const [dashboardData, setDashboardData] = useState<DashboardData | null>(
     null
@@ -35,15 +38,25 @@ export default function DashboardPage() {
           credentials: "include",
         });
 
-        if (!response.ok) throw new Error("Failed to fetch dashboard data");
+        if (!response.ok) {
+          throw new Error(
+            `Failed to fetch dashboard data`
+          );
+        }
 
-        const { data } = await response.json();
-        console.log("Data",data);
+        const result = await response.json();
         
-        setDashboardData(data);
-        profileContext.setUserDetail(data.teacherInfo);
+        if (result.success === false) {
+          throw new Error(result.message || "Please try again later.");
+        }
+        
+        setDashboardData(result.data);
+        profileContext.setUserDetail(result.data.teacher);
       } catch (error) {
         console.error("Error fetching dashboard data:", error);
+        const errorMessage =
+          error instanceof Error ? error.message : "Please try again";
+        setErrorMsg(errorMessage);
       } finally {
         setIsLoading(false);
       }
@@ -52,20 +65,21 @@ export default function DashboardPage() {
     fetchDashboardData();
   }, []);
 
-  const statCards = [
+
+   const statCards = [
     {
       title: "Total Paid",
-      count: dashboardData?.paid.length || 0,
+      count: dashboardData?.payments?.paid?.length || 0,
       color: "bg-gray-500",
     },
     {
       title: "Total Unpaid",
-      count: dashboardData?.unpaid.length || 0,
+      count: dashboardData?.payments?.unpaid?.length || 0,
       color: "bg-gray-500",
     },
     {
       title: "Total Overdue",
-      count: dashboardData?.overDue.length || 0,
+      count:  dashboardData?.payments?.overDue?.length || 0,
       color: "bg-gray-500",
     },
   ];
@@ -73,7 +87,7 @@ export default function DashboardPage() {
   function handleAddStudent() {
     setShowForm((pre) => !pre);
   }
-
+  
   return (
     <div className="m-2 bg-gray-400 rounded-lg p-4 shadow">
       <div>
@@ -81,6 +95,9 @@ export default function DashboardPage() {
         <p className="text-sm text-gray-500">Track your students’ fee status</p>
       </div>
 
+      {/* error message */}
+      {errorMsg && <p className="mt-4 text-red-500">{errorMsg}</p>}
+      
       {/* stat data */}
       {isLoading ? (
         <p className="mt-4 text-gray-500">Loading...</p>
@@ -118,23 +135,23 @@ export default function DashboardPage() {
             </button>
           </div>
           {dashboardData?.students.map((student) => (
-            <Student key={student.name} student={student}  />
+            <Student key={student.name} student={student} />
           ))}
           <StudentForm isOpen={showForm} setIsOpen={setShowForm} />
         </div>
         {/* teacher data */}
 
-        {dashboardData?.teacherInfo && (
+        {dashboardData?.teacher && (
           <TeacherCard
-            name={dashboardData.teacherInfo.name}
-            email={dashboardData.teacherInfo.email}
-            phone={dashboardData.teacherInfo.phone}
-            tuitionClassName={dashboardData.teacherInfo.tuitionClassName}
-            planType={dashboardData.teacherInfo.planType}
-            planStatus={dashboardData.teacherInfo.planStatus}
-            studentLimit={dashboardData.teacherInfo.studentLimit}
-            planActivatedAt={dashboardData.teacherInfo.planActivatedAt}
-            planExpiresAt={dashboardData.teacherInfo.planExpiresAt}
+            name={dashboardData.teacher.name}
+            email={dashboardData.teacher.email}
+            phone={dashboardData.teacher.phone}
+            tuitionClassName={dashboardData.teacher.tuitionClassName}
+            planType={dashboardData.teacher.planType}
+            planStatus={dashboardData.teacher.planStatus}
+            studentLimit={dashboardData.teacher.studentLimit}
+            planActivatedAt={dashboardData.teacher.planActivatedAt}
+            planExpiresAt={dashboardData.teacher.planExpiresAt}
           />
         )}
       </div>

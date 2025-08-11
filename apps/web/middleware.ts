@@ -7,16 +7,9 @@ export default withAuth(
   },
   {
     callbacks: {
-      authorized: ({ token, req }) => {        
-        const { pathname } = req.nextUrl;
-        if (pathname.startsWith("/home")) {
-            return true;
-        }
-        if (pathname.startsWith("/login") || pathname.startsWith("register")) {
-            return true;
-        }
-        return !!token;
+      authorized: ({ token, req }) => {
 
+        return !!token;
       },
     },
     pages: {
@@ -26,5 +19,5 @@ export default withAuth(
 );
 
 export const config = {
-  matcher: ["/dashboard/:path*"],
+  matcher: ["/dashboard/:path*", "/student/:path*"],
 };
