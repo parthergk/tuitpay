@@ -28,7 +28,7 @@ studentRouter.post(
   verifyJwt,
   checkPlanLimit,
   async (req: Request, res: Response) => {
-    const { data } = req.body;
+    const data = req.body;
 
     const userBody = req.user;
 
@@ -38,7 +38,8 @@ studentRouter.post(
       if (!parsedBody.success) {
         console.error("Validation error:", parsedBody.error);
         res.status(422).json({
-          message: "Invalid student inputs",
+          success: false,
+          error: "Invalid student inputs",
           errors: parsedBody.error.format(),
         });
         return;
@@ -46,7 +47,7 @@ studentRouter.post(
 
       const teacher = await User.findById(userBody.id);
       if (!teacher) {
-        res.status(404).json({ message: "Teacher not found" });
+        res.status(404).json({ success: false, error: "Teacher not found" });
         return;
       }
 
@@ -57,11 +58,10 @@ studentRouter.post(
       });
 
       if (existStudent) {
-        res
-          .status(409)
-          .json({
-            message: "Student already exists with same name and contact",
-          });
+        res.status(409).json({
+          success: false,
+          error: "Student already exists with same name and contact",
+        });
         return;
       }
 
@@ -110,12 +110,17 @@ studentRouter.post(
 
       res
         .status(201)
-        .json({ message: "Student created successfully", student });
+        .json({
+          success: true,
+          message: "Student created successfully",
+          student,
+        });
       return;
     } catch (error) {
       console.error("Server error while adding student:", error);
       res.status(500).json({
-        message:
+        success: false,
+        error:
           "Internal server error. Student was not added. Please try again.",
       });
       return;
