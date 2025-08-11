@@ -4,6 +4,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 interface PropInter {
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  fetchData: () => Promise<void>
 }
 
 interface Inputs {
@@ -17,7 +18,7 @@ interface Inputs {
   feeday: number;
 }
 
-const StudentForm: React.FC<PropInter> = ({ isOpen, setIsOpen }) => {
+const StudentForm: React.FC<PropInter> = ({ isOpen, setIsOpen, fetchData }) => {
   const {
     register,
     handleSubmit,
@@ -54,6 +55,7 @@ const StudentForm: React.FC<PropInter> = ({ isOpen, setIsOpen }) => {
       }
       setMessage(result.message || "Student added successfully!");
       reset();
+      fetchData();
       setTimeout(() => {
         setIsOpen(false);
       }, 1000);

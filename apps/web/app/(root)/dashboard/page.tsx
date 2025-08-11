@@ -11,11 +11,11 @@ import StudentForm from "../../../components/student/StudentForm";
 interface DashboardData {
   teacher: IUser;
   students: any[];
-  payments:{
+  payments: {
     paid: any[];
     unpaid: any[];
     overDue: any[];
-  }
+  };
 }
 
 export default function DashboardPage() {
@@ -27,46 +27,43 @@ export default function DashboardPage() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const profileContext = useUserProfile();
 
-  useEffect(() => {
-    const fetchDashboardData = async () => {
-      try {
-        const response = await fetch("http://localhost:8080/api/v1/dashboard", {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          credentials: "include",
-        });
+  const fetchDashboardData = async () => {
+    try {
+      const response = await fetch("http://localhost:8080/api/v1/dashboard", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+      });
 
-        if (!response.ok) {
-          throw new Error(
-            `Failed to fetch dashboard data`
-          );
-        }
-
-        const result = await response.json();
-        
-        if (result.success === false) {
-          throw new Error(result.message || "Please try again later.");
-        }
-        
-        setDashboardData(result.data);
-        profileContext.setUserDetail(result.data.teacher);
-      } catch (error) {
-        console.error("Error fetching dashboard data:", error);
-        const errorMessage =
-          error instanceof Error ? error.message : "Please try again";
-        setErrorMsg(errorMessage);
-      } finally {
-        setIsLoading(false);
+      if (!response.ok) {
+        throw new Error(`Failed to fetch dashboard data`);
       }
-    };
 
+      const result = await response.json();
+
+      if (result.success === false) {
+        throw new Error(result.message || "Please try again later.");
+      }
+
+      setDashboardData(result.data);
+      profileContext.setUserDetail(result.data.teacher);
+    } catch (error) {
+      console.error("Error fetching dashboard data:", error);
+      const errorMessage =
+        error instanceof Error ? error.message : "Please try again";
+      setErrorMsg(errorMessage);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
     fetchDashboardData();
   }, []);
 
-
-   const statCards = [
+  const statCards = [
     {
       title: "Total Paid",
       count: dashboardData?.payments?.paid?.length || 0,
@@ -79,7 +76,7 @@ export default function DashboardPage() {
     },
     {
       title: "Total Overdue",
-      count:  dashboardData?.payments?.overDue?.length || 0,
+      count: dashboardData?.payments?.overDue?.length || 0,
       color: "bg-gray-500",
     },
   ];
@@ -87,7 +84,7 @@ export default function DashboardPage() {
   function handleAddStudent() {
     setShowForm((pre) => !pre);
   }
-  
+
   return (
     <div className="m-2 bg-gray-400 rounded-lg p-4 shadow">
       <div>
@@ -97,7 +94,7 @@ export default function DashboardPage() {
 
       {/* error message */}
       {errorMsg && <p className="mt-4 text-red-500">{errorMsg}</p>}
-      
+
       {/* stat data */}
       {isLoading ? (
         <p className="mt-4 text-gray-500">Loading...</p>
@@ -137,7 +134,11 @@ export default function DashboardPage() {
           {dashboardData?.students.map((student) => (
             <Student key={student.name} student={student} />
           ))}
-          <StudentForm isOpen={showForm} setIsOpen={setShowForm} />
+          <StudentForm
+            isOpen={showForm}
+            setIsOpen={setShowForm}
+            fetchData={fetchDashboardData}
+          />
         </div>
         {/* teacher data */}
 

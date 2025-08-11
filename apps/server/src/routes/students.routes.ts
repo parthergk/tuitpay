@@ -108,13 +108,11 @@ studentRouter.post(
         nextReminderAt: firstReminderDate,
       });
 
-      res
-        .status(201)
-        .json({
-          success: true,
-          message: "Student created successfully",
-          student,
-        });
+      res.status(201).json({
+        success: true,
+        message: "Student created successfully",
+        student,
+      });
       return;
     } catch (error) {
       console.error("Server error while adding student:", error);
@@ -127,6 +125,34 @@ studentRouter.post(
     }
   }
 );
+
+studentRouter.get("/:id", verifyJwt, async (req, res) => {
+  const teacherId = req.user;
+  const { id } = req.params;
+  try {
+    const student = await Student.findOne({
+      _id: id,
+      teacherId: teacherId.id,
+    }).sort({ name: 1 });
+
+    const fees = await FeePayment.find({
+      studentId: id,
+      teacherId: teacherId.id
+    })
+    if (!student || !fees) {
+      res.status(400).json({ success: false, error: "Student or fee data not found with this id"});
+      return;
+    }
+    res.status(200).json({ success: true, message: "Student", studentData:{
+      student,
+      fees
+    } });
+    return;
+  } catch (error) {
+    console.error("Error fetching student:", error);
+    res.status(500).json({success: false, error: "student not found try again" });
+  }
+});
 
 studentRouter.put("/:id", verifyJwt, async (req: Request, res: Response) => {
   const { id } = req.params;
