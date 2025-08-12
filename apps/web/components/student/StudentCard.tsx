@@ -1,19 +1,14 @@
 import { IStudent } from '@repo/types'
 import React from 'react'
 interface PropInf{
-    isLoading: boolean
-    errMsg: string
     student: IStudent | null
 }
-const StudentCard:React.FC<PropInf> = ({isLoading, errMsg, student}) => {
+const StudentCard:React.FC<PropInf> = ({student}) => {
   return (
     <div className="p-4">
         <h1 className="text-xl font-bold mb-4">Student Details</h1>
 
-        {isLoading && <p className="text-gray-500">Loading...</p>}
-        {errMsg && <p className="text-red-500">{errMsg}</p>}
-
-        {student && !isLoading && !errMsg && (
+        {student && (
           <div className="bg-white shadow rounded-lg p-4 space-y-2 border border-gray-200">
             <div>
               <span className="font-semibold">Name:</span> {student.name}
