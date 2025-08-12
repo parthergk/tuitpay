@@ -63,12 +63,12 @@ const Student = () => {
       {errorMsg && <p className="text-red-500">{errorMsg}</p>}
       {student && fees.length > 0 && !isLoading && !errorMsg && (
         <div className=" grid grid-cols-2">
-          <StudentCard student={student} />
+          <StudentCard key={student?._id.toString()} student={student} />
           <div className=" p-4">
             <h1 className="text-xl font-bold mb-4">Student Fee Record</h1>
             <div className=" flex flex-col space-y-5">
               {fees.map((fee, index) => (
-                  <FeeCard fee={fee} index={index} openIndex={openIndex} onToggle={() => setOpenIndex(openIndex===index ? null:index)}/>
+                  <FeeCard key={index} fee={fee} index={index} openIndex={openIndex} onToggle={() => setOpenIndex(openIndex===index ? null:index)}/>
               ))}
             </div>
           </div>
