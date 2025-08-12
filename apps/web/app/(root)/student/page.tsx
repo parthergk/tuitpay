@@ -1,11 +1,13 @@
 "use client";
-import { IStudent } from "@repo/types";
+import { IFeePayment, IStudent } from "@repo/types";
 import { useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import StudentCard from "../../../components/student/StudentCard";
 
 const Student = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [student, setStudent] = useState<IStudent | null>(null);
+  const [fee, setFee] = useState<IFeePayment | null>(null);
   const [errorMsg, setErrorMsg] = useState("");
   const searchParams = useSearchParams();
   const id = searchParams.get("id");
@@ -34,8 +36,9 @@ const Student = () => {
           throw new Error(data.error || "Failed to fetch student");
         }
         console.log("Data", data);
-        
+
         setStudent(data.studentData.student);
+        setFee(data.studentData.fees);
       } catch (err) {
         setErrorMsg(
           err instanceof Error
@@ -49,25 +52,13 @@ const Student = () => {
 
     fetchStudent();
   }, [id]);
-
+  
   return (
-    <div className="p-4 max-w-md mx-auto">
-      <h1 className="text-xl font-bold mb-4">Student Details</h1>
+    <div className=" grid grid-cols-2">
+      <StudentCard isLoading={isLoading} errMsg={errorMsg} student={student}/>
+      <div className="p-4">
 
-      {isLoading && <p className="text-gray-500">Loading...</p>}
-      {errorMsg && <p className="text-red-500">{errorMsg}</p>}
-
-      {student && !isLoading && !errorMsg && (
-        <div className="bg-white shadow rounded-lg p-4 space-y-2 border border-gray-200">
-          <div><span className="font-semibold">Name:</span> {student.name}</div>
-          <div><span className="font-semibold">Class:</span> {student.class}</div>
-          <div><span className="font-semibold">Subject:</span> {student.sub}</div>
-          <div><span className="font-semibold">Contact:</span> {student.contact}</div>
-          <div><span className="font-semibold">Monthly Fee:</span> {student.monthlyFee}</div>
-          <div><span className="font-semibold">Join Date:</span> {student.joinDate ? new Date(student.joinDate).toLocaleDateString() : "N/A"}</div>
-          <div><span className="font-semibold">Fee Day:</span> {student.feeDay}</div>
-        </div>
-      )}
+      </div>
     </div>
   );
 };
