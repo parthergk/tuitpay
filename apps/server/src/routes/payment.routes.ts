@@ -1,43 +1,28 @@
-import { FeePayment, Payment } from "@repo/db";
+import { Payment } from "@repo/db";
 import { Request, Response, Router } from "express";
 
-const paymentStatusRouter:Router =  Router();
+const paymentStatusRouter: Router = Router();
 
-paymentStatusRouter.get('/', async (req:Request, res:Response)=>{
-  
-    const { order_id } = req.query;
-
-  if (!order_id) {
-    res.status(400).json({
-      error: "Order ID is required"
-    });
-    return;
-  }
-
-  
+paymentStatusRouter.get("/", async (req: Request, res: Response) => {
   try {
-    const payment = await Payment.findOne({
-      razorpayOrderId: order_id as string
-    })
-
-    if (!payment) {
-       res.status(404).json({
-        status: "not_found",
-        message: "Order not found"
-      });
+    const { order_id } = req.query;
+    if (!order_id) {
+      res.status(400).json({ status: "error", message: "Missing order_id" });
       return;
     }
-    
-    res.json({
-      status: payment.status,
-      updatedAt: payment.updatedAt
-    });
 
-  } catch (error) {
-    console.error("Error checking payment status:", error);
-    res.status(500).json({
-      error: "Internal server error"
-    });
+    const payment = await Payment.findOne({ razorpayOrderId: order_id });
+    if (!payment) {
+      res.status(404).json({ status: "error", message: "Not found" });
+      return;
+    }
+
+    res.json({ status: payment.status });
+    return;
+  } catch (e) {
+    console.error(e);
+    res.status(500).json({ status: "error" });
+    return;
   }
 });
 

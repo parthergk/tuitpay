@@ -27,7 +27,7 @@ const page = () => {
   }, [params?.id]);
 
   async function handlePurchase() {
-    if (plan?.type==="free") {
+    if (plan?.type === "free") {
       router.push("/register");
       return;
     }
@@ -59,32 +59,21 @@ const page = () => {
         key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
         amount: order.amount,
         currency: "INR",
-        name: "TuitPay",
+        name: "FeeTrack",
         description: `${plan.type}`,
         order_id: order.orderId,
-        handler: async function (response: any) {
-          const verifyRes = await fetch(
-            "http://localhost:8080/api/v1/verify",
-            {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify(response),
-            }
-          );
-          const data = await verifyRes.json();
-          console.log("Data", data);
-          
-          if (data.status === "completed") {
-            router.push(
-              `/payment-status?order_id=${order.orderId}&status=completed`
-            );
-          } else {
-            router.push(
-              `/payment-status?order_id=${order.orderId}&status=failed`
-            );
-          }
+        handler: function () {
+          // Do NOT verify here (pure webhook). Just go to status page.
+          router.push(`/payment-status?order_id=${order.orderId}`);
         },
-        prefill: { email: session?.user?.email || "gauravkumar81464@gmail.com" },
+        modal: {
+          ondismiss: function () {
+            router.push(`/payment-status?order_id=${order.orderId}`);
+          },
+        },
+        prefill: {
+          email: session?.user?.email || "gauravkumar81464@gmail.com",
+        },
       };
       const rzp = new (window as any).Razorpay(options);
       rzp.open();
@@ -101,7 +90,9 @@ const page = () => {
     <div className=" w-screen h-screen bg-gray-700 text-white">
       <h1>{plan?.type}</h1>
       <p>Price: ₹{plan?.price}</p>
-      <button className=" border px-2 cursor-pointer" onClick={handlePurchase}>Purchase</button>
+      <button className=" border px-2 cursor-pointer" onClick={handlePurchase}>
+        Purchase
+      </button>
     </div>
   );
 };
