@@ -49,7 +49,7 @@ const page = () => {
         credentials: "include",
         body: JSON.stringify(payload),
       });
-      const order = await response.json()
+      const order = await response.json();
 
       const options = {
         key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
@@ -59,13 +59,29 @@ const page = () => {
         description: `${plan.type}`,
         order_id: order.orderId,
         handler: async function (response: any) {
-          console.log("Razorpay success");
-          router.push(`/payment-status?order_id=${response.razorpay_order_id}`);
+          const verifyRes = await fetch(
+            "http://localhost:8080/api/v1/verify",
+            {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(response),
+            }
+          );
+          const data = await verifyRes.json();
+          console.log("Data", data);
+          
+          if (data.status === "completed") {
+            router.push(
+              `/payment-status?order_id=${order.orderId}&status=completed`
+            );
+          } else {
+            router.push(
+              `/payment-status?order_id=${order.orderId}&status=failed`
+            );
+          }
         },
-        prefill: {
-          email: "gauravkumar81464@gmail.com",
-        },
-      }
+        prefill: { email: session?.user?.email || "gauravkumar81464@gmail.com" },
+      };
       const rzp = new (window as any).Razorpay(options);
       rzp.open();
     } catch (error) {
@@ -79,9 +95,9 @@ const page = () => {
 
   return (
     <div className=" w-screen h-screen bg-gray-700 text-white">
-      <button className=" border px-2 cursor-pointer" onClick={handlePurchase}>
-        Purchase
-      </button>
+      <h1>{plan?.type}</h1>
+      <p>Price: ₹{plan?.price}</p>
+      <button className=" border px-2 cursor-pointer" onClick={handlePurchase}>Purchase</button>
     </div>
   );
 };

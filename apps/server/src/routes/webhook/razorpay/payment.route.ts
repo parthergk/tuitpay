@@ -32,7 +32,6 @@ paymentRouter.post("/", async (req: Request, res: Response) => {
   const event = typeof body === "string" ? JSON.parse(body) : body;
 
   try {
-
     if (event.event === "payment.captured") {
       const payment = event.payload.payment.entity;
 
@@ -47,11 +46,20 @@ paymentRouter.post("/", async (req: Request, res: Response) => {
           updatedAt: getTodayDate(),
         },
         { new: true }
-      ).populate<{ planId: IPlan, userId: IUser }>([
+      ).populate<{ planId: IPlan; userId: IUser }>([
         { path: "planId", select: "type price studentLimit durationDays" },
         { path: "userId", select: "email name" },
       ]);
 
+      if (!order) {
+        res
+          .status(404)
+          .json({
+            status: "error",
+            message: "Order not found or already processed",
+          });
+        return;
+      }
       const user = order?.userId;
       const plan = order?.planId;
 
@@ -67,25 +75,21 @@ paymentRouter.post("/", async (req: Request, res: Response) => {
         planExpiresAt: expiresAt,
       });
 
-      if (order) {
-        console.log("Payment completed for order:", order._id);
-        // console.log("User email:", order.userId?.email);
-        // console.log("Plan:", order.planId?.name);
+      console.log("Payment completed for order:", order._id);
+      // console.log("User email:", order.userId?.email);
+      // console.log("Plan:", order.planId?.name);
 
-        // TODO: Send confirmation email
-        // await sendPaymentConfirmationEmail(order.userId.email, order);
+      // TODO: Send confirmation email
+      // await sendPaymentConfirmationEmail(order.userId.email, order);
 
-        res.status(200).json({
-          message: "Payment processed successfully",
-          orderId: order._id,
-        });
-      } else {
-        console.log("Order not found or already processed:", payment.order_id);
-        res.status(404).json({
-          error: "Order not found or already processed",
-        });
-      }
-    } else if (event.event === "payment.failed") {
+      res.status(200).json({
+        status: "success",
+        message: "Payment processed successfully",
+        orderId: order._id,
+      });
+      return;
+    }
+    if (event.event === "payment.failed") {
       const payment = event.payload.payment.entity;
 
       const order = await Payment.findOneAndUpdate(
@@ -102,31 +106,40 @@ paymentRouter.post("/", async (req: Request, res: Response) => {
         { new: true }
       );
 
-      if (order) {
-        console.log("Payment failed for order:", order._id);
-        res.status(200).json({
-          message: "Payment failure processed",
-          orderId: order._id,
-        });
-      } else {
-        console.log("Order not found for failed payment:", payment.order_id);
-        res.status(404).json({
-          error: "Order not found for failed payment",
-        });
+      if (!order) {
+        res
+          .status(404)
+          .json({
+            status: "error",
+            message: "Order not found for failed payment",
+          });
+        return;
       }
-    } else {
-      console.log("Unhandled event:", event.event);
+
+      console.log(`❌ Payment failed for order: ${order._id}`);
+
       res.status(200).json({
-        message: "Event received but not processed",
-        event: event.event,
+        status: "failed",
+        message: "Payment failure processed",
+        orderId: order._id,
       });
+      return;
     }
-  } catch (error) {
-    console.error("Error processing webhook:", error);
-    res.status(500).json({
-      error: "Internal server error",
-      message: "Failed to process webhook",
+    // Unhandled event
+    console.log(`ℹ️ Unhandled event: ${event.event}`);
+    res.status(200).json({
+      status: "ignored",
+      message: "Event received but not processed",
+      event: event.event,
     });
+    return;
+  } catch (error) {
+    console.error("🔥 Error processing webhook:", error);
+    res.status(500).json({
+      status: "error",
+      message: "Internal server error while processing payment webhook",
+    });
+    return;
   }
 });
 
