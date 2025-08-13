@@ -27,6 +27,10 @@ const page = () => {
   }, [params?.id]);
 
   async function handlePurchase() {
+    if (plan?.type==="free") {
+      router.push("/register");
+      return;
+    }
     if (!session) {
       console.log("Please login to make a purchase", "error");
       router.push("/login");
