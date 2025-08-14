@@ -3,6 +3,7 @@ import {  useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import {  useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import Plans from "../../../components/Plans";
 
 interface Inputs {
   email: string;
@@ -14,12 +15,12 @@ export default function Home() {
   const router = useRouter();
 
   const session = useSession();
-  useEffect(()=>{
-    if (session) {
-      router.push("/dashboard");
-      return;
-    }
-  },[])
+  // useEffect(()=>{
+  //   if (session.status==="authenticated") {
+  //     router.push("/dashboard");
+  //     return;
+  //   }
+  // },[])
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     try {
@@ -56,6 +57,7 @@ export default function Home() {
           </form>
         </div>
       )}
+      <Plans setIsPopup={setIsPopup}/>
     </div>
   );
 }
