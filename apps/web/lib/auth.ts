@@ -2,8 +2,6 @@ import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { connectTodb, User } from "@repo/db";
 import { bcryptjs } from "@repo/auth";
-import { JWT } from "next-auth/jwt";
-import jwt from "jsonwebtoken";
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -59,6 +57,7 @@ export const authOptions: NextAuthOptions = {
       if (user) {
         token.id = user.id;
         token.plan = user.plan;
+        token.email = user.email;
       }
       return token;
     },
@@ -66,6 +65,7 @@ export const authOptions: NextAuthOptions = {
     async session({ session, token }) {
       session.user.id = token.id as string;
       session.user.plan = token.plan as string;
+      session.user.email = token.email as string;
       return session;
     },
   },

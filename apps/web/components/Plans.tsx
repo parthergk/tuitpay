@@ -25,7 +25,7 @@ const Plans = ({
     fetchProducts();
   }, []);
 
-  async function handlePurchase(plan) {
+  async function handlePurchase(plan:IPlan) {
     if (session.status === "unauthenticated") {
       setIsPopup(true);
       return;
@@ -56,7 +56,6 @@ const Plans = ({
         description: `${plan.type}`,
         order_id: order.orderId,
         handler: function () {
-          // Do NOT verify here (pure webhook). Just go to status page.
           router.push(`/payment-status?order_id=${order.orderId}`);
         },
         modal: {
@@ -65,7 +64,7 @@ const Plans = ({
           },
         },
         prefill: {
-          email: session.data?.user.email || "gauravkumar81464@gmail.com",
+          email: session.data?.user.email,
         },
       };
       const rzp = new (window as any).Razorpay(options);
@@ -97,7 +96,7 @@ const Plans = ({
                 className= {`border px-2  ${session.data?.user.plan === plan.type?  "bg-gray-100 cursor-not-allowed":"hover:bg-gray-300 cursor-pointer"}`}
                 onClick={()=>handlePurchase(plan)}
               >
-                {`${session.data?.user.plan === plan.type? "Activated": "Purchase"}`}
+                {`${session.data?.user.plan === plan.type? "Your current plan": plan.type}`}
 
               </button>
             </div>

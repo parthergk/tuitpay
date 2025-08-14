@@ -50,7 +50,7 @@ const Login = () => {
         
         setTimeout(() => {
           router.push("/dashboard");
-        }, 1000);
+        }, 500);
       }
     } catch (error) {
       console.error("Login error:", error);
