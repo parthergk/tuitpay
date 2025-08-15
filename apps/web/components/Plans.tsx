@@ -3,11 +3,7 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
-const Plans = ({
-  setIsPopup,
-}: {
-  setIsPopup: React.Dispatch<React.SetStateAction<boolean>>;
-}) => {
+const Plans = () => {
   const router = useRouter();
   const [plans, setPlans] = useState<IPlan[]>([]);
   const session = useSession();
@@ -27,7 +23,7 @@ const Plans = ({
 
   async function handlePurchase(plan:IPlan) {
     if (session.status === "unauthenticated") {
-      setIsPopup(true);
+      router.push('/register');
       return;
     }
     if (!plan?._id) {
@@ -58,11 +54,11 @@ const Plans = ({
         handler: function () {
           router.push(`/payment-status?order_id=${order.orderId}`);
         },
-        modal: {
-          ondismiss: function () {
-            router.push(`/payment-status?order_id=${order.orderId}`);
-          },
-        },
+        // modal: {
+        //   ondismiss: function () {
+        //     router.push(`/payment-status?order_id=${order.orderId}`);
+        //   },
+        // },
         prefill: {
           email: session.data?.user.email,
         },

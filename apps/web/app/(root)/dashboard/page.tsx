@@ -7,6 +7,7 @@ import { TeacherCard } from "../../../components/dashboard/TeacherCard";
 import { useUserProfile } from "../../../context/UserProfileProvider";
 import { IUser } from "@repo/types";
 import StudentForm from "../../../components/student/StudentForm";
+import Plans from "../../../components/Plans";
 
 interface DashboardData {
   teacher: IUser;
@@ -21,6 +22,7 @@ interface DashboardData {
 export default function DashboardPage() {
   const [errorMsg, setErrorMsg] = useState("");
   const [showForm, setShowForm] = useState(false);
+  const [isOpenPlans, setIsOpenPlans] = useState<boolean>(false);
   const [dashboardData, setDashboardData] = useState<DashboardData | null>(
     null
   );
@@ -153,7 +155,14 @@ export default function DashboardPage() {
             studentLimit={dashboardData.teacher.studentLimit}
             planActivatedAt={dashboardData.teacher.planActivatedAt}
             planExpiresAt={dashboardData.teacher.planExpiresAt}
+            setIsOpnePlans={setIsOpenPlans}
           />
+        )}
+        {isOpenPlans && (
+          <div className=" absolute w-xl border p-2 flex flex-col">
+            <button className=" border-b text-end cursor-pointer" onClick={()=>setIsOpenPlans(false)}>X</button>
+            <Plans />
+          </div>
         )}
       </div>
     </div>

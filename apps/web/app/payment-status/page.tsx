@@ -6,7 +6,9 @@ export default function PaymentStatusPage() {
   const sp = useSearchParams();
   const router = useRouter();
   const orderId = sp.get("order_id");
-  const [status, setStatus] = useState<"pending" | "completed" | "failed" | "error">("pending");
+  const [status, setStatus] = useState<
+    "pending" | "completed" | "failed" | "error"
+  >("pending");
   const [retries, setRetries] = useState(0);
 
   useEffect(() => {
@@ -19,9 +21,12 @@ export default function PaymentStatusPage() {
 
     const check = async () => {
       try {
-        const res = await fetch(`http://localhost:8080/api/v1/payment-status?order_id=${orderId}`, {
-          credentials: "include",
-        });
+        const res = await fetch(
+          `http://localhost:8080/api/v1/payment-status?order_id=${orderId}`,
+          {
+            credentials: "include",
+          }
+        );
         const data = await res.json();
 
         if (data.status === "completed") {
@@ -36,7 +41,8 @@ export default function PaymentStatusPage() {
           return;
         }
 
-        if (retries < 30) { // up to ~60s if interval=2s
+        if (retries < 30) {
+          // up to ~60s if interval=2s
           timer = setTimeout(() => setRetries((r) => r + 1), 2000);
         } else {
           setStatus("error");
@@ -59,25 +65,39 @@ export default function PaymentStatusPage() {
       {status === "pending" && (
         <div className="text-center">
           <p className="text-blue-600">We’re verifying your payment…</p>
-          <p className="text-sm text-gray-500 mt-2">This can take up to a minute.</p>
+          <p className="text-sm text-gray-500 mt-2">
+            This can take up to a minute.
+          </p>
         </div>
       )}
       {status === "completed" && (
         <div className="text-center">
-          <p className="text-green-600 font-semibold text-lg">✅ Payment Successful!</p>
-          <p className="text-sm text-gray-500">Redirecting to your dashboard…</p>
+          <p className="text-green-600 font-semibold text-lg">
+            ✅ Payment Successful!
+          </p>
+          <p className="text-sm text-gray-500">
+            Redirecting to your dashboard…
+          </p>
         </div>
       )}
       {status === "failed" && (
         <div className="text-center">
-          <p className="text-red-600 font-semibold text-lg">❌ Payment Failed</p>
-          <p className="text-sm text-gray-500">You can try again from your plan page.</p>
+          <p className="text-red-600 font-semibold text-lg">
+            ❌ Payment Failed
+          </p>
+          <p className="text-sm text-gray-500">
+            You can try again from your plan page.
+          </p>
         </div>
       )}
       {status === "error" && (
         <div className="text-center">
-          <p className="text-yellow-600 font-semibold text-lg">⚠️ Unable to verify right now</p>
-          <p className="text-sm text-gray-500">Please refresh or contact support.</p>
+          <p className="text-yellow-600 font-semibold text-lg">
+            ⚠️ Unable to verify right now
+          </p>
+          <p className="text-sm text-gray-500">
+            Please refresh or contact support.
+          </p>
         </div>
       )}
     </div>

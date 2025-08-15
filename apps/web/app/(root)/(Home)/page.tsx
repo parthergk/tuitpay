@@ -15,12 +15,12 @@ export default function Home() {
   const router = useRouter();
 
   const session = useSession();
-  // useEffect(()=>{
-  //   if (session.status==="authenticated") {
-  //     router.push("/dashboard");
-  //     return;
-  //   }
-  // },[])
+  useEffect(()=>{
+    if (session.status==="authenticated") {
+      router.push("/dashboard");
+      return;
+    }
+  },[session.status])
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     try {
@@ -57,7 +57,7 @@ export default function Home() {
           </form>
         </div>
       )}
-      <Plans setIsPopup={setIsPopup}/>
+      <Plans/>
     </div>
   );
 }

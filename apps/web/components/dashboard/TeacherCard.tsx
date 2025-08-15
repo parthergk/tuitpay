@@ -10,6 +10,7 @@ type TeacherCardProps = {
   studentLimit: number;
   planActivatedAt?: Date;
   planExpiresAt?: Date;
+  setIsOpnePlans: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export const TeacherCard: React.FC<TeacherCardProps> = ({
@@ -22,6 +23,7 @@ export const TeacherCard: React.FC<TeacherCardProps> = ({
   studentLimit,
   planActivatedAt,
   planExpiresAt,
+  setIsOpnePlans
 }) => {
   return (
     <div className="col-span-1 bg-white rounded-2xl shadow-md p-6 w-full max-w-sm border border-gray-200">
@@ -54,6 +56,8 @@ export const TeacherCard: React.FC<TeacherCardProps> = ({
           </p>
         )}
       </div>
+
+      <button className=" border px-2 mt-3 cursor-pointer hover:bg-gray-200"onClick={()=>setIsOpnePlans(pre=>!pre)} >Upgrade Plan</button>
     </div>
   );
 };
