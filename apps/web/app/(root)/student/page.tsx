@@ -13,8 +13,7 @@ const Student = () => {
   const searchParams = useSearchParams();
   const id = searchParams.get("id");
 
-  const [currentIndex, setCurrentIndex] = useState();
-  const [openIndex ,setOpenIndex] = useState<number | null>(null);
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   useEffect(() => {
     if (!id) {
@@ -56,7 +55,6 @@ const Student = () => {
     fetchStudent();
   }, [id]);
 
-
   return (
     <div>
       {isLoading && <p className="text-gray-500">Loading...</p>}
@@ -68,7 +66,15 @@ const Student = () => {
             <h1 className="text-xl font-bold mb-4">Student Fee Record</h1>
             <div className=" flex flex-col space-y-5">
               {fees.map((fee, index) => (
-                  <FeeCard key={index} fee={fee} index={index} openIndex={openIndex} onToggle={() => setOpenIndex(openIndex===index ? null:index)}/>
+                <FeeCard
+                  key={index}
+                  fee={fee}
+                  index={index}
+                  openIndex={openIndex}
+                  onToggle={() =>
+                    setOpenIndex(openIndex === index ? null : index)
+                  }
+                />
               ))}
             </div>
           </div>
