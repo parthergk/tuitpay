@@ -7,7 +7,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
     <main className="w-screen min-h-screen bg-red-100 font-forum">
       <UserProfileProvider>
         <Header />
-        <div className="pt-20 px-4">{children}</div>
+        {children}
       </UserProfileProvider>
     </main>
   );
