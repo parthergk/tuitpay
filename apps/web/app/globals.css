@@ -1,2 +1,15 @@
 @import 'tailwindcss';
 @import '@repo/tailwind-config';
+
+body{
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+}
+
+@theme {
+  --color-offwhite: #f8f8f8;
+  --font-roboto: var(--font-roboto), sans-serif;
+  --font-forum: var(--font-forum), serif;
+  --font-gloria: var(--font-gloriahallelujah), cursive;
+}

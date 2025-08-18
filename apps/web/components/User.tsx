@@ -39,7 +39,7 @@ const User = () => {
           User
         </button>
       ) : (
-        <Link href="/sign-in">Login</Link>
+        <Link href="/sign-in" className=" text-lg tracking-wider hover:text-[#4D4D4D]">Get Strat</Link>
       )}
 
       <Profile isShow={showProfile} setShowProfile={setShowProfile} />

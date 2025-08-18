@@ -2,15 +2,15 @@ import React from "react";
 import UserProfileProvider from "../../context/UserProfileProvider";
 import Header from "../../components/nav/Header";
 
-const layout = ({ children }: { children: React.ReactNode }) => {
+const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <main className=" w-screen">
+    <main className="w-screen min-h-screen bg-red-100 font-forum">
       <UserProfileProvider>
         <Header />
-        {children}
+        <div className="pt-20 px-4">{children}</div>
       </UserProfileProvider>
     </main>
   );
 };
 
-export default layout;
+export default Layout;
