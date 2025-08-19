@@ -38,7 +38,16 @@ export default function Home() {
 
   return (
     <div className="absolute inset-0 z-0 px-5 w-full flex justify-center items-center bg-[linear-gradient(to_bottom_right,#FFFFFF_0%,#E0ECFF_25%,#EAE2FF_50%,#F8E8DB_75%,#FFFFFF_100%)]">
-      <div className="w-full max-w-4xl mx-auto text-center">
+      <div
+        className=" absolute inset-0 opacity-5 "
+        style={{
+          backgroundImage:
+            "url('/image/noise.png')",
+          backgroundSize: "128px",
+          backgroundRepeat: "repeat",
+        }}
+      ></div>
+      <div className="w-full max-w-4xl mx-auto text-center absolute z-20">
         <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-forum text-[#0F172A] leading-snug sm:leading-tight md:leading-tight">
           Track Tuition Fees Easily. <br /> Send Automated Fee Reminders.
         </h1>
@@ -56,7 +65,6 @@ export default function Home() {
             How it Works
           </button>
         </div>
-        
       </div>
 
       {/* <div className="mt-24 flex flex-col items-center">
