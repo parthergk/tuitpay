@@ -7,6 +7,8 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import Plans from "../../../components/Plans";
 import User from "../../../components/User";
 import Link from "next/link";
+import DashboardCard from "../../../components/LandingPage/DashboardCard";
+import Image from "next/image";
 
 interface Inputs {
   email: string;
@@ -39,66 +41,58 @@ export default function Home() {
   };
 
   return (
-    <div className="absolute inset-0 z-0 px-5 w-full flex justify-center items-center bg-[linear-gradient(to_bottom_right,#FFFFFF_0%,#E0ECFF_25%,#EAE2FF_50%,#F8E8DB_75%,#FFFFFF_100%)]">
+    <div className="relative w-full min-h-screen flex flex-col bg-[linear-gradient(to_bottom_right,#FFFFFF_0%,#E0ECFF_25%,#EAE2FF_50%,#F8E8DB_75%,#FFFFFF_100%)]">
+      {/* Noise overlay */}
       <div
-        className=" absolute inset-0 opacity-5 "
+        className="absolute inset-0 opacity-5"
         style={{
           backgroundImage: "url('/image/noise.png')",
           backgroundSize: "128px",
           backgroundRepeat: "repeat",
         }}
       ></div>
-      <div className="w-full max-w-4xl mx-auto text-center absolute z-20">
-        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-forum text-[#0F172A] leading-snug sm:leading-tight md:leading-tight">
-          Track Tuition Fees Easily. <br /> Send Automated Fee Reminders.
-        </h1>
 
-        <p className="mt-2 sm:mt-4 text-base sm:text-lg md:text-xl text-[#4B5563] max-w-2xl mx-auto">
-          A smart fee tracker built for local tuition teachers & coaching
-          centers
-        </p>
+      <section className=" min-h-screen flex justify-center items-center ">
+        <div className="w-full max-w-4xl mx-auto text-center z-20 px-4">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-forum text-[#0F172A] leading-snug sm:leading-tight md:leading-tight">
+            Track Tuition Fees Easily. <br /> Send Automated Fee Reminders.
+          </h1>
 
-        <div className="flex justify-center items-center  gap-5 sm:gap-6 mt-6 sm:mt-8">
-          <button className=" px-5 py-1.5 sm:px-6 sm:py-2 rounded-full bg-[#F97316] text-white font-medium shadow-md hover:bg-[#ea580c] transition-colors duration-200">
-            <Link href={"/register"}>Get Start</Link>
-          </button>
-          <button className=" px-5 py-1.5 sm:px-6 sm:py-2 rounded-full border border-[#6B7280] text-[#374151] hover:bg-[#f9fafb] transition-colors duration-200">
-            How it Works
-          </button>
-        </div>
-      </div>
-      
-      {/* <div className="mt-24 flex flex-col items-center">
-        <button
-          onClick={() => setIsPopup(!isPopup)}
-          className="border px-4 py-2 rounded-md bg-white shadow hover:bg-gray-100 transition"
-        >
-          Start Free
-        </button>
+          <p className="mt-3 sm:mt-4 text-base sm:text-lg md:text-xl text-[#4B5563] max-w-2xl mx-auto">
+            A smart fee tracker built for local tuition teachers & coaching
+            centers
+          </p>
 
-        {isPopup && (
-          <div className="mt-4 flex justify-center items-center border p-4 rounded-lg bg-white shadow-md">
-            <form onSubmit={handleSubmit(onSubmit)} className="flex gap-2">
-              <label className="flex items-center font-medium">Email:</label>
-              <input
-                type="email"
-                {...register("email", { required: true })}
-                className="border rounded-md px-3 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-              <button
-                type="submit"
-                className="px-4 py-1 rounded-md bg-blue-500 text-white hover:bg-blue-600 transition"
-              >
-                Continue
-              </button>
-            </form>
+          <div className="flex justify-center items-center gap-4 sm:gap-6 mt-6 sm:mt-8">
+            <Link
+              href="/register"
+              className="px-6 py-2 rounded-full bg-[#F97316] text-white font-medium shadow-md hover:bg-[#ea580c] transition-colors duration-200"
+            >
+              Get Started
+            </Link>
+            <button className="px-6 py-2 rounded-full border border-[#6B7280] text-[#374151] hover:bg-[#f9fafb] transition-colors duration-200">
+              How it Works
+            </button>
           </div>
-        )}
-
-        <div className="mt-10 w-full max-w-4xl">
-          <Plans />
         </div>
-      </div> */}
+      </section>
+
+      <section className=" relative w-full">
+        <div className="w-full border max-w-[1200px] mx-auto">
+          <Image
+          width={2800}
+          height={1800}
+          sizes="746px"
+          alt="demo"
+          src="/image/dashboard.png"
+          />
+        </div>
+        <div className="absolute w-full h-80 bg-gradient-to-t from-[#EAE2FF] via-30% via-[#EAE2FF]/90 to-transparent -bottom-5"></div>
+      </section>
+
+      <section className=" relative mt-5 w-full bg-[#EAE2FF] h-98 px-4">
+        <div>We are trusted by</div>
+      </section>
     </div>
   );
 }

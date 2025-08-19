@@ -15,7 +15,7 @@ const Header = () => {
   ];
 
   return (
-    <header className="fixed top-0 left-0 z-20 w-full flex items-center">
+    <header className="fixed top-0 left-0 z-50 w-full flex items-center">
       <nav className="w-full py-3 m-5 flex justify-between items-center rounded-[50px] px-5 bg-offwhite/50 text-[#1A1A1A] shadow-2xl">
         <h1 className="text-lg font-semibold tracking-wider">
           <Link href="/">Logo</Link>

@@ -4,7 +4,7 @@ import Header from "../../components/nav/Header";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <main className="w-screen min-h-screen bg-red-100 font-forum">
+    <main className=" w-full h-full font-forum">
       <UserProfileProvider>
         <Header />
         {children}
