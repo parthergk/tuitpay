@@ -5,6 +5,8 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import Plans from "../../../components/Plans";
+import User from "../../../components/User";
+import Link from "next/link";
 
 interface Inputs {
   email: string;
@@ -41,8 +43,7 @@ export default function Home() {
       <div
         className=" absolute inset-0 opacity-5 "
         style={{
-          backgroundImage:
-            "url('/image/noise.png')",
+          backgroundImage: "url('/image/noise.png')",
           backgroundSize: "128px",
           backgroundRepeat: "repeat",
         }}
@@ -59,14 +60,14 @@ export default function Home() {
 
         <div className="flex justify-center items-center  gap-5 sm:gap-6 mt-6 sm:mt-8">
           <button className=" px-5 py-1.5 sm:px-6 sm:py-2 rounded-full bg-[#F97316] text-white font-medium shadow-md hover:bg-[#ea580c] transition-colors duration-200">
-            Get Started
+            <Link href={"/register"}>Get Start</Link>
           </button>
-          <button className=" px-5 py-1 sm:px-6 sm:py-2 rounded-full border border-[#6B7280] text-[#374151] hover:bg-[#f9fafb] transition-colors duration-200">
+          <button className=" px-5 py-1.5 sm:px-6 sm:py-2 rounded-full border border-[#6B7280] text-[#374151] hover:bg-[#f9fafb] transition-colors duration-200">
             How it Works
           </button>
         </div>
       </div>
-
+      
       {/* <div className="mt-24 flex flex-col items-center">
         <button
           onClick={() => setIsPopup(!isPopup)}
