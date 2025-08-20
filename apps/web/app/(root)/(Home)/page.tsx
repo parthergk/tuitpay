@@ -99,7 +99,7 @@ export default function Home() {
           <div className="absolute w-full h-80 bg-gradient-to-t from-[#EAE2FF] via-30% via-[#EAE2FF]/90 to-transparent -bottom-5"></div>
         </div>
       </section>
-      <section className="mt-5 w-ful py-14 md:py-28">
+      <section className="mt-5 w-ful py-14 md:py-28 px-5">
         <div className="w-full mt-5 flex flex-col justify-center gap-2 md:gap-4">
           <h1 className=" text-center sm:text-lg md:text-xl text-[#F97316]">
             WE ARE TRUSTED BY
@@ -116,11 +116,22 @@ export default function Home() {
           </div>
         </div>
       </section>
-      <section className="mt-5 w-full h-98 py-14 md:py-28">
-         <h3 className=" text-center sm:text-lg md:text-xl text-[#F97316]">
-            FEATURES
-          </h3>
-          <h1 className=" text-center text-[28px] sm:text-4xl mt-5 ">Why Choose our Platform?</h1>
+      <section className="mt-5 w-full py-14 md:py-28 px-5">
+        <h3 className=" text-center sm:text-lg md:text-xl text-[#F97316]">
+          FEATURES
+        </h3>
+        <h1 className=" text-center text-[28px] sm:text-4xl mt-5 ">
+          Why Choose our Platform?
+        </h1>
+        <div className=" grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 gap-y-10 md:gap-y-15 pt-16 lg:mt-[72px]">
+          <div className=" h-[400px] bg-gradient-to-bl from-[#E8DFFF]/30 to-[#DDEBFF]/30 shadow-2xl shadow-black/10 border border-white/50 rounded-xl">1</div>
+          <div className=" h-[400px] bg-gradient-to-bl from-[#E8DFFF]/30 to-[#DDEBFF]/30 shadow-2xl shadow-black/10 border border-white/50 rounded-xl">1</div>
+          <div className=" h-[400px] bg-gradient-to-bl from-[#E8DFFF]/30 to-[#DDEBFF]/30 shadow-2xl shadow-black/10 border border-white/50 rounded-xl">1</div>
+          <div className=" h-[400px] bg-gradient-to-bl from-[#E8DFFF]/30 to-[#DDEBFF]/30 shadow-2xl shadow-black/10 border border-white/50 rounded-xl">1</div>
+          <div className=" h-[400px] bg-gradient-to-bl from-[#E8DFFF]/30 to-[#DDEBFF]/30 shadow-2xl shadow-black/10 border border-white/50 rounded-xl">1</div>
+          <div className=" h-[400px] bg-gradient-to-bl from-[#E8DFFF]/30 to-[#DDEBFF]/30 shadow-2xl shadow-black/10 border border-white/50 rounded-xl">1</div>
+          
+        </div>
       </section>
     </div>
   );
