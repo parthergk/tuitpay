@@ -9,6 +9,7 @@ import User from "../../../components/User";
 import Link from "next/link";
 import DashboardCard from "../../../components/LandingPage/DashboardCard";
 import Image from "next/image";
+import FeatureCard from "../../../components/LandingPage/FeatureCard";
 
 interface Inputs {
   email: string;
@@ -45,6 +46,39 @@ export default function Home() {
     { url: "/image/user/TuitClasses.png", alt: "tuitClasses" },
     { url: "/image/user/DeeTuitions.png", alt: "deeTuiyions" },
     { url: "/image/user/MathTuit.png", alt: "mathTuit" },
+  ];
+
+  const features = [
+    {
+      url: "/",
+      title: "Smart Student Management",
+      desc: "Easily track every student in one place. Add new students, update details, and manage without any hassle. With our intuitive student database, teachers can save time and focus more on teaching.",
+    },
+    {
+      url: "/",
+      title: "Automated Fee Reminders",
+      desc: "The system sends smart WhatsApp and SMS reminders automatically before and after due dates. Teachers stay stress-free, while parents receive timely updates for hassle-free payments.",
+    },
+    {
+      url: "/",
+      title: "Instant UPI Payments",
+      desc: "Collect tuition fees instantly through secure UPI-based payments. Every payment is logged in real time, ensuring accurate records and smooth transactions.",
+    },
+    {
+      url: "/",
+      title: "Fee Reports & Insights",
+      desc: "Get a clear picture of your earnings with detailed fee reports and insights. Track pending, collected, and overdue payments, generate monthly reports.",
+    },
+    {
+      url: "/",
+      title: "Mobile-First Dashboard",
+      desc: "Designed for teachers on the go. Our mobile-friendly dashboard works seamlessly on phones, tablets, and desktops, giving you the freedom to manage fees anytime, anywhere.",
+    },
+    {
+      url: "/",
+      title: "Secure & Private Data",
+      desc: "Your data is 100% safe. With enterprise-grade security, all student and fee records are encrypted and accessible only to you. No third parties, no leaks—just complete privacy.",
+    },
   ];
 
   return (
@@ -124,13 +158,37 @@ export default function Home() {
           Why Choose our Platform?
         </h1>
         <div className=" grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 gap-y-10 md:gap-y-15 pt-16 lg:mt-[72px]">
-          <div className=" h-[400px] bg-gradient-to-bl from-[#E8DFFF]/30 to-[#DDEBFF]/30 shadow-2xl shadow-black/10 border border-white/50 rounded-xl">1</div>
-          <div className=" h-[400px] bg-gradient-to-bl from-[#E8DFFF]/30 to-[#DDEBFF]/30 shadow-2xl shadow-black/10 border border-white/50 rounded-xl">1</div>
-          <div className=" h-[400px] bg-gradient-to-bl from-[#E8DFFF]/30 to-[#DDEBFF]/30 shadow-2xl shadow-black/10 border border-white/50 rounded-xl">1</div>
-          <div className=" h-[400px] bg-gradient-to-bl from-[#E8DFFF]/30 to-[#DDEBFF]/30 shadow-2xl shadow-black/10 border border-white/50 rounded-xl">1</div>
-          <div className=" h-[400px] bg-gradient-to-bl from-[#E8DFFF]/30 to-[#DDEBFF]/30 shadow-2xl shadow-black/10 border border-white/50 rounded-xl">1</div>
-          <div className=" h-[400px] bg-gradient-to-bl from-[#E8DFFF]/30 to-[#DDEBFF]/30 shadow-2xl shadow-black/10 border border-white/50 rounded-xl">1</div>
-          
+          {features.map((feature) => (
+            <FeatureCard
+              key={feature.title}
+              url={feature.url}
+              title={feature.title}
+              desc={feature.desc}
+            />
+          ))}
+        </div>
+      </section>
+
+      <section className="mt-5 w-full py-14 md:py-28 px-5">
+        <h3 className=" text-center sm:text-lg md:text-xl text-[#F97316]">
+          HOW TO USE?
+        </h3>
+        <h1 className=" text-center text-[28px] sm:text-4xl mt-5 ">
+          How it works?
+        </h1>
+        <div className=" h-[1200px] grid md:grid-cols-2 gap-10 pt-16 lg:mt-[72px]">
+          <div className=" h-full flex  flex-col gap-10">
+            <div className=" relative shadow-2xl shadow-black/10 border border-white/50 rounded-xl h-full">
+              <div className="h-full w-full absolute opacity-20 md:opacity-35 [background-image:radial-gradient(circle_at_bottom_right,_#FFFFFF_0%,_#E0ECFF_25%,_#EAE2FF_50%,_#F8E8DB_75%,_#FFFFFF_100%)] rounded-tl-full"></div>
+            </div>
+            <div className=" relative shadow-2xl shadow-black/10 border border-white/50 rounded-xl h-full">
+              <div className="h-full w-full absolute opacity-20 md:opacity-35 [background-image:radial-gradient(circle_at_top_right,_#FFFFFF_0%,_#E0ECFF_25%,_#EAE2FF_50%,_#F8E8DB_75%,_#FFFFFF_100%)] rounded-bl-full"></div>
+            </div>
+          </div>
+          <div className=" relative shadow-2xl shadow-black/10 border border-white/50 rounded-xl">
+              <div className="h-full w-full absolute opacity-25 md:opacity-35 [background-image:linear-gradient(to_right_top,_#FFFFFF_0%,_#E0ECFF_25%,_#EAE2FF_50%,_#F8E8DB_75%,_#FFFFFF_100%)]"></div>
+            
+          </div>
         </div>
       </section>
     </div>
