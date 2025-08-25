@@ -12,6 +12,7 @@ import Image from "next/image";
 import FeatureCard from "../../../components/LandingPage/FeatureCard";
 import TestimonialsCard from "../../../components/LandingPage/TestimonialsCard";
 import PriceCard from "../../../components/LandingPage/PriceCard";
+import Footer from "../../../components/LandingPage/Footer";
 
 interface Inputs {
   email: string;
@@ -259,34 +260,23 @@ export default function Home() {
       </section>
 
       <section className="mt-5 w-full py-14 md:py-28 px-5">
-  <div className="relative bg-[#F97316] h-[400px] rounded-xl shadow-xl shadow-black/20 flex items-center justify-center text-center px-6">
-    {/* Noise texture overlay */}
-    <div
-      className="absolute inset-0 opacity-5 rounded-xl"
-      style={{
-        backgroundImage: "url('/image/noise.png')",
-        backgroundSize: "128px",
-        backgroundRepeat: "repeat",
-      }}
-    ></div>
+        <div className="h-[400px] flex items-center justify-center text-center px-6">
+          <div className="max-w-2xl">
+            <h1 className="text-3xl md:text-5xl font-bold text-[#0F172A] drop-shadow-md">
+              Get Started Today
+            </h1>
+            <p className="mt-4 text-base md:text-lg text-[#4B5563]">
+              Ready to experience the smarter way to manage and track fee — free
+              to try.
+            </p>
+            <button className="mt-6 px-6 py-2 rounded-full bg-[#F97316] text-white hover:bg-[#ea580c] font-semibold shadow-md transition-colors duration-200 hover:cursor-pointer">
+              Get Started for Free
+            </button>
+          </div>
+        </div>
+      </section>
 
-    {/* Content */}
-    <div className="relative z-10 max-w-2xl">
-      <h1 className="text-3xl md:text-5xl font-bold text-white drop-shadow-md">
-        Get Started Today
-      </h1>
-      <p className="mt-4 text-base md:text-lg text-white/90">
-        Ready to experience the smarter way to manage and track fee — free to try.
-      </p>
-      <button className="mt-6 px-6 py-2 rounded-full bg-white text-[#F97316] hover:bg-gray-100 font-semibold shadow-md transition-colors duration-200 hover:cursor-pointer">
-                        {/* className="px-6 py-2 rounded-full bg-[#F97316] text-white font-medium shadow-md hover:bg-[#ea580c] transition-colors duration-200" */}
-
-        Get Started for Free
-      </button>
-    </div>
-  </div>
-</section>
-
+      <Footer/>
     </div>
   );
 }
