@@ -24,7 +24,7 @@ const Header = () => {
         <div className="hidden md:block">
           <ul className="flex gap-10 lg:gap-12 text-lg justify-center items-center tracking-wide">
             {navItem.map((item) => (
-              <li key={item.name} className="hover:text-[#4D4D4D]">
+              <li key={item.name} className="hover:text-[#F97316] transition-colors duration-200">
                 <Link href={item.path}>{item.name}</Link>
               </li>
             ))}

@@ -3,13 +3,14 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import TestimonialsCard from "../../../components/LandingPage/Cards/TestimonialsCard";
 import Footer from "../../../components/LandingPage/Footer";
 import HeroSection from "../../../components/LandingPage/Sections/HeroSection";
 import TrustSection from "../../../components/LandingPage/Sections/TrustSection";
 import FeatureSection from "../../../components/LandingPage/Sections/FeatureSection";
 import HowToUseSection from "../../../components/LandingPage/Sections/HowToUseSection";
 import CTA from "../../../components/LandingPage/CTA";
+import TestimonialSection from "../../../components/LandingPage/Sections/TestimonialSection";
+
 
 interface Inputs {
   email: string;
@@ -47,7 +48,7 @@ export default function Home() {
       <TrustSection />
       <FeatureSection />
       <HowToUseSection />
-      <TestimonialsCard />
+      <TestimonialSection/>
       <CTA />
       <Footer />
     </div>

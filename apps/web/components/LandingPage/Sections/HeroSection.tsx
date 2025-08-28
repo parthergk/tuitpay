@@ -57,7 +57,7 @@ const HeroSection = () => {
             >
               Get Started
             </Link>
-            <button className="px-6 py-2 rounded-full border border-[#6B7280] text-[#374151] hover:bg-[#f9fafb] transition-colors duration-200">
+            <button className="px-6 py-2 rounded-full border border-[#6B7280] text-[#374151] hover:bg-[#f9fafb] transition-colors duration-200 hover:cursor-pointer">
               How it Works
             </button>
           </motion.div>
