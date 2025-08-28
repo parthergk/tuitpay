@@ -1,4 +1,4 @@
-import { CircleCheck } from "lucide-react";
+import { CircleAlert, CircleCheck } from "lucide-react";
 import React from "react";
 
 interface PriceCardProps {
@@ -37,13 +37,26 @@ const PriceCard: React.FC<PriceCardProps> = ({
       <ul className="mt-6 space-y-2 text-sm text-gray-700">
         {features.map((feature, index) => (
           <li key={index} className="flex items-center gap-2">
-            <CircleCheck className=" h-5 w-5 text-gray-600"/> <span>{feature}</span>
+            <CircleCheck className=" h-5 w-5 text-gray-600" />{" "}
+            <span>{feature}</span>
           </li>
         ))}
+        {highlight ? (
+          <></>
+        ) : (
+            <>
+          <li className="flex items-center gap-2">
+           .
+          </li>
+          <li className="flex items-center gap-2">
+            .
+          </li>
+            </>
+        )}
       </ul>
 
       <button
-        className={`mt-6 w-full py-2 rounded-lg font-medium transition-colors  ${
+        className={` self-end mt-6 w-full py-2 rounded-lg font-medium transition-colors  ${
           highlight
             ? "bg-[#F97316] hover:bg-[#EA580C] text-white" // Pro button (orange)
             : "bg-[#F97316] hover:bg-[#EA580C] text-white" // Free button (indigo)
