@@ -1,19 +1,15 @@
 "use client";
-
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import Plans from "../../../components/Plans";
-import User from "../../../components/User";
-import Link from "next/link";
-import DashboardCard from "../../../components/LandingPage/DashboardCard";
-import Image from "next/image";
-import FeatureCard from "../../../components/LandingPage/FeatureCard";
-import TestimonialsCard from "../../../components/LandingPage/TestimonialsCard";
-import PriceCard from "../../../components/LandingPage/PriceCard";
+import TestimonialsCard from "../../../components/LandingPage/Cards/TestimonialsCard";
 import Footer from "../../../components/LandingPage/Footer";
-import HeroSection from "../../../components/LandingPage/HeroSection";
+import HeroSection from "../../../components/LandingPage/Sections/HeroSection";
+import TrustSection from "../../../components/LandingPage/Sections/TrustSection";
+import FeatureSection from "../../../components/LandingPage/Sections/FeatureSection";
+import HowToUseSection from "../../../components/LandingPage/Sections/HowToUseSection";
+import CTA from "../../../components/LandingPage/CTA";
 
 interface Inputs {
   email: string;
@@ -45,189 +41,15 @@ export default function Home() {
     }
   };
 
-  const trusted = [
-    { url: "/image/user/coaching.png", alt: "coaching" },
-    { url: "/image/user/TuitClasses.png", alt: "tuitClasses" },
-    { url: "/image/user/DeeTuitions.png", alt: "deeTuiyions" },
-    { url: "/image/user/MathTuit.png", alt: "mathTuit" },
-  ];
-
-  const features = [
-    {
-      url: "/",
-      title: "Smart Student Management",
-      desc: "Easily track every student in one place. Add new students, update details, and manage without any hassle. With our intuitive student database, teachers can save time and focus more on teaching.",
-    },
-    {
-      url: "/",
-      title: "Automated Fee Reminders",
-      desc: "The system sends smart WhatsApp and SMS reminders automatically before and after due dates. Teachers stay stress-free, while parents receive timely updates for hassle-free payments.",
-    },
-    {
-      url: "/",
-      title: "Instant UPI Payments",
-      desc: "Collect tuition fees instantly through secure UPI-based payments. Every payment is logged in real time, ensuring accurate records and smooth transactions.",
-    },
-    {
-      url: "/",
-      title: "Fee Reports & Insights",
-      desc: "Get a clear picture of your earnings with detailed fee reports and insights. Track pending, collected, and overdue payments, generate monthly reports.",
-    },
-    {
-      url: "/",
-      title: "Mobile-First Dashboard",
-      desc: "Designed for teachers on the go. Our mobile-friendly dashboard works seamlessly on phones, tablets, and desktops, giving you the freedom to manage fees anytime, anywhere.",
-    },
-    {
-      url: "/",
-      title: "Secure & Private Data",
-      desc: "Your data is 100% safe. With enterprise-grade security, all student and fee records are encrypted and accessible only to you. No third parties, no leaks—just complete privacy.",
-    },
-  ];
-
-  const plans = [
-    {
-      title: "Free",
-      price: "₹0",
-      description:
-        "Best for individual tutors just starting with small batches of students.",
-      features: [
-        "Manage up to 20 students",
-        "Track monthly fee payments",
-        "Send WhatsApp reminders",
-      ],
-      buttonText: "Get Started",
-    },
-    {
-      title: "Pro",
-      price: "₹499",
-      description:
-        "Perfect for coaching centers managing multiple teachers and larger student groups.",
-      features: [
-        "Unlimited students",
-        "Auto payment tracking",
-        "WhatsApp & SMS reminders",
-        "Dashboard & reports",
-        "Priority support",
-      ],
-      buttonText: "Upgrade to Pro",
-      highlight: true,
-    },
-  ];
-
   return (
     <div className=" w-full min-h-screen flex flex-col bg-[#EAE2FF]">
-      <HeroSection/>
-      <section className="mt-5 w-ful py-14 md:py-28 px-5">
-        <div className="w-full mt-5 flex flex-col justify-center gap-2 md:gap-4">
-          <h1 className=" text-center sm:text-lg md:text-xl text-[#F97316]">
-            WE ARE TRUSTED BY
-          </h1>
-          <div className=" w-full h-18 sm:h-24 md:h-36 flex justify-between items-center overflow-auto gap-5">
-            {trusted.map((img) => (
-              <div
-                key={img.alt}
-                className="w-full flex justify-center items-center"
-              >
-                <Image width={120} height={50} alt={img.alt} src={img.url} />
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="mt-5 w-full py-14 md:py-28 px-5">
-        <h3 className=" text-center sm:text-lg md:text-xl text-[#F97316]">
-          FEATURES
-        </h3>
-        <h1 className=" text-center text-[28px] sm:text-4xl mt-5 ">
-          Why Choose our Platform?
-        </h1>
-        <div className=" grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 gap-y-10 md:gap-y-15 pt-16 lg:mt-[72px]">
-          {features.map((feature) => (
-            <FeatureCard
-              key={feature.title}
-              url={feature.url}
-              title={feature.title}
-              desc={feature.desc}
-            />
-          ))}
-        </div>
-      </section>
-
-      <section className="mt-5 w-full py-14 md:py-28 px-5">
-        <h3 className=" text-center sm:text-lg md:text-xl text-[#F97316]">
-          HOW TO USE?
-        </h3>
-        <h1 className=" text-center text-[28px] sm:text-4xl mt-5 ">
-          How it works?
-        </h1>
-        <div className=" h-[1200px] grid md:grid-cols-2 gap-10 pt-16 lg:mt-[72px]">
-          <div className=" h-full flex  flex-col gap-10">
-            <div className=" relative shadow-2xl shadow-black/10 border border-white/50 rounded-xl h-full">
-              <div className="h-full w-full absolute opacity-20 md:opacity-35 [background-image:radial-gradient(circle_at_bottom_right,_#FFFFFF_0%,_#E0ECFF_25%,_#EAE2FF_50%,_#F8E8DB_75%,_#FFFFFF_100%)] rounded-tl-full"></div>
-            </div>
-            <div className=" relative shadow-2xl shadow-black/10 border border-white/50 rounded-xl h-full">
-              <div className="h-full w-full absolute opacity-20 md:opacity-35 [background-image:radial-gradient(circle_at_top_right,_#FFFFFF_0%,_#E0ECFF_25%,_#EAE2FF_50%,_#F8E8DB_75%,_#FFFFFF_100%)] rounded-bl-full"></div>
-            </div>
-          </div>
-          <div className=" relative shadow-2xl shadow-black/10 border border-white/50 rounded-xl">
-            <div className="h-full w-full absolute opacity-25 md:opacity-35 [background-image:linear-gradient(to_right_top,_#FFFFFF_0%,_#E0ECFF_25%,_#EAE2FF_50%,_#F8E8DB_75%,_#FFFFFF_100%)]"></div>
-          </div>
-        </div>
-      </section>
-
-      <section className="mt-5 w-full py-14 md:py-28 px-5">
-        <h3 className=" text-center sm:text-lg md:text-xl text-[#F97316]">
-          TESTIMONIALS
-        </h3>
-        <h1 className=" text-center text-[28px] sm:text-4xl mt-5 ">
-          What Our Users Say
-        </h1>
-        <div className="w-full relative pt-16 overflow-x-hidden lg:mt-[72px]">
-          <div className="absolute inset-0 bg-gradient-to-l from-[#EAE2FF] via-transparent to-[#EAE2FF]"></div>
-          <div className="grid grid-cols-3 gap-6 min-w-max">
-            {new Array(1, 2, 3, 4, 5, 6).map((item) => (
-              <TestimonialsCard key={item} />
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="mt-5 w-full py-14 md:py-28 px-5">
-        <h3 className=" text-center sm:text-lg md:text-xl text-[#F97316]">
-          PRICINGS
-        </h3>
-        <h1 className=" text-center text-[28px] sm:text-4xl mt-5 ">
-          Choose a Plan That Suits You
-        </h1>
-        <div className="w-full pt-16 lg:mt-[72px]">
-          <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-2 gap-10">
-            {plans.map((plan, index) => (
-              <PriceCard key={index} {...plan} />
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="mt-5 w-full py-14 md:py-28 px-5">
-        <div className="h-[400px] flex items-center justify-center text-center px-6">
-          <div className="max-w-2xl">
-            <h1 className="text-3xl md:text-5xl font-bold text-[#0F172A] drop-shadow-md">
-              Get Started Today
-            </h1>
-            <p className="mt-4 text-base md:text-lg text-[#4B5563]">
-              Ready to experience the smarter way to manage and track fee — free
-              to try.
-            </p>
-            <button className="mt-6 px-6 py-2 rounded-full bg-[#F97316] text-white hover:bg-[#ea580c] font-semibold shadow-md transition-colors duration-200 hover:cursor-pointer">
-              Get Started for Free
-            </button>
-          </div>
-        </div>
-      </section>
-
-      <Footer/>
+      <HeroSection />
+      <TrustSection />
+      <FeatureSection />
+      <HowToUseSection />
+      <TestimonialsCard />
+      <CTA />
+      <Footer />
     </div>
   );
 }
