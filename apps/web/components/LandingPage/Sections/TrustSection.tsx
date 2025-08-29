@@ -9,7 +9,7 @@ const TrustSection = () => {
     { url: "/image/user/MathTuit.png", alt: "mathTuit" },
   ];
   return (
-    <section className="mt-5 w-ful py-14 md:py-28 px-5">
+    <section className=" relative mt-5 w-ful py-14 md:py-28 px-5">
         <div className="w-full mt-5 flex flex-col justify-center gap-2 md:gap-4">
           <h1 className=" text-center sm:text-lg md:text-xl text-[#F97316]">
             WE ARE TRUSTED BY
