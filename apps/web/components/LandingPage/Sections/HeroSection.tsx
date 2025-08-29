@@ -16,16 +16,31 @@ const HeroSection = () => {
       ></div>
       <div className=" min-h-screen flex justify-center items-center ">
         <div className="w-full max-w-4xl mx-auto text-center z-20 px-4">
-          <motion.h1
-            initial={{ opacity: 0, transform: "translateY(60%) skewY(10deg)" }}
-            animate={{ opacity: 1, transform: "translateY(0%) skewY(0deg)"}}
-            transition={{ delay: 0.5, duration: 1 }}
-            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-forum text-[#0F172A] leading-snug sm:leading-tight md:leading-tight"
-          >
-            <span>Track Tuition Fees Easily.</span>
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-forum text-[#0F172A] leading-snug sm:leading-tight md:leading-tight">
+            <motion.span
+              initial={{
+                opacity: 0,
+                transform: "translateY(60%) skewY(8deg)",
+              }}
+              animate={{ opacity: 1, transform: "translateY(0%) skewY(0deg)" }}
+              transition={{ delay: 1.5, duration: 0.8 }}
+              className=" inline-block"
+            >
+              Track Tuition Fees Easily.
+            </motion.span>
             <br />
-            <span>Send Automated Fee</span> <span>Reminders.</span>
-          </motion.h1>
+            <motion.span
+              initial={{
+                opacity: 0,
+                transform: "translateY(60%) skewY(7deg)",
+              }}
+              animate={{ opacity: 1, transform: "translateY(0%) skewY(0deg)" }}
+              transition={{ delay: 1.7, duration: 0.8 }}
+              className=" inline-block"
+            >
+              Send Automated Fee Reminders.
+            </motion.span>
+          </h1>
 
           <motion.p
             initial={{ opacity: 0, transform: "translateY(100%)" }}
@@ -46,7 +61,7 @@ const HeroSection = () => {
             animate={{ opacity: 1, transform: "translateY(0%)" }}
             transition={{
               ease: [0.08, 0.65, 0.53, 0.96],
-              delay: 0.7,
+              delay: 0.5,
               duration: 1,
             }}
             className="flex justify-center items-center gap-4 sm:gap-6 mt-6 sm:mt-8"

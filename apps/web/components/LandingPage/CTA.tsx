@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import React from 'react'
 
 const CTA = () => {
@@ -13,7 +14,9 @@ const CTA = () => {
               to try.
             </p>
             <button className="mt-6 px-6 py-2 rounded-full bg-[#F97316] text-white hover:bg-[#ea580c] font-semibold shadow-md transition-colors duration-200 hover:cursor-pointer">
+              <Link href="/register">
               Get Started for Free
+              </Link>
             </button>
           </div>
         </div>
