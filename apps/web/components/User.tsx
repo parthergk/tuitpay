@@ -39,7 +39,7 @@ const User = () => {
           User
         </button>
       ) : (
-        <Link href="/login" className=" px-5 py-1.5 sm:px-6 sm:py-2 rounded-full bg-[#F97316] text-white font-medium shadow-md hover:bg-[#ea580c] transition-colors duration-200">Log In</Link>
+        <Link href="/login" className=" px-5 py-1.5 sm:px-6 sm:py-2 rounded-full bg-primary text-white font-medium shadow-md hover:bg-[#ea580c] transition-colors duration-200">Log In</Link>
       )}
 
       <Profile isShow={showProfile} setShowProfile={setShowProfile} />

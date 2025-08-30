@@ -58,8 +58,8 @@ const PriceCard: React.FC<PriceCardProps> = ({
       <button
         className={` self-end mt-6 w-full py-2 rounded-lg font-medium transition-colors  ${
           highlight
-            ? "bg-[#F97316] hover:bg-[#EA580C] text-white" // Pro button (orange)
-            : "bg-[#F97316] hover:bg-[#EA580C] text-white" // Free button (indigo)
+            ? "bg-primary hover:bg-[#EA580C] text-white" // Pro button (orange)
+            : "bg-primary hover:bg-[#EA580C] text-white" // Free button (indigo)
         }`}
       >
         {buttonText}

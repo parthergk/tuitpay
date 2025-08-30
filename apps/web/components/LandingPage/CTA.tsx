@@ -13,7 +13,7 @@ const CTA = () => {
               Ready to experience the smarter way to manage and track fee — free
               to try.
             </p>
-            <button className="mt-6 px-6 py-2 rounded-full bg-[#F97316] text-white hover:bg-[#ea580c] font-semibold shadow-md transition-colors duration-200 hover:cursor-pointer">
+            <button className="mt-6 px-6 py-2 rounded-full bg-primary text-white hover:bg-[#ea580c] font-semibold shadow-md transition-colors duration-200 hover:cursor-pointer">
               <Link href="/register">
               Get Started for Free
               </Link>

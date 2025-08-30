@@ -33,7 +33,7 @@ const PriceSection = () => {
   ];
   return (
       <section className="mt-5 w-full py-14 md:py-28 px-5">
-        <h3 className=" text-center sm:text-lg md:text-xl text-[#F97316]">
+        <h3 className=" text-center sm:text-lg md:text-xl text-primary">
           PRICINGS
         </h3>
         <h1 className=" text-center text-[28px] sm:text-4xl mt-5 ">

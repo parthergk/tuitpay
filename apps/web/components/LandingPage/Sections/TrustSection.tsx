@@ -12,7 +12,7 @@ const TrustSection = () => {
   return (
     <section className="relative mt-5 w-full py-14 md:py-28 px-5">
       <div className="w-full mt-5 flex flex-col justify-center gap-2 md:gap-4">
-        <h1 className="text-center sm:text-lg md:text-xl text-[#F97316] mb-10 sm:mb-12 md:mb-14">
+        <h1 className="text-center sm:text-lg md:text-xl text-primary mb-10 sm:mb-12 md:mb-14">
           WE ARE TRUSTED BY
         </h1>
         
