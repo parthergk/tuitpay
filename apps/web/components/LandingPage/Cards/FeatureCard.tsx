@@ -1,5 +1,6 @@
 import Image from "next/image";
-import React from "react";
+import React, { useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
 
 interface Props {
   url: string;
@@ -9,7 +10,13 @@ interface Props {
 
 const FeatureCard: React.FC<Props> = ({ url, title, desc }) => {
   return (
-    <div className="h-[400px] p-3 bg-gradient-to-bl from-[#E8DFFF]/30 to-[#DDEBFF]/30 shadow-2xl shadow-black/10 border border-white/50 rounded-xl flex flex-col">
+    <motion.div
+      initial={{ opacity: 0, y: 100 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.2, duration: 0.6 }}
+      viewport={{ once: true, amount: 0.2 }}
+      className="h-[400px] p-3 bg-gradient-to-bl from-[#E8DFFF]/30 to-[#DDEBFF]/30 shadow-2xl shadow-black/10 border border-white/50 rounded-xl flex flex-col"
+    >
       <div className="flex-1 min-h-0">
         <Image
           src={url}
@@ -28,7 +35,7 @@ const FeatureCard: React.FC<Props> = ({ url, title, desc }) => {
           {desc}
         </p>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

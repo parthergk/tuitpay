@@ -1,8 +1,9 @@
 import React from "react";
 import FeatureCard from "../Cards/FeatureCard";
+import { motion } from "framer-motion";
 
 const FeatureSection = () => {
-      const features = [
+  const features = [
     {
       url: "/image/features/student.png",
       title: "Smart Student Management",
@@ -36,12 +37,18 @@ const FeatureSection = () => {
   ];
   return (
     <section className="mt-5 w-full py-14 md:py-28 px-5">
-      <h3 className=" text-center sm:text-lg md:text-xl text-primary">
-        FEATURES
-      </h3>
-      <h1 className=" text-center text-[28px] sm:text-4xl mt-5 ">
-        Why Choose our Platform?
-      </h1>
+      <motion.div
+        initial={{ opacity: 0, y: 100 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.2, duration: 0.6 }}
+        viewport={{ once: true }}
+        className="text-center"
+      >
+        <h3 className="sm:text-lg md:text-xl text-primary">FEATURES</h3>
+        <h1 className="text-[28px] sm:text-4xl mt-5 ">
+          Why Choose our Platform?
+        </h1>
+      </motion.div>
       <div className=" grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 gap-y-5 md:gap-y-10 pt-16 lg:mt-[72px]">
         {features.map((feature) => (
           <FeatureCard
