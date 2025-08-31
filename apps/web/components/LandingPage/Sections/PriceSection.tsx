@@ -1,8 +1,9 @@
-import React from 'react'
-import PriceCard from '../Cards/PriceCard';
+import React from "react";
+import PriceCard from "../Cards/PriceCard";
+import {motion} from "framer-motion";
 
 const PriceSection = () => {
-      const plans = [
+  const plans = [
     {
       title: "Free",
       price: "₹0",
@@ -32,23 +33,30 @@ const PriceSection = () => {
     },
   ];
   return (
-      <section className="mt-5 w-full py-14 md:py-28 px-5">
+    <section className="mt-5 w-full py-14 md:py-28 px-5">
+      <motion.div
+        initial={{ opacity: 0, y: 100 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.2, duration: 0.6 }}
+        viewport={{ once: true }}
+        className="text-center"
+      >
         <h3 className=" text-center sm:text-lg md:text-xl text-primary">
           PRICINGS
         </h3>
         <h1 className=" text-center text-[28px] sm:text-4xl mt-5 ">
           Choose a Plan That Suits You
         </h1>
-        <div className="w-full pt-16 lg:mt-[72px]">
-          <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-2 gap-10">
-            {plans.map((plan, index) => (
-              <PriceCard key={index} {...plan} />
-            ))}
-          </div>
+      </motion.div>
+      <div className="w-full pt-16 lg:mt-[72px]">
+        <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-2 gap-10">
+          {plans.map((plan, index) => (
+            <PriceCard key={index} {...plan} />
+          ))}
         </div>
-      </section>
+      </div>
+    </section>
+  );
+};
 
-  )
-}
-
-export default PriceSection
+export default PriceSection;
