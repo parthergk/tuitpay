@@ -1,6 +1,6 @@
 import { CircleCheck } from "lucide-react";
 import React from "react";
-import {motion} from "framer-motion";
+import { motion } from "motion/react";
 
 interface PriceCardProps {
   title: string;
@@ -20,11 +20,11 @@ const PriceCard: React.FC<PriceCardProps> = ({
   highlight = false,
 }) => {
   return (
-    <motion.div      initial={{ opacity: 0, y: 100 }}
+    <motion.div
+      initial={{ opacity: 0, y: 100 }}
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.2, duration: 0.6 }}
       viewport={{ once: true, amount: 0.2 }}
-
       className={`w-full p-6 rounded-2xl border shadow-lg shadow-black/10 border-white/50 transition-transform hover:scale-105 ${
         highlight
           ? "bg-[linear-gradient(to_bottom_right,#FFFFFF_0%,#E0ECFF_25%,#EAE2FF_50%,#F8E8DB_75%,#FFFFFF_100%)]"
@@ -49,14 +49,10 @@ const PriceCard: React.FC<PriceCardProps> = ({
         {highlight ? (
           <></>
         ) : (
-            <>
-          <li className="flex items-center gap-2">
-           .
-          </li>
-          <li className="flex items-center gap-2">
-            .
-          </li>
-            </>
+          <>
+            <li className="flex items-center gap-2">.</li>
+            <li className="flex items-center gap-2">.</li>
+          </>
         )}
       </ul>
 

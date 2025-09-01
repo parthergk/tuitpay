@@ -1,6 +1,6 @@
 import React from "react";
 import PriceCard from "../Cards/PriceCard";
-import {motion} from "framer-motion";
+import { motion } from "motion/react";
 
 const PriceSection = () => {
   const plans = [

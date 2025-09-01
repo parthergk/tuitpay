@@ -1,6 +1,6 @@
 import React from "react";
 import TestimonialsCard from "../Cards/TestimonialsCard";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 const TestimonialSection = () => {
   return (
     <section className="mt-5 w-full py-14 md:py-28 px-5">

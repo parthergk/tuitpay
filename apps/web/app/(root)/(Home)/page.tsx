@@ -10,6 +10,7 @@ import FeatureSection from "../../../components/LandingPage/Sections/FeatureSect
 import HowToUseSection from "../../../components/LandingPage/Sections/HowToUseSection";
 import CTA from "../../../components/LandingPage/CTA";
 import TestimonialSection from "../../../components/LandingPage/Sections/TestimonialSection";
+import PriceSection from "../../../components/LandingPage/Sections/PriceSection";
 
 
 interface Inputs {
@@ -49,6 +50,7 @@ export default function Home() {
       <FeatureSection />
       <HowToUseSection />
       <TestimonialSection/>
+      <PriceSection/>
       <CTA />
       <Footer />
     </div>
