@@ -78,7 +78,7 @@ const HeroSection = () => {
           >
             <Link
               href="/register"
-              className="px-6 py-2 rounded-full bg-primary text-white font-medium shadow-md hover:bg-[#ea580c] transition-colors duration-200"
+              className="px-6 py-2 rounded-full bg-primary text-white font-medium shadow-lg hover:bg-[#ea580c] transition-colors duration-200"
             >
               Get Started
             </Link>
