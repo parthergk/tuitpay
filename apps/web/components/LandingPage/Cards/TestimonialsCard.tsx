@@ -2,7 +2,7 @@ import React from "react";
 
 const TestimonialsCard = () => {
   return (
-    <div className=" w-[300px] md:w-[419px]  p-3 bg-gradient-to-bl from-[#E8DFFF]/30 to-[#DDEBFF]/30 shadow-2xl shadow-black/10 border border-white/50 rounded-xl">
+    <div className="w-full p-3 bg-gradient-to-bl from-[#E8DFFF]/30 to-[#DDEBFF]/30 shadow-lg shadow-black/10 border border-white/50 rounded-xl">
       <p className="text-sm sm:text-base leading-snug text-[#4B5563]">
         Easily track every student in one place. Add new students, update
         details, and manage without any hassle. With our intuitive student
