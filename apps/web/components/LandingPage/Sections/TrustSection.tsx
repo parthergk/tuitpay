@@ -17,7 +17,7 @@ const TrustSection = () => {
         </h1>
         
         <div className="w-full overflow-hidden [mask-image:var(--mask-gradient)] [-webkit-mask-image:var(--mask-gradient)]">
-          <div className="flex animate-scroll hover:[animation-play-state:paused]">
+          <div className="flex scroll-x hover:[animation-play-state:paused]">
             {/* First set */}
             <div className="flex items-center shrink-0 justify-around min-w-full">
               {trusted.map((img, index) => (

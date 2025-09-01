@@ -7,24 +7,30 @@ body {
   box-sizing: border-box;
 }
 
+@keyframes scrollX {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+:root {
+  --scroll-x: scrollX 20s linear infinite;
+}
+
+@utility scroll-x {
+    animation: var(--scroll-x);
+}
+
+
 @theme {
   --color-offwhite: #f8f8f8;
   --color-primary: #F97316;
   --font-roboto: var(--font-roboto), sans-serif;
   --font-forum: var(--font-forum), serif;
   --font-gloria: var(--font-gloriahallelujah), cursive;
-
-  @keyframes scroll {
-    0% {
-      transform: translateX(0);
-    }
-
-    100% {
-      transform: translateX(-100%);
-    }
-  }
-
-  --animate-scroll: scroll 20s linear infinite;
 
   --mask-gradient: linear-gradient(90deg, transparent, white 20%, white 80%, transparent);
 
@@ -41,13 +47,13 @@ body {
 }
 
 @media (max-width: 640px) {
-  :root{
+  :root {
     --animate-scroll: scroll 15s linear infinite;
   }
-  }
+}
 
-  @media (min-width: 1024px) {
-    :root{
-      --animate-scroll: scroll 25s linear infinite;
-    }
+@media (min-width: 1024px) {
+  :root {
+    --animate-scroll: scroll 25s linear infinite;
   }
+}
