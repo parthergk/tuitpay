@@ -15,24 +15,11 @@ const Header = () => {
     { name: "Contact", path: "/contact" },
   ];
 
-  const containerVariants: Variants = {
-    hidden: { opacity: 0, scale: 0.3 },
-    visible: {
-      opacity: 1,
-      scale: 1,
-      transition: {
-        duration: 1,
-        ease: "easeOut",
-      },
-    },
-  };
-
   const scaleVariants: Variants = {
     hidden: { opacity: 0, scale: 0.3 },
     visible: {
       opacity: 1,
       scale: 1,
-      transition: { delay: 1, duration: 0.6, ease: "easeOut" },
     },
   };
 
@@ -41,25 +28,29 @@ const Header = () => {
     visible: {
       opacity: 1,
       y: 0,
-      transition: { delay: 1.1, duration: 0.6, ease: "easeOut" },
+      transition: { delay: 1, duration: 0.6, ease: "easeOut" },
     },
   };
 
   return (
     <header className="fixed top-0 right-0 left-0 z-50 w-full max-w-5xl mx-auto flex items-center">
       <motion.nav
-        variants={containerVariants}
+        variants={scaleVariants}
+        transition={{ duration: 0.8, ease: "easeOut" }}
         initial="hidden"
         animate="visible"
         className="w-full py-3 m-5 flex justify-between items-center rounded-[50px] px-5 bg-offwhite/50 backdrop-blur-sm text-[#1A1A1A] shadow-2xl"
       >
         <motion.h1
           variants={scaleVariants}
+          transition={{ delay: 1, duration: 0.6, ease: "easeOut" }}
           initial="hidden"
           animate="visible"
           className="text-lg font-semibold tracking-wider"
         >
-          <Link href="/" aria-label="Go to homepage" >Logo</Link>
+          <Link href="/" aria-label="Go to homepage">
+            Logo
+          </Link>
         </motion.h1>
 
         <div className="hidden md:block">
@@ -82,6 +73,7 @@ const Header = () => {
 
         <motion.div
           variants={scaleVariants}
+          transition={{ delay: 1, duration: 0.6, ease: "easeOut" }}
           initial="hidden"
           animate="visible"
           className="hidden md:block"
@@ -91,6 +83,7 @@ const Header = () => {
 
         <motion.div
           variants={scaleVariants}
+          transition={{ delay: 1, duration: 0.6, ease: "easeOut" }}
           initial="hidden"
           animate="visible"
           className="md:hidden cursor-pointer"

@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import React, { useRef } from "react";
-import { motion, useScroll, useTransform } from "motion/react";
+import { motion, useScroll, useTransform, Variants } from "motion/react";
 
 const HeroSection = () => {
   const scrollRef = useRef(null);
@@ -13,6 +13,31 @@ const HeroSection = () => {
   const rotateX = useTransform(scrollYProgress, [0, 1], [24, 0]);
   const scale = useTransform(scrollYProgress, [0, 1], [0.8, 1]);
 
+  const slideLeftVariants: Variants = {
+    hidden: { opacity: 0, x: -50 },
+    visible: {
+      opacity: 1,
+      x: 0,
+    },
+  };
+
+  const scaleVariants: Variants = {
+    hidden: { opacity: 0, scale: 0.3 },
+    visible: {
+      opacity: 1,
+      scale: 1,
+      transition: { delay: 2.2, duration: 0.6, ease: "easeOut" },
+    },
+  };
+
+  const fadeUpVariants: Variants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { delay: 2, duration: 0.6, ease: "easeOut" },
+    },
+  };
   return (
     <section className="relative flex flex-col bg-[linear-gradient(to_bottom_right,#FFFFFF_0%,#E0ECFF_25%,#EAE2FF_50%,#F8E8DB_75%,#FFFFFF_100%)]">
       <div
@@ -27,24 +52,20 @@ const HeroSection = () => {
         <div className="w-full max-w-4xl mx-auto text-center z-20 px-4">
           <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-forum text-[#0F172A] leading-snug sm:leading-tight md:leading-tight">
             <motion.span
-              initial={{
-                opacity: 0,
-                transform: "translateX(-10%)",
-              }}
-              animate={{ opacity: 1, transform: "translateX(0%)" }}
-              transition={{ delay: 2, duration: 1 }}
+              variants={slideLeftVariants}
+              initial="hidden"
+              animate="visible"
+              transition={{ delay: 1.8, duration: 0.8, ease: "easeOut" }}
               className=" inline-block"
             >
               Track Tuition Fees Easily.
             </motion.span>
             <br />
             <motion.span
-              initial={{
-                opacity: 0,
-                transform: "translateX(-20%)",
-              }}
-              animate={{ opacity: 1, transform: "translateX(0%)" }}
-              transition={{ delay: 2.3, duration: 0.8 }}
+              variants={slideLeftVariants}
+              initial="hidden"
+              animate="visible"
+              transition={{ delay: 2, duration: 0.8, ease: "easeOut" }}
               className=" inline-block"
             >
               Send Automated Fee Reminders.
@@ -52,12 +73,9 @@ const HeroSection = () => {
           </h1>
 
           <motion.p
-            initial={{ opacity: 0, transform: "translateY(100%)" }}
-            animate={{ opacity: 1, transform: "translateY(0%)" }}
-            transition={{
-              delay: 2.5,
-              duration: 0.8,
-            }}
+            variants={fadeUpVariants}
+            initial="hidden"
+            animate="visible"
             className="mt-3 sm:mt-4 text-base sm:text-lg md:text-xl text-[#4B5563] max-w-2xl mx-auto"
           >
             A smart fee tracker built for local tuition teachers & coaching
@@ -65,12 +83,9 @@ const HeroSection = () => {
           </motion.p>
 
           <motion.div
-            initial={{ scale: 0.3, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{
-              delay: 2.7,
-              duration: 0.7,
-            }}
+            variants={scaleVariants}
+            initial="hidden"
+            animate="visible"
             className="flex justify-center items-center gap-4 sm:gap-6 mt-6 sm:mt-8"
           >
             <Link
@@ -86,12 +101,9 @@ const HeroSection = () => {
         </div>
 
         <motion.div
-            initial={{ opacity: 0, transform: "translateY(100%)" }}
-            animate={{ opacity: 1, transform: "translateY(0%)" }}
-          transition={{
-              delay: 2.7,
-              duration: 0.7,
-            }}
+          variants={fadeUpVariants}
+          initial="hidden"
+          animate="visible"
           ref={scrollRef}
           className=" relative w-full"
         >
