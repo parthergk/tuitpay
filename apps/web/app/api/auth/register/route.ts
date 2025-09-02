@@ -11,8 +11,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json(
       {
         success: false,
-        message: "Invalid Inputs",
-        error: parsedBody.error.flatten(),
+        error: "Invalid Inputs"
       },
       { status: 400 }
     );
