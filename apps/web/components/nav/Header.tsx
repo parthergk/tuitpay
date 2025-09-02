@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import User from "../User";
 import Link from "next/link";
 import { MenuIcon, X } from "lucide-react";
-import { motion } from "motion/react";
+import { motion, Variants } from "motion/react";
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -15,33 +15,58 @@ const Header = () => {
     { name: "Contact", path: "/contact" },
   ];
 
+  const containerVariants: Variants = {
+    hidden: { opacity: 0, scale: 0.3 },
+    visible: {
+      opacity: 1,
+      scale: 1,
+      transition: {
+        duration: 1,
+        ease: "easeOut",
+      },
+    },
+  };
+
+  const scaleVariants: Variants = {
+    hidden: { opacity: 0, scale: 0.3 },
+    visible: {
+      opacity: 1,
+      scale: 1,
+      transition: { delay: 1, duration: 0.6, ease: "easeOut" },
+    },
+  };
+
+  const fadeUpVariants: Variants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { delay: 1.1, duration: 0.6, ease: "easeOut" },
+    },
+  };
+
   return (
     <header className="fixed top-0 right-0 left-0 z-50 w-full max-w-5xl mx-auto flex items-center">
       <motion.nav
-        initial={{ scale: 0.3, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        transition={{
-          duration: 1,
-        }}
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
         className="w-full py-3 m-5 flex justify-between items-center rounded-[50px] px-5 bg-offwhite/50 backdrop-blur-sm text-[#1A1A1A] shadow-2xl"
       >
         <motion.h1
-          initial={{ scale: 0.3, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{
-            delay: 1.5,
-            duration: 0.6,
-          }}
+          variants={scaleVariants}
+          initial="hidden"
+          animate="visible"
           className="text-lg font-semibold tracking-wider"
         >
-          <Link href="/">Logo</Link>
+          <Link href="/" aria-label="Go to homepage" >Logo</Link>
         </motion.h1>
 
         <div className="hidden md:block">
           <motion.ul
-            initial={{ opacity: 0, transform: "translateY(60%)" }}
-            animate={{ opacity: 1, transform: "translateY(0%)" }}
-            transition={{ delay: 1.2, duration: 0.5 }}
+            variants={fadeUpVariants}
+            initial="hidden"
+            animate="visible"
             className="flex gap-10 lg:gap-12 text-lg justify-center items-center tracking-wide"
           >
             {navItem.map((item) => (
@@ -56,24 +81,18 @@ const Header = () => {
         </div>
 
         <motion.div
-          initial={{ scale: 0.3, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{
-            delay: 1.5,
-            duration: 0.6,
-          }}
+          variants={scaleVariants}
+          initial="hidden"
+          animate="visible"
           className="hidden md:block"
         >
           <User />
         </motion.div>
 
         <motion.div
-          initial={{ scale: 0.3, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{
-            delay: 1.5,
-            duration: 0.6,
-          }}
+          variants={scaleVariants}
+          initial="hidden"
+          animate="visible"
           className="md:hidden cursor-pointer"
           onClick={() => setIsOpen(!isOpen)}
         >
