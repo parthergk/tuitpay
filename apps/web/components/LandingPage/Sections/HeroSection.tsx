@@ -10,9 +10,8 @@ const HeroSection = () => {
     offset: ["start end", "center"],
   });
 
-  const rotateX = useTransform(scrollYProgress, [0, 1], [24, 0]); 
+  const rotateX = useTransform(scrollYProgress, [0, 1], [24, 0]);
   const scale = useTransform(scrollYProgress, [0, 1], [0.8, 1]);
-
 
   return (
     <section className="relative flex flex-col bg-[linear-gradient(to_bottom_right,#FFFFFF_0%,#E0ECFF_25%,#EAE2FF_50%,#F8E8DB_75%,#FFFFFF_100%)]">
@@ -30,10 +29,10 @@ const HeroSection = () => {
             <motion.span
               initial={{
                 opacity: 0,
-                transform: "translateY(60%) skewY(8deg)",
+                transform: "translateX(-10%)",
               }}
-              animate={{ opacity: 1, transform: "translateY(0%) skewY(0deg)" }}
-              transition={{ delay: 1.5, duration: 0.8 }}
+              animate={{ opacity: 1, transform: "translateX(0%)" }}
+              transition={{ delay: 2, duration: 1 }}
               className=" inline-block"
             >
               Track Tuition Fees Easily.
@@ -42,10 +41,10 @@ const HeroSection = () => {
             <motion.span
               initial={{
                 opacity: 0,
-                transform: "translateY(60%) skewY(7deg)",
+                transform: "translateX(-20%)",
               }}
-              animate={{ opacity: 1, transform: "translateY(0%) skewY(0deg)" }}
-              transition={{ delay: 1.7, duration: 0.8 }}
+              animate={{ opacity: 1, transform: "translateX(0%)" }}
+              transition={{ delay: 2.3, duration: 0.8 }}
               className=" inline-block"
             >
               Send Automated Fee Reminders.
@@ -56,9 +55,8 @@ const HeroSection = () => {
             initial={{ opacity: 0, transform: "translateY(100%)" }}
             animate={{ opacity: 1, transform: "translateY(0%)" }}
             transition={{
-              ease: [0.08, 0.65, 0.53, 0.96],
-              delay: 1,
-              duration: 0.7,
+              delay: 2.5,
+              duration: 0.8,
             }}
             className="mt-3 sm:mt-4 text-base sm:text-lg md:text-xl text-[#4B5563] max-w-2xl mx-auto"
           >
@@ -67,12 +65,11 @@ const HeroSection = () => {
           </motion.p>
 
           <motion.div
-            initial={{ opacity: 0, transform: "translateY(100%)" }}
-            animate={{ opacity: 1, transform: "translateY(0%)" }}
+            initial={{ scale: 0.3, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
             transition={{
-              ease: [0.08, 0.65, 0.53, 0.96],
-              delay: 0.5,
-              duration: 0.8,
+              delay: 2.7,
+              duration: 0.7,
             }}
             className="flex justify-center items-center gap-4 sm:gap-6 mt-6 sm:mt-8"
           >
@@ -87,31 +84,38 @@ const HeroSection = () => {
             </button>
           </motion.div>
         </div>
-      
 
-      {/* will-change: transform; opacity: 0.5; transform: perspective(1200px) scale(0.8) rotateX(24deg); */}
-        <div ref={scrollRef} className=" relative w-full">
-        <div className=" w-full mx-auto px-5 max-w-6xl perspective-[1200px]">
-          <motion.div
-            style={{
-              perspective: 1200,
-              rotateX,
-              scale,
+        <motion.div
+            initial={{ opacity: 0, transform: "translateY(100%)" }}
+            animate={{ opacity: 1, transform: "translateY(0%)" }}
+          transition={{
+              delay: 2.7,
+              duration: 0.7,
             }}
-            className="w-full p-2 border rounded-xl"
-          >
-            <Image
-              width={2800}
-              height={1800}
-              sizes="746px"
-              alt="demo"
-              src="/image/dashboard.png"
-              className=" rounded-xl"
-            />
-          </motion.div>
-        </div>
-        <div className="absolute z-0 w-full h-80 bg-gradient-to-t from-[#EAE2FF]/95 via-30% via-[#EAE2FF] sm:via-[#EAE2FF]/60 to-transparent -bottom-40 sm:-bottom-36 md:-bottom-5"></div>
-        </div>
+          ref={scrollRef}
+          className=" relative w-full"
+        >
+          <div className=" w-full mx-auto px-5 max-w-6xl perspective-[1200px]">
+            <motion.div
+              style={{
+                perspective: 1200,
+                rotateX,
+                scale,
+              }}
+              className="w-full p-2 border rounded-xl"
+            >
+              <Image
+                width={2800}
+                height={1800}
+                sizes="746px"
+                alt="demo"
+                src="/image/dashboard.png"
+                className=" rounded-xl"
+              />
+            </motion.div>
+          </div>
+          <div className="absolute z-0 w-full h-80 bg-gradient-to-t from-[#EAE2FF]/95 via-30% via-[#EAE2FF] sm:via-[#EAE2FF]/60 to-transparent -bottom-40 sm:-bottom-36 md:-bottom-5"></div>
+        </motion.div>
       </div>
     </section>
   );
