@@ -4,12 +4,12 @@ import { IUser } from "@repo/types";
 
 const userSchema = new Schema<IUser>(
   {
-    name: { type: String, required: true },
+    name: { type: String, default: null },
     email: { type: String, required: true, unique: true },
-    phone: { type: String, required: true, unique: true },
+    phone: { type: String, default: null, sparse: true },
     password: { type: String, required: true },
     isVerified: { type: Boolean, default: false, required: true },
-    tuitionClassName: { type: String, required: true },
+    tuitionClassName: { type: String, default: null },
 
     verifyCode: { type: String, minlength: 4 },
     verifyCodePurpose: { type: String },

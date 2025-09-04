@@ -53,7 +53,7 @@ const Register = () => {
   };
 
   return (
-    <div className="max-w-md mx-auto p-6 bg-white rounded-lg shadow-md">
+    <div className="max-w-md mx-auto p-6 bg-white rounded-lg shadow-md mt-36">
       <h1 className="text-2xl font-bold mb-6 text-center">Sign Up</h1>
 
       {message && (

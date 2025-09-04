@@ -20,18 +20,13 @@ export async function POST(req: NextRequest) {
   try {
     await connectTodb();
 
-    const existingUser = await User.findOne({
-      $or: [{ email: parsedBody.data.email }, { phone: parsedBody.data.phone }],
-    });
+    const existingUser = await User.findOne({email: parsedBody.data.email});
 
     if (existingUser) {
-      const field =
-        existingUser.email === parsedBody.data.email ? "email" : "phone";
-
       return NextResponse.json(
         {
           success: false,
-          error: `User already exists with this ${field}`,
+          error: `User already exists with this ${existingUser.email}`,
         },
         { status: 409 }
       );
@@ -40,11 +35,8 @@ export async function POST(req: NextRequest) {
     const verificationCode = Math.floor(Math.random() * 10000).toString();
 
     const user = await User.create({
-      name: parsedBody.data.name,
       email: parsedBody.data.email,
       password: parsedBody.data.password,
-      phone: parsedBody.data.phone,
-      tuitionClassName: parsedBody.data.tuitionClassName,
       verifyCode: verificationCode,
       verifyCodePurpose: "register",
       verifyCodeExpires: new Date(Date.now() + 15 * 60 * 1000),
@@ -53,7 +45,6 @@ export async function POST(req: NextRequest) {
 
     const emailResponse = await sendOTP(
       parsedBody.data.email,
-      parsedBody.data.name,
       verificationCode
     );
 

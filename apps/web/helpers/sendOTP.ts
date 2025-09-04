@@ -1,27 +1,27 @@
 import nodemailer from "nodemailer";
 
 const transporter = nodemailer.createTransport({
-  host: "smtp.sendgrid.net",
+  host: "smtp-relay.brevo.com",
   port: 587,
+  secure: false,
   auth: {
-    user: process.env.SENDGRID_USER,
-    pass: process.env.SENDGRID_PASS,
+    user: process.env.BREVO_USER,
+    pass: process.env.BREVO_PASS,
   },
 });
 
 export async function sendOTP(
   email: string,
-  name: string,
   code: string
 ): Promise<{ success: boolean; message?: string; error?:string; status:number }> {
   try {
     await transporter.sendMail({
-      from: process.env.SENDGRID_FROM,
+      from: process.env.BREVO_FROM,
       to: email,
       subject: "Your Verification Code",
       html: `
           <div style="font-family: Arial, sans-serif; color: #333; line-height: 1.6; max-width: 600px; margin: auto; padding: 24px; border: 1px solid #ddd; border-radius: 8px;">
-          <h2 style="color: #2c3e50; margin-top: 0;">Hi ${name},</h2>
+          <h2 style="color: #2c3e50; margin-top: 0;">Hi ${email.split("@")[0]},</h2>
           <p>Thank you for signing up for <strong>Tuition Fee Tracker</strong>! To verify your email and activate your account, please use the code below:</p>
           <div style="margin: 24px 0; padding: 16px; background-color: #f1f5f9; border: 1px dashed #bbb; text-align: center;">
           <strong style="font-size: 24px; letter-spacing: 2px; color: #2c3e50;">${code}</strong>
