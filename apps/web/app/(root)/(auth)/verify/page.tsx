@@ -82,18 +82,14 @@ const Verify = () => {
       if (data.success) {
         setSubmitSuccess(data.message || "Email verified successfully!");
         localStorage.removeItem("verifyEmail");
-
-        console.log("Purpose", data);
-
+        
         if (data.purpose === "forgot-password") {
           router.push("/reset");
         }
         if (data.purpose === "register") {
           router.push("/login");
         }
-        // setTimeout(() => {
-        //   router.push("/login");
-        // }, 2000);
+      
       } else {
         setSubmitError(data.error || "Verification failed");
         setCode(new Array(4).fill(""));
