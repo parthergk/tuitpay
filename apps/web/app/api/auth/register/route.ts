@@ -1,17 +1,18 @@
 import { NextRequest, NextResponse } from "next/server";
 import { UserSchema } from "@repo/validation/types";
 import { connectTodb, User } from "@repo/db";
-import { sendOTP } from "../../../../helpers/sendOTP";
+import { sendVerificationEmail } from "../../../../helpers/sendOTP";
+import jwt from "jsonwebtoken";
 
 export async function POST(req: NextRequest) {
   const body = await req.json();
   const parsedBody = UserSchema.safeParse(body);
-  
+
   if (!parsedBody.success) {
     return NextResponse.json(
       {
         success: false,
-        error: "Invalid Inputs"
+        error: "Invalid Inputs",
       },
       { status: 400 }
     );
@@ -20,7 +21,7 @@ export async function POST(req: NextRequest) {
   try {
     await connectTodb();
 
-    const existingUser = await User.findOne({email: parsedBody.data.email});
+    const existingUser = await User.findOne({ email: parsedBody.data.email });
 
     if (existingUser) {
       return NextResponse.json(
@@ -32,30 +33,33 @@ export async function POST(req: NextRequest) {
       );
     }
 
-const verificationCode = Math.floor(Math.random() * 10000)
-  .toString()
-  .padStart(4, "0");
-
-
     const user = await User.create({
       email: parsedBody.data.email,
       password: parsedBody.data.password,
-      verifyCode: verificationCode,
-      verifyCodePurpose: "register",
-      verifyCodeExpires: new Date(Date.now() + 15 * 60 * 1000),
       isVerified: false,
     });
 
-    const emailResponse = await sendOTP(
+    const token = jwt.sign(
+      { id: user._id, email: user.email },
+      process.env.JWT_SECRET!,
+      { expiresIn: "15m" }
+    );
+
+    const verificationUrl = `${process.env.CLIENT_URL}/verify?token=${token}`;
+
+    const emailResponse = await sendVerificationEmail(
       parsedBody.data.email,
-      verificationCode
+      verificationUrl
     );
 
     if (!emailResponse.success) {
-      return NextResponse.json({
-        success: false,
-        error: emailResponse.error,
-      },{status: emailResponse.status});
+      return NextResponse.json(
+        {
+          success: false,
+          error: emailResponse.error,
+        },
+        { status: emailResponse.status }
+      );
     }
 
     return NextResponse.json(
