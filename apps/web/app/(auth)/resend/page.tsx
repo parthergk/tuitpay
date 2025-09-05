@@ -1,17 +1,19 @@
 "use client";
 import { MailWarning } from "lucide-react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 const Resend = () => {
   const [isResending, setIsResending] = useState<boolean>(false);
   const [resendMessage, setResendMessage] = useState<string>("");
   const [submitError, setSubmitError] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
 
-  const email = localStorage.getItem("verifyEmail");
+  useEffect(() => {
+    const storedEmail = localStorage.getItem("verifyEmail") || "";
+    setEmail(storedEmail);
+  }, []);
 
   const handleResendCode = async () => {
-    console.log("Handle Resend code");
-    
     setIsResending(true);
     setResendMessage("");
     setSubmitError("");
