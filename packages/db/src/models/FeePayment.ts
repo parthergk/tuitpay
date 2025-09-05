@@ -30,5 +30,5 @@ const feePaymentSchema = new Schema<IFeePayment>(
   { timestamps: true }
 );
 
-const FeePayment = (models.FeePayment as Model<IFeePayment>) || model<IFeePayment>("Reminder", feePaymentSchema);
+const FeePayment = (models.FeePayment as Model<IFeePayment>) || model<IFeePayment>("FeePayment", feePaymentSchema);
 export default FeePayment;

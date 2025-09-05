@@ -32,7 +32,10 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const verificationCode = Math.floor(Math.random() * 10000).toString();
+const verificationCode = Math.floor(Math.random() * 10000)
+  .toString()
+  .padStart(4, "0");
+
 
     const user = await User.create({
       email: parsedBody.data.email,
