@@ -1,6 +1,7 @@
 import { connectTodb, User } from "@repo/db";
 import { NextRequest, NextResponse } from "next/server";
-import { sendOTP } from "../../../../helpers/sendOTP";
+import { sendVerificationEmail } from "../../../../helpers/sendOTP";
+import jwt from "jsonwebtoken";
 
 export async function POST(req: NextRequest) {
   const body = await req.json();
@@ -28,19 +29,22 @@ export async function POST(req: NextRequest) {
   }
 
   try {
-    const verificationCode = Math.floor(1000 + Math.random() * 9000).toString();
+    const token = jwt.sign(
+      { id: user._id, email: user.email },
+      process.env.JWT_SECRET!,
+      { expiresIn: "15m" }
+    );
 
     user.set({
-      verifyCode: verificationCode,
-      verifyCodeExpires: new Date(Date.now() + 15 * 60 * 1000),
       isVerified: false,
     });
     await user.save();
 
-    const emailResponse = await sendOTP(
+    const verificationUrl = `${process.env.CLIENT_URL}/verify?token=${token}`;
+
+    const emailResponse = await sendVerificationEmail(
       user.email,
-      user.name,
-      verificationCode
+      verificationUrl
     );
 
     if (!emailResponse.success) {
@@ -53,12 +57,12 @@ export async function POST(req: NextRequest) {
     return NextResponse.json(
       {
         success: true,
-        message: "New OTP sent",
+        message: "New Verification link sended",
       },
       { status: 201 }
     );
   } catch (error) {
-    console.error("Error sending new OTP:", error);
+    console.error("Error sending link:", error);
     return NextResponse.json(
       {
         success: false,

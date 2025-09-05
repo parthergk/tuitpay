@@ -27,7 +27,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json(
         {
           success: false,
-          error: `User already exists with this ${existingUser.email}`,
+          error: "User already exists with this Email",
         },
         { status: 409 }
       );
