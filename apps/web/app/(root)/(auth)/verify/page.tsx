@@ -87,7 +87,7 @@ const Verify = () => {
           router.push("/reset");
         }
         if (data.purpose === "register") {
-          router.push("/login");
+          router.push("/profile");
         }
       
       } else {
