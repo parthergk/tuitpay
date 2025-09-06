@@ -66,6 +66,7 @@ const Register = () => {
           {message || submitError}
         </div>
       )}
+
       <div className="my-5">
         <button
           type="button"
@@ -108,6 +109,7 @@ const Register = () => {
           <div className=" w-full border-t border-gray-300"></div>
         </div>
       </div>
+      
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
         <div>
           <label
