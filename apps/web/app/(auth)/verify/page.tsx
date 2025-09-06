@@ -24,19 +24,27 @@ const Verify = () => {
 
     try {
       const response = await fetch(`/api/auth/verify?token=${token}`);
-      console.log("Response", response);
-      
+
       const result = await response.json();
-      console.log("result", result);
-      
+
       if (!response.ok || result.success === false) {
         setSubmitError(result.error || "Verification failed");
         setVerifying(false);
         return;
       }
 
-      setVerifying(false);
-      setSubmitError("Your email address has been verified");
+      if (result.success) {
+        setSubmitError(result.message || "Email verified successfully! Reset your password");
+        localStorage.removeItem("verifyEmail");
+
+        if (result.purpose === "forgot-password") {
+          router.push("/reset");
+        }
+        if (result.purpose === "register") {
+          setVerifying(false);
+          setSubmitError("Your email address has been verified");
+        }
+      }
     } catch (err) {
       setSubmitError("Something went wrong. Please try again.");
       setVerifying(false);

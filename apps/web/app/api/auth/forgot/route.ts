@@ -1,6 +1,7 @@
 import { connectTodb, User } from "@repo/db";
 import { NextRequest, NextResponse } from "next/server";
-import { sendOTP } from "../../../../helpers/sendOTP";
+import { sendVerificationEmail } from "../../../../helpers/sendOTP";
+import jwt from "jsonwebtoken";
 
 export async function POST(req: NextRequest) {
   const body = await req.json();
@@ -28,34 +29,43 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const verificationCode = Math.floor(Math.random() * 10000).toString();
+    const token = jwt.sign(
+      { id: user._id, email: user.email },
+      process.env.JWT_SECRET!,
+      { expiresIn: "15m" }
+    );
+
+    const verificationUrl = `${process.env.CLIENT_URL}/verify?token=${token}`;
 
     await User.updateOne(
       { email: body.email },
       {
         $set: {
-          verifyCode: verificationCode,
           verifyCodePurpose: "forgot-password",
-          verifyCodeExpires: Date.now() + 5 * 60 * 1000,
         },
       }
     );
 
-    const emailResponse = await sendOTP(
+    const emailResponse = await sendVerificationEmail(
       user.email,
-      user.name,
-      verificationCode
+      verificationUrl
     );
     if (!emailResponse.success) {
-      return NextResponse.json({
-        success: false,
-        error: emailResponse.message,
-      }, {
-        status:emailResponse.status
-      });
+      return NextResponse.json(
+        {
+          success: false,
+          error: emailResponse.message,
+        },
+        {
+          status: emailResponse.status,
+        }
+      );
     }
 
-    return NextResponse.json({message: "OTP sended successfully"}, {status: 200});
+    return NextResponse.json(
+      { success: true, message: "New Verification link sended" },
+      { status: 200 }
+    );
   } catch (error) {
     console.error("Error Restoring password:", error);
     return NextResponse.json(

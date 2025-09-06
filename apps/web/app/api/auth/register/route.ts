@@ -37,6 +37,7 @@ export async function POST(req: NextRequest) {
       email: parsedBody.data.email,
       password: parsedBody.data.password,
       isVerified: false,
+      verifyCodePurpose: "register"
     });
 
     const token = jwt.sign(

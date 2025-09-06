@@ -39,8 +39,6 @@ const ForgotPassword = () => {
       setMessage(data.message);
       localStorage.setItem("verifyEmail", email);
       reset();
-
-      router.push("/verify");
     } catch (err) {
       const errorMessage =
         err instanceof Error ? err.message : "Network error. Please try again.";

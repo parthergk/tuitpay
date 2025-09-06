@@ -48,11 +48,8 @@ const Login = () => {
       if (result?.ok) {
         setSubmitSuccess(true);
         reset();
-        console.log("Result from login", result);
 
-        setTimeout(() => {
-          router.push("/dashboard");
-        }, 500);
+        router.push("/dashboard");
       }
     } catch (error) {
       console.error("Login error:", error);

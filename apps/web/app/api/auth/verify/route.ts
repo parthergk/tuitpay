@@ -3,8 +3,6 @@ import { connectTodb, User } from "@repo/db";
 import jwt from "jsonwebtoken";
 
 export async function GET(req: NextRequest) {
-  console.log("Router call");
-  
   try {
     const token = req.nextUrl.searchParams.get("token");
     if (!token) {
@@ -38,21 +36,46 @@ export async function GET(req: NextRequest) {
       );
     }
 
-    if (user.isVerified) {
+    if (user.verifyCodePurpose === "register") {
+      if (user.isVerified) {
+        return NextResponse.json(
+          { success: false, error: "User already verified" },
+          { status: 400 }
+        );
+      }
+
+      user.isVerified = true;
+      await user.save();
       return NextResponse.json(
-        { success: false, error: "User already verified" },
-        { status: 400 }
+        { success: true, message: "verifyed successfully" },
+        { status: 201 }
       );
     }
 
-    user.isVerified = true;
-    await user.save();
+    if (user.verifyCodePurpose === "forgot-password") {
+      await User.updateOne(
+        { email: user.email },
+        {
+          $set: { verifyCodePurpose: "reset-allowed" },
+        }
+      );
 
-    console.log("verifyed successfully");
-    
-   return NextResponse.json(
-      { success: true, message: "verifyed successfully" },
-      { status: 201 }
+      return NextResponse.json(
+        {
+          success: true,
+          message: "verified, you can now reset your password",
+          purpose: user.verifyCodePurpose,
+        },
+        { status: 200 }
+      );
+    }
+
+    return NextResponse.json(
+      {
+        success: false,
+        error: "Invalid purpose",
+      },
+      { status: 400 }
     );
   } catch (error) {
     console.error("Verification error:", error);
