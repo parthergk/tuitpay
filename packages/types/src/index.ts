@@ -42,11 +42,16 @@ export interface IStudent {
 }
 
 export interface IPlan {
-  _id: mongoose.ObjectId
+  _id: mongoose.Types.ObjectId;
   type: "free" | "pro" | "custom";
   price: number;
   studentLimit: number | null;
   durationDays: number;
+  title: string;
+  description: string;
+  features?: string[]; 
+  buttonText?: string; 
+  highlight?: boolean;
   createdAt: Date;
   updatedAt: Date;
 }

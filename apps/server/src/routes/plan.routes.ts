@@ -8,22 +8,37 @@ planRouter.get("/new", async (req: Request, res: Response) => {
   const plans = [
     {
       type: "free",
-      price: 0,
       studentLimit: 20,
       durationDays: 30,
+      title: "Free",
+      price: 0,
+      description:
+        "Best for individual tutors just starting with small batches of students.",
+      features: [
+        "Manage up to 20 students",
+        "Track monthly fee payments",
+        "Send WhatsApp reminders",
+      ],
+      buttonText: "Get Started",
     },
     {
       type: "pro",
-      price: 199,
-      studentLimit: 100,
-      durationDays: 30,
-    },
-    {
-      type: "custom",
-      price: 499,
       studentLimit: undefined,
       durationDays: 30,
-    },
+      title: "Pro",
+      price: 499,
+      description:
+        "Perfect for coaching centers managing multiple teachers and larger student groups.",
+      features: [
+        "Unlimited students",
+        "Auto payment tracking",
+        "WhatsApp & SMS reminders",
+        "Dashboard & reports",
+        "Priority support",
+      ],
+      buttonText: "Upgrade to Pro",
+      highlight: true,
+    }
   ];
 
   try {

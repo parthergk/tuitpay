@@ -1,5 +1,5 @@
 import { Model, model, models, Schema } from "mongoose";
-import {IPlan} from "@repo/types"
+import { IPlan } from "@repo/types";
 
 const plansSchema = new Schema<IPlan>(
   {
@@ -12,6 +12,11 @@ const plansSchema = new Schema<IPlan>(
     price: { type: Number, required: true, min: 0, default: 0 },
     studentLimit: { type: Number, required: false },
     durationDays: { type: Number, required: true },
+    title: { type: String, required: true },
+    description: { type: String, required: true },
+    features: { type: [String], required: true },
+    buttonText: { type: String, required: false },
+    highlight: { type: Boolean, default: false },
   },
   { timestamps: true }
 );

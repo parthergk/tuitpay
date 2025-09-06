@@ -1,17 +1,12 @@
 import { CircleCheck } from "lucide-react";
 import React from "react";
 import { motion } from "motion/react";
+import { IPlan } from "@repo/types";
+import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 
-interface PriceCardProps {
-  title: string;
-  price: string;
-  description: string;
-  features: string[];
-  buttonText: string;
-  highlight?: boolean;
-}
-
-const PriceCard: React.FC<PriceCardProps> = ({
+const PriceCard: React.FC<IPlan> = ({
+  type,
   title,
   price,
   description,
@@ -19,6 +14,20 @@ const PriceCard: React.FC<PriceCardProps> = ({
   buttonText,
   highlight = false,
 }) => {
+  const router = useRouter();
+    const session = useSession();
+  
+  function handlePurchase( type: string){
+    if (type === "free") {
+      router.push("/register");
+      return;
+    }
+
+    if (session.status === "unauthenticated") {
+      router.push('/login');
+      return;
+    }
+  }
   return (
     <motion.div
       initial={{ opacity: 0, y: 100 }}
@@ -35,17 +44,18 @@ const PriceCard: React.FC<PriceCardProps> = ({
       <p className="mt-2 text-gray-600">{description}</p>
 
       <div className="mt-4">
-        <span className="text-3xl font-bold text-gray-900">{price}</span>
+        <span className="text-3xl font-bold text-gray-900">₹{price}</span>
         <span className="text-gray-500 text-sm"> /month</span>
       </div>
 
       <ul className="mt-6 space-y-2 text-sm text-gray-700">
-        {features.map((feature, index) => (
-          <li key={index} className="flex items-center gap-2">
-            <CircleCheck className=" h-5 w-5 text-gray-600" />{" "}
-            <span>{feature}</span>
-          </li>
-        ))}
+        {features &&
+          features.map((feature, index) => (
+            <li key={index} className="flex items-center gap-2">
+              <CircleCheck className=" h-5 w-5 text-gray-600" />{" "}
+              <span>{feature}</span>
+            </li>
+          ))}
         {highlight ? (
           <></>
         ) : (
@@ -57,11 +67,8 @@ const PriceCard: React.FC<PriceCardProps> = ({
       </ul>
 
       <button
-        className={` self-end mt-6 w-full py-2 rounded-lg font-medium transition-colors  ${
-          highlight
-            ? "bg-primary hover:bg-[#EA580C] text-white" // Pro button (orange)
-            : "bg-primary hover:bg-[#EA580C] text-white" // Free button (indigo)
-        }`}
+        onClick={() => handlePurchase(type)}
+        className="self-end mt-6 w-full py-2 rounded-lg font-medium transition-colors bg-primary hover:bg-[#EA580C] text-white"
       >
         {buttonText}
       </button>
