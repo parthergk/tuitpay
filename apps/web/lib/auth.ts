@@ -10,12 +10,13 @@ export const authOptions: NextAuthOptions = {
       credentials: {
         email: { label: "Email", type: "text", placeholder: "email@gmail.com" },
         password: { label: "Password", type: "password" },
+        token: {label: "Token", type: "text"}
       },
 
       // authorize function
-      async authorize(credentials, req) {
-        if (!credentials?.email || !credentials?.password) {
-          throw new Error("Email and password are required");
+      async authorize(credentials, req) {        
+        if (!credentials?.email) {          
+          throw new Error("Email is required");
         }
 
         try {
@@ -23,11 +24,28 @@ export const authOptions: NextAuthOptions = {
           const user = await User.findOne({ email: credentials.email }).select(
             "+password"
           );
-
+          
           if (!user) {
             throw new Error("No user found with this email");
           }
 
+          if (credentials.token) {
+            if (user.verificationToken !== credentials.token) {
+              throw new Error("Invalid or expired token");
+            }
+            user.verificationToken = null;
+            await user.save();
+            return {
+              id: user._id.toString(),
+              email: user.email,
+              plan: user.planType,
+            };
+          }
+
+          if (!credentials.password) {
+            throw new Error("Password is required");
+          }
+          
           const isValid = await bcryptjs.compare(
             credentials.password,
             user.password

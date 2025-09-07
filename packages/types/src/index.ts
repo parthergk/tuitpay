@@ -9,6 +9,7 @@ export interface IUser {
   isVerified: boolean;
   tuitionClassName: string;
 
+  verificationToken: string | null
   verifyCode: string;
   verifyCodePurpose: string;
   verifyCodeExpires: number;

@@ -45,9 +45,10 @@ export async function GET(req: NextRequest) {
       }
 
       user.isVerified = true;
+      user.verificationToken = token;
       await user.save();
       return NextResponse.json(
-        { success: true, message: "verifyed successfully" },
+        { success: true, message: "verifyed successfully",purpose: user.verifyCodePurpose },
         { status: 201 }
       );
     }

@@ -1,5 +1,7 @@
 "use client";
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import React, { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 
 type ProfileInputs = {
@@ -9,20 +11,24 @@ type ProfileInputs = {
 };
 
 const CompleteProfile = () => {
+  const {data:session} = useSession();
+  const email = session?.user.email;
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm<ProfileInputs>({ mode: "onBlur" });
+  const [message, setMessage] = useState("");
 
   const router = useRouter();
 
   const onSubmit: SubmitHandler<ProfileInputs> = async (data) => {
     try {
+      setMessage("");
       const response = await fetch("/api/auth/complete-profile", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
+        body: JSON.stringify({...data, email}),
       });
 
       const result = await response.json();
@@ -31,44 +37,59 @@ const CompleteProfile = () => {
         throw new Error(result.error || "Profile update failed.");
       }
 
-      router.push("/dashboard"); // or wherever you want
+      router.push("/dashboard");
     } catch (err) {
-      console.error(err);
+      const errorMessage = err instanceof Error ? err.message : "Server error";
+      setMessage(errorMessage);
     }
   };
 
   return (
-    <div className="max-w-md mx-auto p-6 bg-white rounded-lg shadow-md">
-      <h1 className="text-2xl font-bold mb-6 text-center">Complete Your Profile</h1>
-
-      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
+    <div className="max-w-md m-auto p-6 mt-16">
+      <h1 className="text-[28px] sm:text-4xl text-[#0F172A] mb-3">
+        Complete Your Profile
+      </h1>
+      <span className="text-sm sm:text-base leading-snug text-[#475569]">
+        Fill in your details to complete your profile
+      </span>
+      {message  && (
+        <div className="w-full inline-flex items-center justify-center py-2 px-4 mt-5 mb-2 rounded-md text-sm font-medium bg-gradient-to-bl from-[#E8DFFF]/30 to-[#DDEBFF]/30 shadow-xl shadow-black/10 border border-white/50 hover:scale-[1.02] transition-transform">
+          {message}
+        </div>
+      )}
+      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4 mt-3">
         {/* Name */}
         <div>
-          <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
+          <label
+            htmlFor="name"
+            className="block text-sm sm:text-base leading-snug text-[#334155] mb-1"
+          >
             Name <span className="text-red-500">*</span>
           </label>
           <input
             id="name"
             type="text"
-            className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-              errors.name ? "border-red-500" : "border-gray-300"
-            }`}
             {...register("name", { required: "Name is required" })}
+            className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#F97316] focus:border-[#F97316] ${
+              errors.name ? "border-red-500" : "border-slate-300"
+            }`}
           />
-          {errors.name && <p className="mt-1 text-sm text-red-600">{errors.name.message}</p>}
+          {errors.name && (
+            <p className="mt-1 text-sm text-red-600">{errors.name.message}</p>
+          )}
         </div>
 
         {/* Phone */}
         <div>
-          <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
+          <label
+            htmlFor="phone"
+            className="block text-sm sm:text-base leading-snug text-[#334155] mb-1"
+          >
             Phone <span className="text-red-500">*</span>
           </label>
           <input
             id="phone"
             type="tel"
-            className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-              errors.phone ? "border-red-500" : "border-gray-300"
-            }`}
             {...register("phone", {
               required: "Phone is required",
               pattern: {
@@ -76,28 +97,41 @@ const CompleteProfile = () => {
                 message: "Invalid phone number",
               },
             })}
+            className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#F97316] focus:border-[#F97316] ${
+              errors.phone ? "border-red-500" : "border-slate-300"
+            }`}
           />
-          {errors.phone && <p className="mt-1 text-sm text-red-600">{errors.phone.message}</p>}
+          {errors.phone && (
+            <p className="mt-1 text-sm text-red-600">{errors.phone.message}</p>
+          )}
         </div>
 
-        {/* Class Name */}
+        {/* Tuition Class Name */}
         <div>
-          <label htmlFor="className" className="block text-sm font-medium text-gray-700 mb-1">
-            Class Name <span className="text-red-500">*</span>
+          <label
+            htmlFor="className"
+            className="block text-sm sm:text-base leading-snug text-[#334155] mb-1"
+          >
+            Tuition Class Name <span className="text-red-500">*</span>
           </label>
           <input
             id="className"
             type="text"
-            className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-              errors.tuitionClassName ? "border-red-500" : "border-gray-300"
-            }`}
             {...register("tuitionClassName", {
               required: "Class name is required",
-              minLength: { value: 2, message: "At least 2 characters" },
+              minLength: {
+                value: 2,
+                message: "At least 2 characters",
+              },
             })}
+            className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#F97316] focus:border-[#F97316] ${
+              errors.tuitionClassName ? "border-red-500" : "border-slate-300"
+            }`}
           />
           {errors.tuitionClassName && (
-            <p className="mt-1 text-sm text-red-600">{errors.tuitionClassName.message}</p>
+            <p className="mt-1 text-sm text-red-600">
+              {errors.tuitionClassName.message}
+            </p>
           )}
         </div>
 
@@ -106,9 +140,9 @@ const CompleteProfile = () => {
           disabled={isSubmitting}
           className={`w-full py-2 px-4 rounded-md font-medium transition-colors ${
             isSubmitting
-              ? "bg-gray-400 cursor-not-allowed"
-              : "bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          } text-white`}
+              ? "bg-gray-300 text-gray-600 cursor-not-allowed"
+              : "bg-[#F97316] hover:bg-[#ea580c] active:bg-[#c2410c] text-white"
+          }`}
         >
           {isSubmitting ? "Saving..." : "Save & Continue"}
         </button>

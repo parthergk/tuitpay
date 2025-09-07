@@ -11,6 +11,7 @@ const userSchema = new Schema<IUser>(
     isVerified: { type: Boolean, default: false, required: true },
     tuitionClassName: { type: String, default: null },
 
+    verificationToken: {type:String, default: null},
     verifyCode: { type: String, minlength: 4 },
     verifyCodePurpose: { type: String },
     verifyCodeExpires: { type: Number },

@@ -3,7 +3,8 @@ import { UserSchema, UserUpdateSchema } from "@repo/validation/types";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
-  const body = req.body;
+  const body = await req.json();
+  
   const parsedBody = UserUpdateSchema.safeParse(body);
 
   if (!parsedBody.success) {
@@ -29,7 +30,7 @@ export async function POST(req: NextRequest) {
       {
         name: parsedBody.data.name,
         phone: parsedBody.data.phone,
-        tuitionClassName: parsedBody.data.className,
+        tuitionClassName: parsedBody.data.tuitionClassName,
       },
       {
         runValidators: true,

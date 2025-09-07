@@ -1,4 +1,5 @@
 "use client";
+import { signIn } from "next-auth/react";
 import { useSearchParams, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
@@ -13,37 +14,59 @@ const Verify = () => {
 
   useEffect(() => {
     const storedEmail = localStorage.getItem("verifyEmail") || "";
+
     setEmail(storedEmail);
 
-    verifyEmail();
+    verifyEmail(storedEmail);
   }, []);
 
-  async function verifyEmail() {
+  async function verifyEmail(storedEmail: string) {
     setVerifying(true);
     setSubmitError("");
 
     try {
-      const response = await fetch(`/api/auth/verify?token=${token}`);
+      const response = await fetch(
+        `/api/auth/verify?token=${encodeURIComponent(token!)}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
       const result = await response.json();
 
-      if (!response.ok || result.success === false) {
+      if (!result.success) {
         setSubmitError(result.error || "Verification failed");
         setVerifying(false);
         return;
       }
 
-      if (result.success) {
-        setSubmitError(result.message || "Email verified successfully! Reset your password");
-        localStorage.removeItem("verifyEmail");
+      if (result.purpose === "register") {
+        setSubmitError("Email verified successfully!");
 
-        if (result.purpose === "forgot-password") {
-          router.push("/reset");
-        }
-        if (result.purpose === "register") {
+        const signInResult = await signIn("credentials", {
+          redirect: false,
+          email: storedEmail,
+          token,
+        });
+
+        if (signInResult?.error) {
+          setSubmitError("Auto-login failed. Please login manually.");
           setVerifying(false);
-          setSubmitError("Your email address has been verified");
+          return;
         }
+        router.push("/profile");
+      }
+
+      if (result.purpose === "forgot-password") {
+        setSubmitError("Email verified! Reset your password.");
+        localStorage.removeItem("verifyEmail");
+        router.push("/reset");
       }
     } catch (err) {
       setSubmitError("Something went wrong. Please try again.");

@@ -8,10 +8,10 @@ export const UserSchema = z.object({
 });
 
 export const UserUpdateSchema = z.object({
-  email: z.string().email(),
   name: z.string().min(5),
   phone: z.string().min(10),
-  className: z.string(),
+  tuitionClassName: z.string(),
+  email: z.string().email(),
 });
 
 export const StudentSchema = z.object({
