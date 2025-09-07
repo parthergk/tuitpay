@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import StatCard from "../../../components/dashboard/StatCards";
 import Student from "../../../components/dashboard/Student";
 import { TeacherCard } from "../../../components/dashboard/TeacherCard";
@@ -22,11 +22,11 @@ interface DashboardData {
 export default function DashboardPage() {
   const [errorMsg, setErrorMsg] = useState("");
   const [showForm, setShowForm] = useState(false);
-  const [isOpenPlans, setIsOpenPlans] = useState<boolean>(false);
+  const [isOpenPlans, setIsOpenPlans] = useState(false);
   const [dashboardData, setDashboardData] = useState<DashboardData | null>(
     null
   );
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState(true);
   const profileContext = useUserProfile();
 
   const fetchDashboardData = async () => {
@@ -40,7 +40,7 @@ export default function DashboardPage() {
       });
 
       if (!response.ok) {
-        throw new Error(`Failed to fetch dashboard data`);
+        throw new Error("Failed to fetch dashboard data");
       }
 
       const result = await response.json();
@@ -52,7 +52,6 @@ export default function DashboardPage() {
       setDashboardData(result.data);
       profileContext.setUserDetail(result.data.teacher);
     } catch (error) {
-      console.error("Error fetching dashboard data:", error);
       const errorMessage =
         error instanceof Error ? error.message : "Please try again";
       setErrorMsg(errorMessage);
@@ -69,99 +68,122 @@ export default function DashboardPage() {
     {
       title: "Total Paid",
       count: dashboardData?.payments?.paid?.length || 0,
-      color: "bg-gray-500",
+      color: "bg-gradient-to-bl from-[#E8DFFF]/30 to-[#DDEBFF]/30",
+      textColor: "text-[#4B5563]",
     },
     {
       title: "Total Unpaid",
       count: dashboardData?.payments?.unpaid?.length || 0,
-      color: "bg-gray-500",
+      color: "bg-gradient-to-bl from-[#E8DFFF]/30 to-[#DDEBFF]/30",
+      textColor: "text-[#4B5563]",
     },
     {
       title: "Total Overdue",
       count: dashboardData?.payments?.overDue?.length || 0,
-      color: "bg-gray-500",
+      color: "bg-gradient-to-bl from-[#E8DFFF]/30 to-[#DDEBFF]/30",
+      textColor: "text-[#4B5563]",
     },
   ];
 
-  function handleAddStudent() {
-    setShowForm((pre) => !pre);
-  }
+  const handleAddStudent = () => {
+    setShowForm((prev) => !prev);
+  };
 
   return (
-    <div className="m-2 bg-gray-400 rounded-lg p-4 shadow">
-      <div>
-        <h1 className="text-2xl font-semibold text-gray-800">Dashboard</h1>
-        <p className="text-sm text-gray-500">Track your students’ fee status</p>
-      </div>
-
-      {/* error message */}
-      {errorMsg && <p className="mt-4 text-red-500">{errorMsg}</p>}
-
-      {/* stat data */}
-      {isLoading ? (
-        <p className="mt-4 text-gray-500">Loading...</p>
-      ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-4 gap-4 mt-6">
-          <StatCard
-            key={dashboardData?.students.length}
-            title="Total Student"
-            count={dashboardData?.students.length}
-            color="bg-gray-500"
-            textColor="text-black"
-          />
-          {statCards.map((card) => (
-            <StatCard
-              key={card.title}
-              title={card.title}
-              count={card.count}
-              color={card.color}
-              textColor="text-black"
-            />
-          ))}
+    <div className=" h-screen px-5 pb-10 pt-24 bg-[linear-gradient(to_bottom_right,#FFFFFF_0%,#E0ECFF_25%,#EAE2FF_50%,#F8E8DB_75%,#FFFFFF_100%)] flex flex-col">
+      <div className="relative z-[100] flex-1 w-full mx-auto bg-offwhite/50 backdrop-blur-sm rounded-xl shadow-xl py-6 px-3 sm:px-4 md:px-5">
+        <div className="mb-6">
+          <h1 className="text-[28px] sm:text-4xl text-[#0F172A]">Dashboard</h1>
+          <p className="text-sm sm:text-base leading-snug text-[#475569] mt-1">
+            Track your students’ fee status and manage your profile
+          </p>
         </div>
-      )}
 
-      <div className=" grid grid-cols-4 gap-4 mt-6">
-        {/* student data */}
-        <div className=" relative col-span-3 bg-white shadow flex flex-col items-center p-4 rounded-lg">
-          <div className=" w-full flex justify-between items-center">
-            <h1 className=" font-medium">student</h1>
-            <button
-              className=" border px-2 cursor-pointer"
-              onClick={handleAddStudent}
-            >
-              Add student
-            </button>
+        {/* Error Message */}
+        {/* {errorMsg && (
+          <div className="mb-4 p-3 bg-red-100 text-red-700 border border-red-400 rounded-md">
+            {errorMsg}
           </div>
-          {dashboardData?.students.map((student) => (
-            <Student key={student.name} student={student} />
-          ))}
-          <StudentForm
-            isOpen={showForm}
-            setIsOpen={setShowForm}
-            fetchData={fetchDashboardData}
-          />
-        </div>
-        {/* teacher data */}
+        )} */}
 
-        {dashboardData?.teacher && (
-          <TeacherCard
-            name={dashboardData.teacher.name}
-            email={dashboardData.teacher.email}
-            phone={dashboardData.teacher.phone}
-            tuitionClassName={dashboardData.teacher.tuitionClassName}
-            planType={dashboardData.teacher.planType}
-            planStatus={dashboardData.teacher.planStatus}
-            studentLimit={dashboardData.teacher.studentLimit}
-            planActivatedAt={dashboardData.teacher.planActivatedAt}
-            planExpiresAt={dashboardData.teacher.planExpiresAt}
-            setIsOpnePlans={setIsOpenPlans}
-          />
+        {/* Stat Cards */}
+        {isLoading ? (
+          <div className="text-center py-4 text-[#475569]">Loading...</div>
+        ) : (
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
+            <StatCard
+              title="Total Students"
+              count={dashboardData?.students.length || 0}
+              color="bg-primary"
+              textColor="text-white"
+            />
+            {statCards.map((card) => (
+              <StatCard
+                key={card.title}
+                title={card.title}
+                count={card.count}
+                color={card.color}
+                textColor={card.textColor}
+              />
+            ))}
+          </div>
         )}
+
+        {/* Main Content */}
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+          
+          {/* Student List */}
+          <div className="lg:col-span-3 bg-[linear-gradient(to_bottom_right,#FFFFFF_0%,#F0F4FF_50%,#E8DFFF_100%)] rounded-lg shadow-md p-4 flex flex-col">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-sm sm:text-base leading-snug text-[#475569]">Students</h2>
+              <button
+                onClick={handleAddStudent}
+                className="px-3 py-1 bg-primary hover:bg-[#ea580c] text-sm sm:text-base leading-snug text-white rounded-md transition"
+              >
+                Add Student
+              </button>
+            </div>
+            <div className=" pr-2">
+              {dashboardData?.students.map((student) => (
+                <Student key={student.name} student={student} />
+              ))}
+            </div>
+            <StudentForm
+              isOpen={showForm}
+              setIsOpen={setShowForm}
+              fetchData={fetchDashboardData}
+            />
+          </div>
+
+          {/* Teacher Info */}
+          {dashboardData?.teacher && (
+              <TeacherCard
+                name={dashboardData.teacher.name}
+                email={dashboardData.teacher.email}
+                phone={dashboardData.teacher.phone}
+                tuitionClassName={dashboardData.teacher.tuitionClassName}
+                planType={dashboardData.teacher.planType}
+                planStatus={dashboardData.teacher.planStatus}
+                studentLimit={dashboardData.teacher.studentLimit}
+                planActivatedAt={dashboardData.teacher.planActivatedAt}
+                planExpiresAt={dashboardData.teacher.planExpiresAt}
+                setIsOpnePlans={setIsOpenPlans}
+              />
+          )}
+        </div>
+
+        {/* Plans Modal */}
         {isOpenPlans && (
-          <div className=" absolute w-xl border p-2 flex flex-col">
-            <button className=" border-b text-end cursor-pointer" onClick={()=>setIsOpenPlans(false)}>X</button>
-            <Plans />
+          <div className="fixed inset-0 bg-black/30 flex items-center justify-center">
+            <div className="bg-white rounded-lg shadow-xl w-full max-w-xl p-6 relative">
+              <button
+                onClick={() => setIsOpenPlans(false)}
+                className="absolute top-4 right-4 text-gray-500 hover:text-orange-500"
+              >
+                ✕
+              </button>
+              <Plans />
+            </div>
           </div>
         )}
       </div>

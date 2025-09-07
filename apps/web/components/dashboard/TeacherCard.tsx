@@ -26,11 +26,11 @@ export const TeacherCard: React.FC<TeacherCardProps> = ({
   setIsOpnePlans
 }) => {
   return (
-    <div className="col-span-1 bg-white rounded-2xl shadow-md p-6 w-full max-w-sm border border-gray-200">
-      <h2 className="text-xl font-bold text-gray-800 mb-1">{name}</h2>
-      <p className="text-sm text-gray-600 mb-3">{tuitionClassName}</p>
+    <div className="col-span-1 bg-[linear-gradient(to_bottom_right,#FFFFFF_0%,#E0ECFF_25%,#EAE2FF_50%,#F8E8DB_75%,#FFFFFF_100%)] rounded-2xl shadow-md p-6 w-full max-w-sm border border-gray-200 flex flex-col">
+      <h2 className="text-xl text-gray-800 mb-1">{name}</h2>
+      <p className="text-sm sm:text-base leading-snug text-[#475569] mb-3">{tuitionClassName}</p>
 
-      <div className="text-sm text-gray-700 space-y-1">
+      <div className="text-sm leading-snug text-[#475569] space-y-1">
         <p>
           <span className="font-medium">Email:</span> {email}
         </p>
@@ -57,7 +57,7 @@ export const TeacherCard: React.FC<TeacherCardProps> = ({
         )}
       </div>
 
-      <button className=" border px-2 mt-3 cursor-pointer hover:bg-gray-200"onClick={()=>setIsOpnePlans(pre=>!pre)} >Upgrade Plan</button>
+      <button className=" mt-3 px-3 py-1 bg-primary hover:bg-[#ea580c] text-sm sm:text-base leading-snug text-white rounded-md transition cursor-pointer"onClick={()=>setIsOpnePlans(pre=>!pre)} >Upgrade Plan</button>
     </div>
   );
 };
