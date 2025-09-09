@@ -16,7 +16,7 @@ const HowToUseSection = () => {
         <h1 className="text-[28px] sm:text-4xl mt-5 ">How it works?</h1>
       </motion.div>
       <div className=" h-[1200px] grid md:grid-cols-2 gap-10 pt-16 lg:mt-[72px]">
-        <div className=" h-full flex  flex-col gap-10">
+        <div className=" h-full flex flex-col gap-10">
           <motion.div
             initial={{ opacity: 0, y: 100 }}
             whileInView={{ opacity: 1, y: 0 }}

@@ -31,7 +31,7 @@ export default function DashboardPage() {
 
   const fetchDashboardData = async () => {
     try {
-      const response = await fetch("http://localhost:8080/api/v1/dashboard", {
+      const response = await fetch("https://253f38ac0cf6.ngrok-free.app/api/v1/dashboard", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -90,8 +90,9 @@ export default function DashboardPage() {
   };
 
   return (
-    <div className=" h-screen px-5 pb-10 pt-24 bg-[linear-gradient(to_bottom_right,#FFFFFF_0%,#E0ECFF_25%,#EAE2FF_50%,#F8E8DB_75%,#FFFFFF_100%)] flex flex-col">
-      <div className="relative z-[100] flex-1 w-full mx-auto bg-offwhite/50 backdrop-blur-sm rounded-xl shadow-xl py-6 px-3 sm:px-4 md:px-5">
+    <div className="h-screen px-5 pb-5 pt-24 bg-[linear-gradient(to_bottom_right,#FFFFFF_0%,#E0ECFF_25%,#EAE2FF_50%,#F8E8DB_75%,#FFFFFF_100%)] flex flex-col">
+      <div className="relative flex flex-col flex-1 w-full h-full mx-auto rounded-xl bg-offwhite/50 backdrop-blur-sm shadow-xl py-6 px-3 sm:px-4 md:px-5">
+        {/* Header Section */}
         <div className="mb-6">
           <h1 className="text-[28px] sm:text-4xl text-[#0F172A]">Dashboard</h1>
           <p className="text-sm sm:text-base leading-snug text-[#475569] mt-1">
@@ -99,7 +100,6 @@ export default function DashboardPage() {
           </p>
         </div>
 
-        {/* Error Message */}
         {/* {errorMsg && (
           <div className="mb-4 p-3 bg-red-100 text-red-700 border border-red-400 rounded-md">
             {errorMsg}
@@ -107,35 +107,32 @@ export default function DashboardPage() {
         )} */}
 
         {/* Stat Cards */}
-        {isLoading ? (
-          <div className="text-center py-4 text-[#475569]">Loading...</div>
-        ) : (
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
+          <StatCard
+            title="Total Students"
+            count={dashboardData?.students.length || 0}
+            color="bg-primary"
+            textColor="text-white"
+          />
+          {statCards.map((card) => (
             <StatCard
-              title="Total Students"
-              count={dashboardData?.students.length || 0}
-              color="bg-primary"
-              textColor="text-white"
+              key={card.title}
+              title={card.title}
+              count={card.count}
+              color={card.color}
+              textColor={card.textColor}
             />
-            {statCards.map((card) => (
-              <StatCard
-                key={card.title}
-                title={card.title}
-                count={card.count}
-                color={card.color}
-                textColor={card.textColor}
-              />
-            ))}
-          </div>
-        )}
+          ))}
+        </div>
 
-        {/* Main Content */}
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-          
-          {/* Student List */}
-          <div className="lg:col-span-3 bg-[linear-gradient(to_bottom_right,#FFFFFF_0%,#F0F4FF_50%,#E8DFFF_100%)] rounded-lg shadow-md p-4 flex flex-col">
+        {/* Grid Section */}
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 flex-1 overflow-hidden">
+          {/* Student Card */}
+          <div className="col-span-3 flex flex-col h-full max-h-[245px] bg-gradient-to-br from-[#E8DFFF] via-[#F0F4FF] to-[#E8DFFF] rounded-lg shadow-md p-4">
             <div className="flex justify-between items-center mb-4">
-              <h2 className="text-sm sm:text-base leading-snug text-[#475569]">Students</h2>
+              <h2 className="text-base sm:text-lg leading-snug text-[#475569]">
+                Students
+              </h2>
               <button
                 onClick={handleAddStudent}
                 className="px-3 py-1 bg-primary hover:bg-[#ea580c] text-sm sm:text-base leading-snug text-white rounded-md transition"
@@ -143,9 +140,10 @@ export default function DashboardPage() {
                 Add Student
               </button>
             </div>
-            <div className=" pr-2">
+
+            <div className="flex-1 overflow-y-auto pr-2">
               {dashboardData?.students.map((student) => (
-                <Student key={student.name} student={student} />
+                <Student key={student._id} student={student} />
               ))}
             </div>
             <StudentForm
@@ -155,8 +153,7 @@ export default function DashboardPage() {
             />
           </div>
 
-          {/* Teacher Info */}
-          {dashboardData?.teacher && (
+            {dashboardData?.teacher && (
               <TeacherCard
                 name={dashboardData.teacher.name}
                 email={dashboardData.teacher.email}
@@ -171,21 +168,6 @@ export default function DashboardPage() {
               />
           )}
         </div>
-
-        {/* Plans Modal */}
-        {isOpenPlans && (
-          <div className="fixed inset-0 bg-black/30 flex items-center justify-center">
-            <div className="bg-white rounded-lg shadow-xl w-full max-w-xl p-6 relative">
-              <button
-                onClick={() => setIsOpenPlans(false)}
-                className="absolute top-4 right-4 text-gray-500 hover:text-orange-500"
-              >
-                ✕
-              </button>
-              <Plans />
-            </div>
-          </div>
-        )}
       </div>
     </div>
   );

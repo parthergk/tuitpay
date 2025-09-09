@@ -33,7 +33,7 @@ const Header = () => {
   };
 
   return (
-    <header className="fixed top-0 right-0 left-0 z-50 w-full mx-auto flex items-center">
+    <header className="fixed top-0 right-0 left-0 z-20 w-full mx-auto flex items-center">
       <motion.nav
         variants={scaleVariants}
         transition={{ duration: 0.8, ease: "easeOut" }}
