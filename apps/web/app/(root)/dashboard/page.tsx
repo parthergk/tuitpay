@@ -31,7 +31,7 @@ export default function DashboardPage() {
 
   const fetchDashboardData = async () => {
     try {
-      const response = await fetch("https://253f38ac0cf6.ngrok-free.app/api/v1/dashboard", {
+      const response = await fetch("http://localhost:8080/api/v1/dashboard", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -85,6 +85,8 @@ export default function DashboardPage() {
     },
   ];
 
+  console.log("Dashboard",dashboardData);
+  
   const handleAddStudent = () => {
     setShowForm((prev) => !prev);
   };
@@ -93,18 +95,21 @@ export default function DashboardPage() {
     <div className="h-screen px-5 pb-5 pt-24 bg-[linear-gradient(to_bottom_right,#FFFFFF_0%,#E0ECFF_25%,#EAE2FF_50%,#F8E8DB_75%,#FFFFFF_100%)] flex flex-col">
       <div className="relative flex flex-col flex-1 w-full h-full mx-auto rounded-xl bg-offwhite/50 backdrop-blur-sm shadow-xl py-6 px-3 sm:px-4 md:px-5">
         {/* Header Section */}
-        <div className="mb-6">
+        <div className="mb-5">
           <h1 className="text-[28px] sm:text-4xl text-[#0F172A]">Dashboard</h1>
           <p className="text-sm sm:text-base leading-snug text-[#475569] mt-1">
             Track your students’ fee status and manage your profile
           </p>
         </div>
 
-        {/* {errorMsg && (
+        {errorMsg && (
           <div className="mb-4 p-3 bg-red-100 text-red-700 border border-red-400 rounded-md">
             {errorMsg}
           </div>
-        )} */}
+        )}
+          <div className="mb-4 py-2 px-3 bg-red-100 text-red-700 border border-red-400 rounded-md">
+            You are not found
+          </div>
 
         {/* Stat Cards */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
@@ -130,13 +135,12 @@ export default function DashboardPage() {
           {/* Student Card */}
           <div className="col-span-3 flex flex-col h-full max-h-[245px] bg-gradient-to-br from-[#E8DFFF] via-[#F0F4FF] to-[#E8DFFF] rounded-lg shadow-md p-4">
             <div className="flex justify-between items-center mb-4">
-              <h2 className="text-base sm:text-lg leading-snug text-[#475569]">
+              <h2 className="text-lg sm:text-xl leading-snug text-[#475569]">
                 Students
               </h2>
               <button
                 onClick={handleAddStudent}
-                className="px-3 py-1 bg-primary hover:bg-[#ea580c] text-sm sm:text-base leading-snug text-white rounded-md transition"
-              >
+                className="px-3 py-1 bg-primary hover:bg-[#ea580c] text-sm sm:text-base leading-snug text-white rounded-md transition-colors cursor-pointern"              >
                 Add Student
               </button>
             </div>

@@ -26,9 +26,9 @@ export const TeacherCard: React.FC<TeacherCardProps> = ({
   setIsOpnePlans
 }) => {
   return (
-    <div className="col-span-1 bg-[linear-gradient(to_bottom_right,#FFFFFF_0%,#F0F4FF_50%,#E8DFFF_100%)] rounded-2xl shadow-md p-6 w-full max-w-sm border border-gray-200 flex flex-col h-full max-h-[245px]">
-      <h2 className="text-xl text-gray-800 mb-1">{name}</h2>
-      <p className="text-sm sm:text-base leading-snug text-[#475569] mb-3">{tuitionClassName}</p>
+    <div className="col-span-1 bg-[linear-gradient(to_bottom_right,#FFFFFF_0%,#F0F4FF_50%,#E8DFFF_100%)] rounded-2xl shadow-md px-5 py-3 w-full max-w-sm border border-gray-200 flex flex-col gap-2 h-full max-h-[245px]">
+      <h2 className="text-xl text-gray-800">{name}</h2>
+      <p className="text-sm sm:text-base leading-snug text-[#475569]">{tuitionClassName}</p>
 
       <div className="text-sm leading-snug text-[#475569] space-y-1">
         <p>
@@ -57,7 +57,7 @@ export const TeacherCard: React.FC<TeacherCardProps> = ({
         )}
       </div>
 
-      <button className=" mt-3 px-3 py-1 bg-primary hover:bg-[#ea580c] text-sm sm:text-base leading-snug text-white rounded-md transition cursor-pointer"onClick={()=>setIsOpnePlans(pre=>!pre)} >Upgrade Plan</button>
+      <button className=" mt-2 px-3 py-1 bg-primary hover:bg-[#ea580c] text-sm sm:text-base font-medium text-white rounded-md transition-colors cursor-pointer"onClick={()=>setIsOpnePlans(pre=>!pre)} >Upgrade Plan</button>
     </div>
   );
 };
