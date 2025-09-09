@@ -31,13 +31,16 @@ export default function DashboardPage() {
 
   const fetchDashboardData = async () => {
     try {
-      const response = await fetch("http://localhost:8080/api/v1/dashboard", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-      });
+      const response = await fetch(
+        "http://localhost:8080/api/v1/dashboard",
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+        }
+      );
 
       if (!response.ok) {
         throw new Error("Failed to fetch dashboard data");
@@ -85,8 +88,8 @@ export default function DashboardPage() {
     },
   ];
 
-  console.log("Dashboard",dashboardData);
-  
+  console.log("Dashboard", dashboardData);
+
   const handleAddStudent = () => {
     setShowForm((prev) => !prev);
   };
@@ -102,14 +105,11 @@ export default function DashboardPage() {
           </p>
         </div>
 
-        {/* {errorMsg && (
-          <div className="mb-4 p-3 bg-red-100 text-red-700 border border-red-400 rounded-md">
+        {errorMsg && (
+          <div className="mb-2 py-1.5 px-3 bg-red-100 text-red-700 border border-red-400 rounded-md">
             {errorMsg}
           </div>
-        )} */}
-          {/* <div className="mb-4 py-2 px-3 bg-red-100 text-red-700 border border-red-400 rounded-md">
-            You are not found
-          </div> */}
+        )}
 
         {/* Stat Cards */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
@@ -140,12 +140,19 @@ export default function DashboardPage() {
               </h2>
               <button
                 onClick={handleAddStudent}
-                className="px-3 py-1 bg-primary hover:bg-[#ea580c] text-sm sm:text-base leading-snug text-white rounded-md transition-colors cursor-pointern"              >
+                className="px-3 py-1 bg-primary hover:bg-[#ea580c] text-sm sm:text-base leading-snug text-white rounded-md transition-colors cursor-pointern"
+              >
                 Add Student
               </button>
             </div>
 
-            <div className="flex-1 overflow-y-auto overflow-x-hidden pr-2">
+            <div
+              className="flex-1 overflow-y-auto overflow-x-hidden pr-2"
+              style={{
+                scrollbarWidth: "thin",
+                scrollbarColor: "#f97316 #e5e7eb",
+              }}
+            >
               {dashboardData?.students.map((student) => (
                 <Student key={student._id} student={student} />
               ))}
@@ -157,20 +164,22 @@ export default function DashboardPage() {
             />
           </div>
 
-            {dashboardData?.teacher ? (
-              <TeacherCard
-                name={dashboardData.teacher.name}
-                email={dashboardData.teacher.email}
-                phone={dashboardData.teacher.phone}
-                tuitionClassName={dashboardData.teacher.tuitionClassName}
-                planType={dashboardData.teacher.planType}
-                planStatus={dashboardData.teacher.planStatus}
-                studentLimit={dashboardData.teacher.studentLimit}
-                planActivatedAt={dashboardData.teacher.planActivatedAt}
-                planExpiresAt={dashboardData.teacher.planExpiresAt}
-                setIsOpnePlans={setIsOpenPlans}
-              />
-          ): (<div className="w-full h-full max-h-[245px] min-w-56 hidden md:block col-span-1 bg-[linear-gradient(to_bottom_right,#FFFFFF_0%,#F0F4FF_50%,#E8DFFF_100%)] rounded-2xl shadow-md max-w-sm border border-gray-200"></div>)}
+          {dashboardData?.teacher ? (
+            <TeacherCard
+              name={dashboardData.teacher.name}
+              email={dashboardData.teacher.email}
+              phone={dashboardData.teacher.phone}
+              tuitionClassName={dashboardData.teacher.tuitionClassName}
+              planType={dashboardData.teacher.planType}
+              planStatus={dashboardData.teacher.planStatus}
+              studentLimit={dashboardData.teacher.studentLimit}
+              planActivatedAt={dashboardData.teacher.planActivatedAt}
+              planExpiresAt={dashboardData.teacher.planExpiresAt}
+              setIsOpnePlans={setIsOpenPlans}
+            />
+          ) : (
+            <div className="w-full h-full max-h-[245px] min-w-56 hidden md:block col-span-1 bg-[linear-gradient(to_bottom_right,#FFFFFF_0%,#F0F4FF_50%,#E8DFFF_100%)] rounded-2xl shadow-md max-w-sm border border-gray-200"></div>
+          )}
         </div>
       </div>
     </div>
