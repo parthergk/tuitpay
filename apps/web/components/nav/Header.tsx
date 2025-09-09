@@ -4,9 +4,11 @@ import User from "../User";
 import Link from "next/link";
 import { MenuIcon, X } from "lucide-react";
 import { motion, Variants } from "motion/react";
+import { useSession } from "next-auth/react";
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const session = useSession();
 
   const navItem = [
     { name: "Home", path: "/" },
@@ -87,9 +89,12 @@ const Header = () => {
           initial="hidden"
           animate="visible"
           className="md:hidden cursor-pointer"
-          onClick={() => setIsOpen(!isOpen)}
         >
-          <MenuIcon size={28} />
+          {session.status === "authenticated" ? (
+            <User />
+          ) : (
+            <MenuIcon size={28} onClick={() => setIsOpen(!isOpen)} />
+          )}
         </motion.div>
       </motion.nav>
 

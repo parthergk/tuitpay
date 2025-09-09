@@ -102,14 +102,14 @@ export default function DashboardPage() {
           </p>
         </div>
 
-        {errorMsg && (
+        {/* {errorMsg && (
           <div className="mb-4 p-3 bg-red-100 text-red-700 border border-red-400 rounded-md">
             {errorMsg}
           </div>
-        )}
-          <div className="mb-4 py-2 px-3 bg-red-100 text-red-700 border border-red-400 rounded-md">
+        )} */}
+          {/* <div className="mb-4 py-2 px-3 bg-red-100 text-red-700 border border-red-400 rounded-md">
             You are not found
-          </div>
+          </div> */}
 
         {/* Stat Cards */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
@@ -133,9 +133,9 @@ export default function DashboardPage() {
         {/* Grid Section */}
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 flex-1 overflow-hidden">
           {/* Student Card */}
-          <div className="col-span-3 flex flex-col h-full max-h-[245px] bg-gradient-to-br from-[#E8DFFF] via-[#F0F4FF] to-[#E8DFFF] rounded-lg shadow-md p-4">
+          <div className="col-span-3 flex flex-col h-full max-h-[280px] sm:max-h-[245px] bg-gradient-to-bl from-[#F0F4FF] via-[#ebe3ff]/50 to-[#f0ebfd] rounded-lg shadow-md p-4">
             <div className="flex justify-between items-center mb-4">
-              <h2 className="text-lg sm:text-xl leading-snug text-[#475569]">
+              <h2 className="text-lg sm:text-xl leading-snug text-[#0F172A]">
                 Students
               </h2>
               <button
@@ -145,7 +145,7 @@ export default function DashboardPage() {
               </button>
             </div>
 
-            <div className="flex-1 overflow-y-auto pr-2">
+            <div className="flex-1 overflow-y-auto overflow-x-hidden pr-2">
               {dashboardData?.students.map((student) => (
                 <Student key={student._id} student={student} />
               ))}
@@ -157,7 +157,7 @@ export default function DashboardPage() {
             />
           </div>
 
-            {dashboardData?.teacher && (
+            {dashboardData?.teacher ? (
               <TeacherCard
                 name={dashboardData.teacher.name}
                 email={dashboardData.teacher.email}
@@ -170,7 +170,7 @@ export default function DashboardPage() {
                 planExpiresAt={dashboardData.teacher.planExpiresAt}
                 setIsOpnePlans={setIsOpenPlans}
               />
-          )}
+          ): (<div className="w-full h-full max-h-[245px] min-w-56 hidden md:block col-span-1 bg-[linear-gradient(to_bottom_right,#FFFFFF_0%,#F0F4FF_50%,#E8DFFF_100%)] rounded-2xl shadow-md max-w-sm border border-gray-200"></div>)}
         </div>
       </div>
     </div>

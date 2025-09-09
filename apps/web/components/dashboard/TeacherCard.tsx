@@ -26,7 +26,7 @@ export const TeacherCard: React.FC<TeacherCardProps> = ({
   setIsOpnePlans
 }) => {
   return (
-    <div className="col-span-1 bg-[linear-gradient(to_bottom_right,#FFFFFF_0%,#F0F4FF_50%,#E8DFFF_100%)] rounded-2xl shadow-md px-5 py-3 w-full max-w-sm border border-gray-200 flex flex-col gap-2 h-full max-h-[245px]">
+    <div className=" hidden col-span-1 bg-[linear-gradient(to_bottom_right,#FFFFFF_0%,#F0F4FF_50%,#E8DFFF_100%)] rounded-2xl shadow-md px-5 py-3 w-full max-w-sm border border-gray-200 md:flex flex-col gap-2 h-full max-h-[245px]">
       <h2 className="text-xl text-gray-800">{name}</h2>
       <p className="text-sm sm:text-base leading-snug text-[#475569]">{tuitionClassName}</p>
 
