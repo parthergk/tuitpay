@@ -17,7 +17,7 @@ export const UserUpdateSchema = z.object({
 export const StudentSchema = z.object({
   name: z.string(),
   class: z.string(),
-  sub: z.string(),
+  subject: z.string(),
   contact: z.string().min(10),
   monthlyFee: z.number(),
   isActivate: z.boolean(),

@@ -1,35 +1,34 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
+import {
+  useStudentForm,
+} from "../../context/StudentFormProvider";
+import FormStep1 from "./FormStep1";
+import FormStep2 from "./FormStep2";
 
 interface PropInter {
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  fetchData: () => Promise<void>
+  fetchData: () => Promise<void>;
 }
 
-interface Inputs {
-  name: string;
-  class: string;
-  sub: string;
+interface FormInputs {
   contact: string;
   monthlyFee: number;
-  isActivate: boolean;
   joinDate: string;
-  feeday: number;
+  feeDay: number;
 }
 
 const StudentForm: React.FC<PropInter> = ({ isOpen, setIsOpen, fetchData }) => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isSubmitting },
-    reset,
-  } = useForm<Inputs>();
-
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
 
-  const onSubmit: SubmitHandler<Inputs> = async (data) => {
+  
+  const {formData,currentStep, setCurrentStep} = useStudentForm();
+
+  const onSubmit = async (data:FormInputs) => {
+    const completeData = {...formData, ...data, isActivate: true}
+
     setMessage("");
     setError("");
     try {
@@ -37,16 +36,7 @@ const StudentForm: React.FC<PropInter> = ({ isOpen, setIsOpen, fetchData }) => {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
-        body: JSON.stringify({
-          name: data.name,
-          class: data.class,
-          sub: data.sub,
-          contact: data.contact,
-          monthlyFee: Number(data.monthlyFee),
-          isActivate: data.isActivate,
-          joinDate: data.joinDate,
-          feeday: Number(data.feeday),
-        }),
+        body: JSON.stringify(completeData),
       });
 
       const result = await response.json();
@@ -54,7 +44,6 @@ const StudentForm: React.FC<PropInter> = ({ isOpen, setIsOpen, fetchData }) => {
         throw new Error(result.error || "Student not added! Please try again");
       }
       setMessage(result.message || "Student added successfully!");
-      reset();
       fetchData();
       setTimeout(() => {
         setIsOpen(false);
@@ -67,7 +56,13 @@ const StudentForm: React.FC<PropInter> = ({ isOpen, setIsOpen, fetchData }) => {
     }
   };
 
+
   if (!isOpen) return null;
+
+  console.log("Re-render");
+  
+  const nextStep = () => setCurrentStep((pre) => pre + 1);
+  const preStep = () => setCurrentStep((pre) => pre - 1);
 
   return (
     <div className="fixed inset-0 bg-opacity-30 flex items-center justify-center z-50">
@@ -82,133 +77,10 @@ const StudentForm: React.FC<PropInter> = ({ isOpen, setIsOpen, fetchData }) => {
             ✕
           </button>
         </div>
-
-        {/* Alerts */}
-        {message && (
-          <div className="bg-green-100 text-green-700 p-1 rounded mb-2">
-            {message}
-          </div>
+        {currentStep === 1 && <FormStep1 nextStep={nextStep} />}
+        {currentStep === 2 && (
+          <FormStep2 previous={preStep} submintHandler={onSubmit} />
         )}
-        {error && (
-          <div className="bg-red-100 text-red-700 p-1 rounded mb-2">
-            {error}
-          </div>
-        )}
-
-        {/* Form */}
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-2">
-          <div>
-            <label className="block">Name *</label>
-            <input
-              type="text"
-              {...register("name", { required: "Name is required" })}
-              className="border w-full px-2 py-1 rounded text-sm"
-            />
-            {errors.name && (
-              <p className="text-red-500 text-xs">{errors.name.message}</p>
-            )}
-          </div>
-
-          <div>
-            <label className="block">Class *</label>
-            <input
-              type="text"
-              {...register("class", { required: "Class is required" })}
-              className="border w-full px-2 py-1 rounded text-sm"
-            />
-            {errors.class && (
-              <p className="text-red-500 text-xs">{errors.class.message}</p>
-            )}
-          </div>
-
-          <div>
-            <label className="block">Subject *</label>
-            <input
-              type="text"
-              {...register("sub", { required: "Subject is required" })}
-              className="border w-full px-2 py-1 rounded text-sm"
-            />
-            {errors.sub && (
-              <p className="text-red-500 text-xs">{errors.sub.message}</p>
-            )}
-          </div>
-
-          <div>
-            <label className="block">Contact *</label>
-            <input
-              type="tel"
-              {...register("contact", {
-                required: "Contact is required",
-                pattern: {
-                  value: /^[0-9]{10}$/,
-                  message: "Enter valid 10-digit number",
-                },
-              })}
-              className="border w-full px-2 py-1 rounded text-sm"
-            />
-            {errors.contact && (
-              <p className="text-red-500 text-xs">{errors.contact.message}</p>
-            )}
-          </div>
-
-          <div>
-            <label className="block">Monthly Fee *</label>
-            <input
-              type="number"
-              {...register("monthlyFee", {
-                required: "Monthly fee is required",
-                min: { value: 1, message: "Fee must be > 0" },
-              })}
-              className="border w-full px-2 py-1 rounded text-sm"
-            />
-            {errors.monthlyFee && (
-              <p className="text-red-500 text-xs">
-                {errors.monthlyFee.message}
-              </p>
-            )}
-          </div>
-
-          <div className="flex items-center space-x-1">
-            <input type="checkbox" {...register("isActivate")} />
-            <label>Active</label>
-          </div>
-
-          <div>
-            <label className="block">Join Date *</label>
-            <input
-              type="date"
-              {...register("joinDate", { required: "Join date is required" })}
-              className="border w-full px-2 py-1 rounded text-sm"
-            />
-            {errors.joinDate && (
-              <p className="text-red-500 text-xs">{errors.joinDate.message}</p>
-            )}
-          </div>
-
-          <div>
-            <label className="block">Fee Day *</label>
-            <input
-              type="number"
-              {...register("feeday", {
-                required: "Fee day is required",
-                min: { value: 1, message: "Must be 1-31" },
-                max: { value: 31, message: "Must be 1-31" },
-              })}
-              className="border w-full px-2 py-1 rounded text-sm"
-            />
-            {errors.feeday && (
-              <p className="text-red-500 text-xs">{errors.feeday.message}</p>
-            )}
-          </div>
-
-          <button
-            type="submit"
-            disabled={isSubmitting}
-            className="bg-blue-600 text-white px-3 py-1 rounded w-full hover:bg-blue-700 disabled:opacity-50"
-          >
-            {isSubmitting ? "Saving..." : "Submit"}
-          </button>
-        </form>
       </div>
     </div>
   );

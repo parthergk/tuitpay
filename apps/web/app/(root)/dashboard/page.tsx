@@ -7,7 +7,6 @@ import { TeacherCard } from "../../../components/dashboard/TeacherCard";
 import { useUserProfile } from "../../../context/UserProfileProvider";
 import { IUser } from "@repo/types";
 import StudentForm from "../../../components/student/StudentForm";
-import Plans from "../../../components/Plans";
 
 interface DashboardData {
   teacher: IUser;
@@ -88,8 +87,6 @@ export default function DashboardPage() {
     },
   ];
 
-  console.log("Dashboard", dashboardData);
-
   const handleAddStudent = () => {
     setShowForm((prev) => !prev);
   };
@@ -130,7 +127,6 @@ export default function DashboardPage() {
           ))}
         </div>
 
-        {/* Grid Section */}
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 flex-1 overflow-hidden">
           {/* Student Card */}
           <div className="col-span-3 flex flex-col h-full max-h-[280px] sm:max-h-[245px] bg-gradient-to-bl from-[#F0F4FF] via-[#ebe3ff]/50 to-[#f0ebfd] rounded-lg shadow-md p-4">

@@ -73,7 +73,7 @@ studentRouter.post(
         name: parsedBody.data.name,
         contact: parsedBody.data.contact,
         class: parsedBody.data.class,
-        sub: parsedBody.data.sub,
+        sub: parsedBody.data.subject,
         monthlyFee: parsedBody.data.monthlyFee,
         isActivate: parsedBody.data.isActivate,
         joinDate: joinDate,
@@ -178,7 +178,7 @@ studentRouter.put("/:id", verifyJwt, async (req: Request, res: Response) => {
 
     student.name = parsedBody.data.name;
     student.class = parsedBody.data.class;
-    student.sub = parsedBody.data.sub;
+    student.sub = parsedBody.data.subject;
     student.contact = parsedBody.data.contact;
     student.monthlyFee = parsedBody.data.monthlyFee;
     student.isActivate = parsedBody.data.isActivate;
