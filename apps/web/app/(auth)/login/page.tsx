@@ -59,10 +59,6 @@ const Login = () => {
     }
   };
 
-  const togglePasswordVisibility = () => {
-    setShow((prev) => !prev);
-  };
-
   return (
     <div className="max-w-md m-auto p-6 flex flex-col">
       <h1 className="text-[28px] sm:text-4xl text-[#0F172A] mt-5">

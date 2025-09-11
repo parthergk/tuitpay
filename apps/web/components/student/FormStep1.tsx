@@ -9,7 +9,7 @@ interface FormInputs {
 }
 
 const FormStep1 = ({ nextStep }: { nextStep: () => void }) => {
-const {formData} = useStudentForm();
+  const { formData } = useStudentForm();
   const {
     register,
     handleSubmit,
@@ -25,38 +25,66 @@ const {formData} = useStudentForm();
 
   const onSubmit: SubmitHandler<FormInputs> = (data) => {
     studentContext.updateFormValue({
-        name: data.name,
-        class: data.class,
-        subject: data.subject,
-      });
+      name: data.name,
+      class: data.class,
+      subject: data.subject,
+    });
     nextStep();
   };
 
-
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <label>Name</label>
-      <input
-        type="text"
-        {...register("name", { required: "Student name is required" })}
-      />
-      {errors.name && <span>{errors.name.message}</span>}
+    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4 mt-2">
+      <div>
+        <label
+          htmlFor="name"
+          className="block text-sm sm:text-base leading-snug text-[#334155] mb-1"
+        >
+          Name <span className="text-red-500">*</span>
+        </label>
+        <input
+          type="text"
+          {...register("name", { required: "Student name is required" })}
+          className="w-full px-3 py-1.5 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#F97316] focus:border-[#F97316]"
+        />
+        {errors.name && <p className="mt-1 text-sm text-red-600">{errors.name.message}</p>}
+      </div>
 
-      <label>Class</label>
-      <input
-        type="text"
-        {...register("class", { required: "Class name is required" })}
-      />
-      {errors.class && <span>{errors.class.message}</span>}
+      <div>
+        <label
+          htmlFor="name"
+          className="block text-sm sm:text-base leading-snug text-[#334155] mb-1"
+        >
+          Class <span className="text-red-500">*</span>
+        </label>
+        <input
+          type="text"
+          {...register("class", { required: "Class name is required" })}
+          className="w-full px-3 py-1.5 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#F97316] focus:border-[#F97316]"
+        />
+        {errors.class && <p className="mt-1 text-sm text-red-600">{errors.class.message}</p>}
+      </div>
 
-      <label>Subject</label>
-      <input
-        type="text"
-        {...register("subject", { required: "Subject is required" })}
-      />
-      {errors.subject && <span>{errors.subject.message}</span>}
+      <div>
+        <label
+          htmlFor="name"
+          className="block text-sm sm:text-base leading-snug text-[#334155] mb-1"
+        >
+          Subject <span className="text-red-500">*</span>
+        </label>
+        <input
+          type="text"
+          {...register("subject", { required: "Subject is required" })}
+          className="w-full px-3 py-1.5 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#F97316] focus:border-[#F97316]"
+        />
+        {errors.subject && <p className="mt-1 text-sm text-red-600">{errors.subject.message}</p>}
+      </div>
 
-      <button type="submit">Next</button>
+      <button
+        type="submit"
+        className=" self-end-safe max-w-20 px-5 py-1.5 bg-primary hover:bg-[#ea580c] text-sm sm:text-base leading-snug text-white rounded-md transition-colors cursor-pointern"
+      >
+        Next
+      </button>
     </form>
   );
 };
