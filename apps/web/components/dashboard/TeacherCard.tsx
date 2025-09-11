@@ -57,7 +57,7 @@ export const TeacherCard: React.FC<TeacherCardProps> = ({
         )}
       </div>
 
-      <button className=" mt-2 px-3 py-1 bg-primary hover:bg-[#ea580c] text-sm sm:text-base font-medium text-white rounded-md transition-colors cursor-pointer"onClick={()=>setIsOpnePlans(pre=>!pre)} >Upgrade Plan</button>
+      <button className=" mt-2 px-3 py-1 bg-primary hover:bg-[#ea580c] text-sm sm:text-base font-medium text-white rounded-md transition-colors cursor-pointer" onClick={()=>setIsOpnePlans(pre=>!pre)} >Upgrade Plan</button>
     </div>
   );
 };

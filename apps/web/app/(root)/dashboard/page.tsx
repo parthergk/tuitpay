@@ -7,6 +7,8 @@ import { TeacherCard } from "../../../components/dashboard/TeacherCard";
 import { useUserProfile } from "../../../context/UserProfileProvider";
 import { IUser } from "@repo/types";
 import StudentForm from "../../../components/student/StudentForm";
+import Plans from "../../../components/Plans";
+import { X } from "lucide-react";
 
 interface DashboardData {
   teacher: IUser;
@@ -30,16 +32,13 @@ export default function DashboardPage() {
 
   const fetchDashboardData = async () => {
     try {
-      const response = await fetch(
-        "http://localhost:8080/api/v1/dashboard",
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          credentials: "include",
-        }
-      );
+      const response = await fetch("http://localhost:8080/api/v1/dashboard", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+      });
 
       if (!response.ok) {
         throw new Error("Failed to fetch dashboard data");
@@ -175,6 +174,24 @@ export default function DashboardPage() {
             />
           ) : (
             <div className="w-full h-full max-h-[245px] min-w-56 hidden md:block col-span-1 bg-[linear-gradient(to_bottom_right,#FFFFFF_0%,#F0F4FF_50%,#E8DFFF_100%)] rounded-2xl shadow-md max-w-sm border border-gray-200"></div>
+          )}
+          {isOpenPlans && (
+            <div className="fixed h-full w-full inset-0 bg-opacity-30 flex items-center justify-center z-50 backdrop-blur-3xl rounded-lg">
+              <div className=" h-full w-full m-auto p-3 flex flex-col bg-gradient-to-bl from-[#E8DFFF] to-[#DDEBFF] border-l border-white/50 shadow-xl shadow-black/10 rounded-lg">
+                <div className=" w-full flex justify-between items-center">
+                  <h1 className="text-[28px] sm:text-4xl text-[#0F172A]">
+                   Upgrade Your Plan
+                  </h1>
+                  <button
+                    onClick={()=>setIsOpenPlans(pre=>!pre)}
+                    className="text-gray-500 hover:text-gray-700 cursor-pointer"
+                  >
+                    <X />
+                  </button>
+                </div>
+                <Plans />
+              </div>
+            </div>
           )}
         </div>
       </div>
