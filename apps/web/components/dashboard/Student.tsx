@@ -1,10 +1,10 @@
 import { useRouter } from "next/navigation";
 import React from "react";
 
-const Student = ({ student }) => {
+const Student = ({ name, id }: { name: string; id: string }) => {
   const router = useRouter();
   async function handleStudent() {
-    router.push(`/student?id=${student._id}`);
+    router.push(`/student?id=${id}`);
   }
 
   return (
@@ -13,7 +13,7 @@ const Student = ({ student }) => {
       onClick={handleStudent}
     >
       <h4 className="text-sm sm:text-base leading-snug text-[#4B5563]">
-        {student.name}
+        {name}
       </h4>
     </div>
   );

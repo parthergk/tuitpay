@@ -24,10 +24,12 @@ interface DashboardData {
 export default function DashboardPage() {
   const [errorMsg, setErrorMsg] = useState("");
   const [showForm, setShowForm] = useState(false);
-  const [dashboardData, setDashboardData] = useState<DashboardData | null>(null);
+  const [dashboardData, setDashboardData] = useState<DashboardData | null>(
+    null
+  );
   const [isLoading, setIsLoading] = useState(true);
   const profileContext = useUserProfile();
-  const {isOpenPlans, setIsOpenPlans} = useOpenPlan();
+  const { isOpenPlans, setIsOpenPlans } = useOpenPlan();
 
   const fetchDashboardData = async () => {
     try {
@@ -148,7 +150,11 @@ export default function DashboardPage() {
               }}
             >
               {dashboardData?.students.map((student) => (
-                <Student key={student._id} student={student} />
+                <Student
+                  key={student._id}
+                  name={student.name}
+                  id={student._id.toString()}
+                />
               ))}
             </div>
             <StudentForm
@@ -179,10 +185,10 @@ export default function DashboardPage() {
               <div className=" h-full w-full m-auto p-3 flex flex-col bg-gradient-to-bl from-[#E8DFFF] to-[#DDEBFF] border-l border-white/50 shadow-xl shadow-black/10 rounded-lg">
                 <div className=" w-full flex justify-between items-center">
                   <h1 className="text-[28px] sm:text-4xl text-[#0F172A]">
-                   Upgrade Your Plan
+                    Upgrade Your Plan
                   </h1>
                   <button
-                    onClick={()=>setIsOpenPlans(pre=>!pre)}
+                    onClick={() => setIsOpenPlans((pre) => !pre)}
                     className="text-gray-500 hover:text-gray-700 cursor-pointer"
                   >
                     <X />
