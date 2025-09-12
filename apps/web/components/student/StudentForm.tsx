@@ -57,18 +57,18 @@ const StudentForm: React.FC<PropInter> = ({ isOpen, setIsOpen, fetchData }) => {
   const preStep = () => setCurrentStep((pre) => pre - 1);
 
   return (
-    <div className="fixed inset-0 bg-opacity-30 flex items-center justify-center z-50 backdrop-blur-3xl px-2 rounded-lg">
+    <div className="fixed inset-0 bg-opacity-30 flex items-center justify-center z-50  backdrop-blur-2xl px-2 rounded-lg">
       <div className="max-w-md w-full m-auto p-3 flex flex-col bg-gradient-to-bl from-[#E8DFFF] to-[#DDEBFF] border-l border-white/50 shadow-xl shadow-black/10 rounded-lg">
         <div className=" w-full flex justify-between items-center">
-        <h1 className="text-[28px] sm:text-4xl text-[#0F172A]">
-          Add Student
-        </h1>
-        <button
-          onClick={() => setIsOpen(false)}
-          className="text-gray-500 hover:text-gray-700 cursor-pointer"
-        >
-          <X/>
-        </button>
+          <h1 className="text-[28px] sm:text-4xl text-[#0F172A]">
+            Add Student
+          </h1>
+          <button
+            onClick={() => setIsOpen(false)}
+            className="text-gray-500 hover:text-gray-700 cursor-pointer"
+          >
+            <X />
+          </button>
         </div>
 
         {message && (
@@ -78,10 +78,10 @@ const StudentForm: React.FC<PropInter> = ({ isOpen, setIsOpen, fetchData }) => {
           </div>
         )}
 
-      {currentStep === 1 && <FormStep1 nextStep={nextStep} />}
-      {currentStep === 2 && (
-        <FormStep2 previous={preStep} submintHandler={onSubmit} />
-      )}
+        {currentStep === 1 && <FormStep1 nextStep={nextStep} />}
+        {currentStep === 2 && (
+          <FormStep2 previous={preStep} submintHandler={onSubmit} />
+        )}
       </div>
     </div>
   );

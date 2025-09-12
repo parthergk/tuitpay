@@ -56,15 +56,25 @@ const Student = () => {
   }, [id]);
 
   return (
-    <div>
+    <div className="h-screen px-5 pb-5 pt-24 bg-[linear-gradient(to_bottom_right,#FFFFFF_0%,#E0ECFF_25%,#EAE2FF_50%,#F8E8DB_75%,#FFFFFF_100%)] flex flex-col">
+      {" "}
       {isLoading && <p className="text-gray-500">Loading...</p>}
       {errorMsg && <p className="text-red-500">{errorMsg}</p>}
       {student && fees.length > 0 && !isLoading && !errorMsg && (
-        <div className=" grid grid-cols-2">
+        <div className=" grid grid-cols-3 gap-5 h-full">
           <StudentCard key={student?._id.toString()} student={student} />
-          <div className=" p-4">
-            <h1 className="text-xl font-bold mb-4">Student Fee Record</h1>
-            <div className=" flex flex-col space-y-5">
+
+          <div className=" overflow-hidden col-span-2 flex flex-col bg-gradient-to-bl from-[#F0F4FF] via-[#ebe3ff]/50 to-[#f0ebfd] rounded-lg shadow-md p-4 mt-12">
+            <h2 className="text-lg sm:text-xl md:text-2xl text-gray-800">
+              Student Fee Record
+            </h2>
+            <div
+              className="overflow-y-auto overflow-x-hidden flex flex-col gap-3 mt-3"
+              style={{
+                scrollbarWidth: "thin",
+                scrollbarColor: "#f97316 #e5e7eb",
+              }}
+            >
               {fees.map((fee, index) => (
                 <FeeCard
                   key={index}
