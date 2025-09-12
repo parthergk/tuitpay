@@ -7,7 +7,7 @@ interface PropInf {
 
 const StudentCard: React.FC<PropInf> = ({ student }) => {
   return (
-    <div className="mt-12 max-h-72 hidden col-span-1 bg-[linear-gradient(to_bottom_right,#FFFFFF_0%,#F0F4FF_50%,#E8DFFF_100%)] rounded-2xl shadow-md px-4 sm:px-5 py-4 sm:py-5 w-full border border-gray-200 md:flex flex-col gap-3">
+    <div className=" max-h-64 sm:max-h-72 sm:col-span-1 bg-[linear-gradient(to_bottom_right,#FFFFFF_0%,#F0F4FF_50%,#E8DFFF_100%)] rounded-2xl shadow-md px-4 sm:px-5 py-4 sm:py-5 w-full border border-gray-200 md:flex flex-col gap-3">
       <h2 className="text-lg sm:text-xl md:text-2xl text-gray-800">
         Student Details
       </h2>

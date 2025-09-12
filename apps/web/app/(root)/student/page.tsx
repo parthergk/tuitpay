@@ -61,10 +61,10 @@ const Student = () => {
       {isLoading && <p className="text-gray-500">Loading...</p>}
       {errorMsg && <p className="text-red-500">{errorMsg}</p>}
       {student && fees.length > 0 && !isLoading && !errorMsg && (
-        <div className=" grid grid-cols-3 gap-5 h-full">
+        <div className=" grid grid-cols-1 sm:grid-cols-3 gap-5 h-full pt-6 sm:pt-12">
           <StudentCard key={student?._id.toString()} student={student} />
 
-          <div className=" overflow-hidden col-span-2 flex flex-col bg-gradient-to-bl from-[#F0F4FF] via-[#ebe3ff]/50 to-[#f0ebfd] rounded-lg shadow-md p-4 mt-12">
+          <div className=" overflow-hidden sm:col-span-2 flex flex-col bg-gradient-to-bl from-[#F0F4FF] via-[#ebe3ff]/50 to-[#f0ebfd] rounded-lg shadow-md p-4 ">
             <h2 className="text-lg sm:text-xl md:text-2xl text-gray-800">
               Student Fee Record
             </h2>
