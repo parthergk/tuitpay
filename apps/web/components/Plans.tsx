@@ -71,7 +71,7 @@ const Plans = () => {
   }
 
   return (
-    <div className=" flex  items-center justify-center gap-6 p-4">
+    <div className=" m-auto w-full max-w-4xl grid grid-cols-1 sm:grid-cols-2 items-center justify-items-center gap-5 p-4 overflow-y-auto">
       {plans.length === 0 ? (
         <div className="text-center text-gray-500 col-span-full">
           No plans available

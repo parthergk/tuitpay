@@ -9,6 +9,7 @@ import { IUser } from "@repo/types";
 import StudentForm from "../../../components/student/StudentForm";
 import Plans from "../../../components/Plans";
 import { X } from "lucide-react";
+import { useOpenPlan } from "../../../context/OpenPlanProvider";
 
 interface DashboardData {
   teacher: IUser;
@@ -23,12 +24,10 @@ interface DashboardData {
 export default function DashboardPage() {
   const [errorMsg, setErrorMsg] = useState("");
   const [showForm, setShowForm] = useState(false);
-  const [isOpenPlans, setIsOpenPlans] = useState(false);
-  const [dashboardData, setDashboardData] = useState<DashboardData | null>(
-    null
-  );
+  const [dashboardData, setDashboardData] = useState<DashboardData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const profileContext = useUserProfile();
+  const {isOpenPlans, setIsOpenPlans} = useOpenPlan();
 
   const fetchDashboardData = async () => {
     try {
