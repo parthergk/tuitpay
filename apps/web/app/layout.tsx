@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import { Roboto } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
 import AuthProviders from "../components/AuthProviders";
 import Script from "next/script";
@@ -15,10 +15,10 @@ const gloriaHallelujah = localFont({
   variable: "--font-gloriahallelujah",
 });
 
-const roboto = Roboto({
+const inter = Inter({
   weight: ["400", "500", "700"],
   subsets: ["latin"],
-  variable: "--font-roboto",
+  variable: "--font-inter",
 });
 
 export const metadata: Metadata = {
@@ -34,7 +34,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${forum.variable} ${gloriaHallelujah.variable} ${roboto.variable}`}
+        className={`${forum.variable} ${gloriaHallelujah.variable} ${inter.variable}`}
       >
         <Script
           src="https://checkout.razorpay.com/v1/checkout.js"

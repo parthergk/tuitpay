@@ -12,7 +12,7 @@ const Student = ({ name, id }: { name: string; id: string }) => {
       className=" w-full mt-2 p-2 rounded-md bg-gradient-to-bl from-[#E8DFFF]/30 to-[#DDEBFF]/30 shadow-sm shadow-black/10 border border-white/50 hover:-translate-y-0.5 hover:shadow-lg transition-transform cursor-pointer"
       onClick={handleStudent}
     >
-      <h4 className="text-sm sm:text-base leading-snug text-[#4B5563]">
+      <h4 className="text-xs md:text-[13px] lg:text-sm leading-snug text-[#1A1A1A]">
         {name}
       </h4>
     </div>

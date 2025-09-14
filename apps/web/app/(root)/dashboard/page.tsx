@@ -96,8 +96,8 @@ export default function DashboardPage() {
       <div className="relative flex flex-col flex-1 w-full h-full mx-auto rounded-xl bg-offwhite/50 backdrop-blur-sm shadow-xl py-6 px-3 sm:px-4 md:px-5">
         {/* Header Section */}
         <div className="mb-5">
-          <h1 className="text-[28px] sm:text-4xl text-[#0F172A]">Dashboard</h1>
-          <p className="text-sm sm:text-base leading-snug text-[#475569] mt-1">
+          <h1 className="text-2xl md:text-3xl lg:text-4xl text-[#0F172A]">Dashboard</h1>
+          <p className="text-sm md:text-base lg:text-lg text-[#4B5563] mt-1">
             Track your students’ fee status and manage your profile
           </p>
         </div>
@@ -122,7 +122,6 @@ export default function DashboardPage() {
               title={card.title}
               count={card.count}
               color={card.color}
-              textColor={card.textColor}
             />
           ))}
         </div>
@@ -131,12 +130,12 @@ export default function DashboardPage() {
           {/* Student Card */}
           <div className="col-span-3 flex flex-col h-full max-h-[280px] sm:max-h-[245px] bg-gradient-to-bl from-[#F0F4FF] via-[#ebe3ff]/50 to-[#f0ebfd] rounded-lg shadow-md p-4">
             <div className="flex justify-between items-center mb-4">
-              <h2 className="text-lg sm:text-xl leading-snug text-[#0F172A]">
+              <h2 className="text-lg sm:text-xl md:text-2xl leading-snug text-[#0F172A]">
                 Students
               </h2>
               <button
                 onClick={handleAddStudent}
-                className="px-3 py-1 bg-primary hover:bg-[#ea580c] text-sm sm:text-base leading-snug text-white rounded-md transition-colors cursor-pointern"
+                className="px-3 py-1 bg-primary hover:bg-[#ea580c] text-sm md:text-[15px] lg:text-base leading-snug text-white rounded-md transition-colors cursor-pointern"
               >
                 Add Student
               </button>

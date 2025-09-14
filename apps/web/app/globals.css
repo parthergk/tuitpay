@@ -28,7 +28,7 @@ body {
 @theme {
   --color-offwhite: #f8f8f8;
   --color-primary: #F97316;
-  --font-roboto: var(--font-roboto), sans-serif;
+  --font-inter: var(--font-inter), sans-serif;
   --font-forum: var(--font-forum), serif;
   --font-gloria: var(--font-gloriahallelujah), cursive;
 
