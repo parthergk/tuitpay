@@ -13,6 +13,7 @@ interface FormInputs {
 
 interface FormDataType {
   formData: FormInputs
+  setFormData: React.Dispatch<SetStateAction<FormInputs>>
   updateFormValue: (data:FormInputs)=>void;
   currentStep: number;
   setCurrentStep: React.Dispatch<SetStateAction<number>>
@@ -29,7 +30,7 @@ export const StudentFormProvider = ({ children }: { children: ReactNode }) => {
   }
 
   return (
-    <StudentFormContext.Provider value={{ formData, currentStep, setCurrentStep, updateFormValue}}>
+    <StudentFormContext.Provider value={{ formData, setFormData, currentStep, setCurrentStep, updateFormValue}}>
       {children}
     </StudentFormContext.Provider>
   );

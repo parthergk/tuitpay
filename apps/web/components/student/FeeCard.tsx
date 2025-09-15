@@ -32,7 +32,7 @@ const FeeCard: React.FC<PropInf> = ({ fee, index, openIndex, onToggle }) => {
               </p>
               <p>
                 <span className="font-medium text-gray-700">
-                  Status: {fee.status}...
+                  Status: {fee.status}
                 </span>
               </p>
 

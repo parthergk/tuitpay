@@ -28,10 +28,10 @@ const FeatureCard: React.FC<Props> = ({ url, title, desc }) => {
       </div>
 
       <div className="flex flex-col space-y-3 mt-3 overflow-hidden">
-        <h2 className="text-base sm:text-lg md:text-xl font-medium truncate">
+        <h2 className="text-base md:text-lg lg:text-xl text-[#0F172A] font-medium truncate">
           {title}
         </h2>
-        <p className="text-sm sm:text-base leading-snug text-[#4B5563] line-clamp-3">
+        <p className="text-sm md:text-[15px] lg:text-base leading-snug text-[#4B5563] line-clamp-3">
           {desc}
         </p>
       </div>

@@ -9,7 +9,7 @@ export async function verifyJwt(req: Request, res: Response, next: NextFunction)
     });
 
     if (!token) {
-       res.status(401).json({ message: "Not authenticated" });
+       res.status(401).json({ error: "Not authenticated" });
        return;
     }
 
@@ -22,6 +22,6 @@ export async function verifyJwt(req: Request, res: Response, next: NextFunction)
     next();
   } catch (err) {
     console.error("ERROR: ", err);
-    res.status(401).json({ message: "Invalid token" });
+    res.status(401).json({ error: "Invalid token" });
   }
 }

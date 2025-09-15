@@ -6,7 +6,7 @@ async function checkPlanLimit(req: Request, res: Response, next: NextFunction) {
 
   if (!userId) {
      res.status(401).json({
-      message: "User not authenticated"
+      error: "User not authenticated"
     });
     return;
   }
@@ -17,7 +17,7 @@ async function checkPlanLimit(req: Request, res: Response, next: NextFunction) {
 
     if (!user) {
        res.status(404).json({
-        message: "Teacher not found"
+        error: "Teacher not found"
       });
       return;
     }
@@ -26,7 +26,7 @@ async function checkPlanLimit(req: Request, res: Response, next: NextFunction) {
 
     if (studentCount >= user.studentLimit) {
        res.status(403).json({
-        message: `You have reached your plan limit (${user.studentLimit} students). Upgrade your plan to add more students.`,
+        error: `You have reached your plan limit (${user.studentLimit} students). Upgrade your plan to add more students.`,
         currentStudents: studentCount,
         maxStudents: user.studentLimit
       });
@@ -38,7 +38,6 @@ async function checkPlanLimit(req: Request, res: Response, next: NextFunction) {
   } catch (error) {
     console.error("Error in checkPlanLimit middleware:", error);
      res.status(500).json({
-      message: "Internal server error",
       error: "Failed to check plan limit"
     });
     return;

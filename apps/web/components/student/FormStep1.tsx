@@ -24,7 +24,7 @@ const FormStep1 = ({ nextStep }: { nextStep: () => void }) => {
   const studentContext = useStudentForm();
 
   const onSubmit: SubmitHandler<FormInputs> = (data) => {
-    studentContext.updateFormValue({
+    studentContext.setFormData({
       name: data.name,
       class: data.class,
       subject: data.subject,
@@ -33,11 +33,14 @@ const FormStep1 = ({ nextStep }: { nextStep: () => void }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4 mt-2">
-      <div>
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="flex flex-col gap-4 mt-2"
+    >
+      <div className="text-sm md:text-[15px] sm:text-base">
         <label
           htmlFor="name"
-          className="block text-sm sm:text-base leading-snug text-[#334155] mb-1"
+          className="block leading-snug text-[#334155] mb-1"
         >
           Name <span className="text-red-500">*</span>
         </label>
@@ -46,13 +49,15 @@ const FormStep1 = ({ nextStep }: { nextStep: () => void }) => {
           {...register("name", { required: "Student name is required" })}
           className="w-full px-3 py-1.5 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#F97316] focus:border-[#F97316]"
         />
-        {errors.name && <p className="mt-1 text-sm text-red-600">{errors.name.message}</p>}
+        {errors.name && (
+          <p className="mt-1 text-sm text-red-600">{errors.name.message}</p>
+        )}
       </div>
 
-      <div>
+      <div className="text-sm md:text-[15px] sm:text-base">
         <label
           htmlFor="name"
-          className="block text-sm sm:text-base leading-snug text-[#334155] mb-1"
+          className="block leading-snug text-[#334155] mb-1"
         >
           Class <span className="text-red-500">*</span>
         </label>
@@ -61,13 +66,15 @@ const FormStep1 = ({ nextStep }: { nextStep: () => void }) => {
           {...register("class", { required: "Class name is required" })}
           className="w-full px-3 py-1.5 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#F97316] focus:border-[#F97316]"
         />
-        {errors.class && <p className="mt-1 text-sm text-red-600">{errors.class.message}</p>}
+        {errors.class && (
+          <p className="mt-1 text-sm text-red-600">{errors.class.message}</p>
+        )}
       </div>
 
-      <div>
+      <div className="text-sm md:text-[15px] sm:text-base">
         <label
           htmlFor="name"
-          className="block text-sm sm:text-base leading-snug text-[#334155] mb-1"
+          className="block leading-snug text-[#334155] mb-1"
         >
           Subject <span className="text-red-500">*</span>
         </label>
@@ -76,12 +83,14 @@ const FormStep1 = ({ nextStep }: { nextStep: () => void }) => {
           {...register("subject", { required: "Subject is required" })}
           className="w-full px-3 py-1.5 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#F97316] focus:border-[#F97316]"
         />
-        {errors.subject && <p className="mt-1 text-sm text-red-600">{errors.subject.message}</p>}
+        {errors.subject && (
+          <p className="mt-1 text-sm text-red-600">{errors.subject.message}</p>
+        )}
       </div>
 
       <button
         type="submit"
-        className=" self-end-safe max-w-20 px-5 py-1.5 bg-primary hover:bg-[#ea580c] text-sm sm:text-base leading-snug text-white rounded-md transition-colors cursor-pointern"
+        className="px-3 py-1 bg-primary hover:bg-[#ea580c] text-sm md:text-[15px] lg:text-base leading-snug text-white rounded-md transition-colors cursor-pointern self-end"
       >
         Next
       </button>

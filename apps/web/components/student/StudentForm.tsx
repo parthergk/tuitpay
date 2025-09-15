@@ -20,7 +20,7 @@ interface FormInputs {
 const StudentForm: React.FC<PropInter> = ({ isOpen, setIsOpen, fetchData }) => {
   const [message, setMessage] = useState("");
 
-  const { formData, currentStep, setCurrentStep } = useStudentForm();
+  const { formData, currentStep, setCurrentStep, setFormData } = useStudentForm();
 
   const onSubmit = async (data: FormInputs) => {
     const completeData = { ...formData, ...data, isActivate: true };
@@ -35,16 +35,18 @@ const StudentForm: React.FC<PropInter> = ({ isOpen, setIsOpen, fetchData }) => {
       });
 
       const result = await response.json();
-      if (!response.ok || result.success === false) {
+      if (!response.ok || result.success === false) {        
         throw new Error(result.error || "Student not added! Please try again");
       }
       setMessage(result.message || "Student added successfully!");
+      setCurrentStep(1);
+      setFormData({});
       fetchData();
       setTimeout(() => {
+        setMessage("");
         setIsOpen(false);
       }, 1000);
     } catch (err) {
-      console.error("Error:", err);
       setMessage(
         err instanceof Error ? err.message : "Unexpected error occurred"
       );
@@ -60,9 +62,9 @@ const StudentForm: React.FC<PropInter> = ({ isOpen, setIsOpen, fetchData }) => {
     <div className="fixed inset-0 bg-opacity-30 flex items-center justify-center z-50  backdrop-blur-2xl px-2 rounded-lg">
       <div className="max-w-md w-full m-auto p-3 flex flex-col bg-gradient-to-bl from-[#E8DFFF] to-[#DDEBFF] border-l border-white/50 shadow-xl shadow-black/10 rounded-lg">
         <div className=" w-full flex justify-between items-center">
-          <h1 className="text-[28px] sm:text-4xl text-[#0F172A]">
+          <h2 className="text-xl md:text-2xl leading-snug text-[#0F172A]">
             Add Student
-          </h1>
+          </h2>
           <button
             onClick={() => setIsOpen(false)}
             className="text-gray-500 hover:text-gray-700 cursor-pointer"
