@@ -2,7 +2,7 @@ import { IPlan } from "@repo/types";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import { CircleCheck } from "lucide-react"; // You can install lucide-react or use any other icon library
+import { CircleCheck } from "lucide-react";
 
 const Plans = () => {
   const router = useRouter();
@@ -89,7 +89,7 @@ const Plans = () => {
               }`}
             >
               <h3 className="text-xl font-semibold text-gray-900">
-                {plan.type}
+                {plan.title}
               </h3>
               <p className="mt-2 text-gray-600">{plan.description}</p>
 
@@ -99,23 +99,19 @@ const Plans = () => {
                 </span>
                 <span className="text-gray-500 text-sm"> /month</span>
               </div>
+
               <p className="mt-2 text-gray-600">
                 Duration: {plan.durationDays} days
               </p>
 
               <ul className="mt-6 space-y-2 text-sm text-gray-700">
-                <li className="flex items-center gap-2">
-                  <CircleCheck className="h-5 w-5 text-gray-600" />
-                  Access to premium features
-                </li>
-                <li className="flex items-center gap-2">
-                  <CircleCheck className="h-5 w-5 text-gray-600" />
-                  Dedicated support
-                </li>
-                <li className="flex items-center gap-2">
-                  <CircleCheck className="h-5 w-5 text-gray-600" />
-                  Regular updates
-                </li>
+                {plan.features &&
+                plan.features.slice(0,3).map((feature, index) => (
+                    <li key={index} className="flex items-center gap-2">
+                      <CircleCheck className=" h-5 w-5 text-gray-600" />{" "}
+                      <span>{feature}</span>
+                    </li>
+                  ))}
               </ul>
 
               <button

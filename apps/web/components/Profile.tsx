@@ -3,6 +3,7 @@ import React from "react";
 import { Crown, UserCircle2 } from "lucide-react";
 import { useOpenPlan } from "../context/OpenPlanProvider";
 import { useUserProfile } from "../context/UserProfileProvider";
+import { useRouter } from "next/navigation";
 
 interface ProfileProps {
   isShow: boolean;
@@ -12,6 +13,7 @@ interface ProfileProps {
 const Profile: React.FC<ProfileProps> = ({ isShow }) => {
   const { setIsOpenPlans } = useOpenPlan();
   const {userDetail} = useUserProfile();
+  const router = useRouter();
 
   return (
     <div
@@ -23,7 +25,8 @@ const Profile: React.FC<ProfileProps> = ({ isShow }) => {
         <h1 className="text-lg sm:text-xl md:text-2xl text-[#0F172A] self-start">{userDetail?.name}</h1>
         <span className=" text-xs md:text-[13px] lg:text-sm text-[#4B5563]">{userDetail?.email}</span>
       </div>
-      <div className="flex items-center gap-3 cursor-pointer hover:bg-gray-100 px-1.5 rounded-md transition-colors">
+
+      <div onClick={()=>router.push("/profile_settings")} className="flex items-center gap-3 cursor-pointer hover:bg-gray-100 px-1.5 rounded-md transition-colors">
         <UserCircle2 className="h-5 w-5 text-gray-600" />
         <h1 className="text-sm md:text-[15px] lg:text-base font-medium text-[#4B5563]">
           Profile
