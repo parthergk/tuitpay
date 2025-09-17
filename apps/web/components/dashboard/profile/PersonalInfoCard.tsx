@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useUserProfile } from "../../../context/UserProfileProvider";
 
@@ -8,13 +8,13 @@ type ProfileInputs = {
   tuitionClassName: string;
 };
 const PersonalInfoCard = () => {
-  const [errorMsg, setErrorMsg] = useState("");
-  const [successMsg, setSuccessMsg] = useState("");
+  const [message, setMessage] = useState<string | null>(null);
   const { userDetail } = useUserProfile();
 
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors, isSubmitting, isDirty },
   } = useForm<ProfileInputs>({
     defaultValues: {
@@ -25,41 +25,57 @@ const PersonalInfoCard = () => {
   });
 
   const onSubmit: SubmitHandler<ProfileInputs> = async (data) => {
+    const payload = {
+      name: data.name,
+      phone: data.phone,
+      tuitionClassName: data.tuitionClassName,
+      email: userDetail?.email,
+    };
     try {
       const response = await fetch("http://localhost:3000/api/user/profile", {
         method: "PUT",
-        body: JSON.stringify(data),
+        body: JSON.stringify(payload),
         headers: {
           "Content-Type": "application/json",
         },
         credentials: "include",
       });
-      if (!response.ok) {
-        throw new Error("Profile not updated please try again");
-      }
       const result = await response.json();
 
-      if (!result.success) {
-        throw new Error(result.error);
+      if (!response.ok || !result.success) {
+        throw new Error(result.error || "Profile not updated please try again");
       }
 
-      setErrorMsg("");
-      setSuccessMsg(result.message);
+      if (result.success) {        
+        reset({
+          name: result.data.name,
+          phone: result.data.phone,
+          tuitionClassName: result.data.tuitionClassName,
+        });
+      }
+      setMessage(result.message);
     } catch (error) {
       const errorMsg =
         error instanceof Error ? error.message : "Please try again";
-      setSuccessMsg("");
-      setErrorMsg(errorMsg);
+      setMessage(errorMsg);
     }
   };
+  
+  useEffect(()=>{
+    const timeout = setTimeout(() => {
+      setMessage(null);
+    }, 5000);
+
+    return ()=>clearTimeout(timeout);
+  },[message])
   return (
     <div className=" w-full mt-6 rounded-lg p-5 bg-offwhite/50 backdrop-blur-sm shadow-xl">
       <h1 className="text-xl md:text-2xl lg:text-3xl text-[#0F172A]">
         Personal information
       </h1>
-      {(errorMsg || successMsg) && (
+      {message && (
         <div className="w-full inline-flex items-center justify-center py-2 px-4 mt-3 rounded-md text-sm font-medium bg-gradient-to-bl from-[#E8DFFF]/30 to-[#DDEBFF]/30 shadow-xl shadow-black/10 border border-white/50 hover:scale-[1.02] transition-transform">
-          {errorMsg}
+          {message}
         </div>
       )}
       <form
