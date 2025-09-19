@@ -70,7 +70,7 @@ const PersonalInfoCard = () => {
   },[message])
   return (
     <div className=" w-full mt-6 rounded-lg p-5 bg-offwhite/50 backdrop-blur-sm shadow-xl">
-      <h1 className="text-xl md:text-2xl lg:text-3xl text-[#0F172A]">
+      <h1 className="text-xl md:text-2xl lg:text-3xl text-heading">
         Personal information
       </h1>
       {message && (
@@ -93,7 +93,7 @@ const PersonalInfoCard = () => {
             id="name"
             type="text"
             {...register("name", { required: "Name is required" })}
-            className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#F97316] focus:border-[#F97316] ${
+            className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary ${
               errors.name ? "border-red-500" : "border-slate-300"
             }`}
           />
@@ -120,7 +120,7 @@ const PersonalInfoCard = () => {
                 message: "Invalid phone number",
               },
             })}
-            className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#F97316] focus:border-[#F97316] ${
+            className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary ${
               errors.phone ? "border-red-500" : "border-slate-300"
             }`}
           />
@@ -147,7 +147,7 @@ const PersonalInfoCard = () => {
                 message: "At least 2 characters",
               },
             })}
-            className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#F97316] focus:border-[#F97316] ${
+            className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary ${
               errors.tuitionClassName ? "border-red-500" : "border-slate-300"
             }`}
           />
@@ -163,7 +163,7 @@ const PersonalInfoCard = () => {
           disabled={!isDirty}
           className={`w-full py-2 px-4 rounded-md font-medium transition-colors ${
             isDirty
-              ? "bg-[#F97316] hover:bg-[#ea580c] active:bg-[#c2410c] text-white"
+              ? "bg-primary hover:bg-[#ea580c] active:bg-[#c2410c] text-white"
               : "bg-gray-300 text-gray-600 cursor-not-allowed"
           }`}
         >

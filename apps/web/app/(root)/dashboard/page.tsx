@@ -71,19 +71,19 @@ export default function DashboardPage() {
       title: "Total Paid",
       count: dashboardData?.payments?.paid?.length || 0,
       color: "bg-gradient-to-bl from-[#E8DFFF]/30 to-[#DDEBFF]/30",
-      textColor: "text-[#4B5563]",
+      textColor: "text-sub",
     },
     {
       title: "Total Unpaid",
       count: dashboardData?.payments?.unpaid?.length || 0,
       color: "bg-gradient-to-bl from-[#E8DFFF]/30 to-[#DDEBFF]/30",
-      textColor: "text-[#4B5563]",
+      textColor: "text-sub",
     },
     {
       title: "Total Overdue",
       count: dashboardData?.payments?.overDue?.length || 0,
       color: "bg-gradient-to-bl from-[#E8DFFF]/30 to-[#DDEBFF]/30",
-      textColor: "text-[#4B5563]",
+      textColor: "text-sub",
     },
   ];
 
@@ -96,8 +96,8 @@ export default function DashboardPage() {
       <div className="relative flex flex-col flex-1 w-full h-full mx-auto rounded-xl bg-offwhite/50 backdrop-blur-sm shadow-xl py-6 px-3 sm:px-4 md:px-5">
         {/* Header Section */}
         <div className="mb-5">
-          <h1 className="text-2xl md:text-3xl lg:text-4xl text-[#0F172A]">Dashboard</h1>
-          <p className="text-sm md:text-base lg:text-lg text-[#4B5563] mt-1">
+          <h1 className="text-2xl md:text-3xl lg:text-4xl text-heading">Dashboard</h1>
+          <p className="text-sm md:text-base lg:text-lg text-sub mt-1">
             Track your students’ fee status and manage your profile
           </p>
         </div>
@@ -130,7 +130,7 @@ export default function DashboardPage() {
           {/* Student Card */}
           <div className="col-span-3 flex flex-col h-full max-h-[280px] sm:max-h-[245px] bg-gradient-to-bl from-[#F0F4FF] via-[#ebe3ff]/50 to-[#f0ebfd] rounded-lg shadow-md p-4">
             <div className="flex justify-between items-center mb-4">
-              <h2 className="text-lg sm:text-xl md:text-2xl leading-snug text-[#0F172A]">
+              <h2 className="text-lg sm:text-xl md:text-2xl leading-snug text-heading">
                 Students
               </h2>
               <button
@@ -183,7 +183,7 @@ export default function DashboardPage() {
             <div className="fixed h-full w-full inset-0 bg-opacity-30 flex items-center justify-center z-50 backdrop-blur-3xl rounded-lg">
               <div className=" h-full w-full m-auto p-3 flex flex-col bg-gradient-to-bl from-[#E8DFFF] to-[#DDEBFF] border-l border-white/50 shadow-xl shadow-black/10 rounded-lg">
                 <div className=" w-full flex justify-between items-center">
-                  <h1 className="text-[28px] sm:text-4xl text-[#0F172A]">
+                  <h1 className="text-[28px] sm:text-4xl text-heading">
                     Upgrade Your Plan
                   </h1>
                   <button

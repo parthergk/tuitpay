@@ -22,7 +22,7 @@ const FeeCard: React.FC<PropInf> = ({ fee, index, openIndex, onToggle }) => {
         <h1>{new Date(fee.createdAt).toISOString().split("T")[0]}</h1>
       </button>
       {openIndex === index && (
-        <div className="text-sm sm:text-base md:text-base leading-snug text-[#475569] mt-2 flex flex-col">
+        <div className="text-sm sm:text-base md:text-base leading-snug text-muted mt-2 flex flex-col">
           <div className=" flex gap-5">
             <div className="space-y-1.5">
               <p>

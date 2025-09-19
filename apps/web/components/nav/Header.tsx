@@ -41,7 +41,7 @@ const Header = () => {
         transition={{ duration: 0.8, ease: "easeOut" }}
         initial="hidden"
         animate="visible"
-        className="w-full py-3 m-5 flex justify-between items-center rounded-[50px] px-5 bg-offwhite/50 backdrop-blur-sm text-[#1A1A1A] shadow-2xl"
+        className="w-full py-3 m-5 flex justify-between items-center rounded-[50px] px-5 bg-offwhite/50 backdrop-blur-sm text-body shadow-2xl"
       >
         <motion.h1
           variants={scaleVariants}

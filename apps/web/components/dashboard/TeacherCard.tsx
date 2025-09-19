@@ -27,9 +27,9 @@ export const TeacherCard: React.FC<TeacherCardProps> = ({
 }) => {
   return (
     <div className=" hidden col-span-1 bg-[linear-gradient(to_bottom_right,#FFFFFF_0%,#F0F4FF_50%,#E8DFFF_100%)] rounded-2xl shadow-md px-5 py-3 w-full max-w-sm border border-gray-200 md:flex flex-col gap-2 h-full max-h-[245px]">
-      <h2 className="text-lg sm:text-xl md:text-2xl text-[#0F172A]">{name}</h2>
+      <h2 className="text-lg sm:text-xl md:text-2xl text-heading">{name}</h2>
 
-      <div className="text-xs md:text-[13px] lg:text-sm text-[#4B5563] leading-snug space-y-1">
+      <div className="text-xs md:text-[13px] lg:text-sm text-sub leading-snug space-y-1">
         <p>
           <span className="font-medium">{tuitionClassName}</span>
         </p>

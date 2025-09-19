@@ -29,7 +29,7 @@ const HowToUseSection = () => {
               <h1 className="text-lg sm:text-xl md:text-2xl font-medium truncate">
                 Sign up in Minutes
               </h1>
-              <p className="text-sm sm:text-base leading-snug text-[#4B5563] line-clamp-3">
+              <p className="text-sm sm:text-base leading-snug text-sub line-clamp-3">
                 Create your free account and set up your profile instantly. Our
                 platform is designed for tuition teachers and coaching
                 centers—no technical knowledge required.
@@ -60,7 +60,7 @@ const HowToUseSection = () => {
               <h1 className="text-lg sm:text-xl md:text-2xl font-medium truncate">
                 Add Students Easily
               </h1>
-              <p className="text-sm sm:text-base leading-snug text-[#4B5563] line-clamp-3">
+              <p className="text-sm sm:text-base leading-snug text-sub line-clamp-3">
                 Quickly add student details such as name, contact, and fee
                 schedule. Organize your batches and keep everything in one
                 place.
@@ -91,7 +91,7 @@ const HowToUseSection = () => {
             <h1 className="text-lg sm:text-xl md:text-2xl font-medium truncate">
               Track Payments Seamlessly
             </h1>
-            <p className="text-sm sm:text-base leading-snug text-[#4B5563] line-clamp-3">
+            <p className="text-sm sm:text-base leading-snug text-sub line-clamp-3">
               Say goodbye to manual registers and missed reminders. With our
               system, you can track payments, pending fees, and due dates in
               real-time.

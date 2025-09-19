@@ -46,10 +46,10 @@ const CompleteProfile = () => {
 
   return (
     <div className="max-w-md m-auto p-6 mt-16">
-      <h1 className="text-[28px] sm:text-4xl text-[#0F172A] mb-3">
+      <h1 className="text-[28px] sm:text-4xl text-heading mb-3">
         Complete Your Profile
       </h1>
-      <span className="text-sm sm:text-base leading-snug text-[#475569]">
+      <span className="text-sm sm:text-base leading-snug text-muted">
         Fill in your details to complete your profile
       </span>
       {message  && (
@@ -70,7 +70,7 @@ const CompleteProfile = () => {
             id="name"
             type="text"
             {...register("name", { required: "Name is required" })}
-            className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#F97316] focus:border-[#F97316] ${
+            className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary ${
               errors.name ? "border-red-500" : "border-slate-300"
             }`}
           />
@@ -97,7 +97,7 @@ const CompleteProfile = () => {
                 message: "Invalid phone number",
               },
             })}
-            className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#F97316] focus:border-[#F97316] ${
+            className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary ${
               errors.phone ? "border-red-500" : "border-slate-300"
             }`}
           />
@@ -124,7 +124,7 @@ const CompleteProfile = () => {
                 message: "At least 2 characters",
               },
             })}
-            className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#F97316] focus:border-[#F97316] ${
+            className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary ${
               errors.tuitionClassName ? "border-red-500" : "border-slate-300"
             }`}
           />
@@ -141,7 +141,7 @@ const CompleteProfile = () => {
           className={`w-full py-2 px-4 rounded-md font-medium transition-colors ${
             isSubmitting
               ? "bg-gray-300 text-gray-600 cursor-not-allowed"
-              : "bg-[#F97316] hover:bg-[#ea580c] active:bg-[#c2410c] text-white"
+              : "bg-primary hover:bg-[#ea580c] active:bg-[#c2410c] text-white"
           }`}
         >
           {isSubmitting ? "Saving..." : "Save & Continue"}

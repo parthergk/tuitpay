@@ -31,13 +31,13 @@ const CTA = () => {
         <div className="max-w-2xl">
           <motion.h1
             variants={item}
-            className="text-3xl md:text-5xl font-bold text-[#0F172A] drop-shadow-md"
+            className="text-3xl md:text-5xl font-bold text-heading drop-shadow-md"
           >
             Get Started Today
           </motion.h1>
           <motion.p
             variants={item}
-            className="mt-4 text-base md:text-lg text-[#4B5563]"
+            className="mt-4 text-base md:text-lg text-sub"
           >
             Ready to experience the smarter way to manage and track fee — free
             to try.

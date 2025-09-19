@@ -76,7 +76,7 @@ const MarkAsPaid: React.FC<Prop> = ({ setOpenMark, feeId, onMarkPaid }) => {
             <input
               type="number"
               {...register("paidAmount", { required: "Amount is required" })}
-              className="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#F97316] focus:border-[#F97316]"
+              className="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
             />
             {errors.paidAmount && (
               <p className="mt-1 text-sm text-red-600">

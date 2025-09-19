@@ -76,10 +76,10 @@ const Verify = () => {
 
   return (
     <div className="max-w-md m-auto p-6 flex flex-col mt-24">
-      <h1 className="text-[28px] sm:text-4xl text-[#0F172A] mt-5">
+      <h1 className="text-[28px] sm:text-4xl text-heading mt-5">
         Verification
       </h1>
-      <p className="my-5 text-base md:text-lg text-[#4B5563] max-w-xs self-start">
+      <p className="my-5 text-base md:text-lg text-sub max-w-xs self-start">
         {submitError ? submitError : `We are Verifying your email: ${email}.`}
       </p>
 
@@ -89,7 +89,7 @@ const Verify = () => {
         className={`w-full py-2 px-4 rounded-md font-medium transition-colors ${
           verifying
             ? "bg-gray-300 text-gray-600 cursor-not-allowed"
-            : "bg-[#F97316] hover:bg-[#ea580c] active:bg-[#c2410c] text-white"
+            : "bg-primary hover:bg-[#ea580c] active:bg-[#c2410c] text-white"
         }`}
       >
         {verifying ? "Verifying Email..." : "Back to Login"}

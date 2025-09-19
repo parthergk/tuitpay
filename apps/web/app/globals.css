@@ -28,6 +28,10 @@ body {
 @theme {
   --color-offwhite: #f8f8f8;
   --color-primary: #F97316;
+  --color-body: #1A1A1A;
+  --color-sub: #4B5563;
+  --color-heading: #0F172A;
+  --color-muted: #475569;
   --font-inter: var(--font-inter), sans-serif;
   --font-forum: var(--font-forum), serif;
   --font-gloria: var(--font-gloriahallelujah), cursive;

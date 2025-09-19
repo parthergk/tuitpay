@@ -74,7 +74,7 @@ const Password = () => {
   }, [message, setMessage]);
   return (
     <div className="w-full mt-6 rounded-lg p-5 bg-offwhite/50 backdrop-blur-sm shadow-xl">
-      <h1 className="text-xl md:text-2xl lg:text-3xl text-[#0F172A]">
+      <h1 className="text-xl md:text-2xl lg:text-3xl text-heading">
         Password
       </h1>
       {message && (
@@ -93,7 +93,7 @@ const Password = () => {
           >
             Password <span className="text-red-500">*</span>
           </label>
-          <div className="w-full border border-slate-300 rounded-md flex items-center focus-within:ring-2 focus-within:ring-[#F97316] focus-within:border-[#F97316]">
+          <div className="w-full border border-slate-300 rounded-md flex items-center focus-within:ring-2 focus-within:ring-primary focus-within:border-primary">
             <input
               id="password"
               type={show ? "text" : "password"}
@@ -108,7 +108,7 @@ const Password = () => {
             />
             <button
               type="button"
-              className="px-3 py-2 text-gray-500 hover:text-[#F97316]"
+              className="px-3 py-2 text-gray-500 hover:text-primary"
               onClick={() => setShow((prev) => !prev)}
             >
               {show ? (
@@ -133,7 +133,7 @@ const Password = () => {
           >
             Confirm Password <span className="text-red-500">*</span>
           </label>
-          <div className="w-full border border-slate-300 rounded-md flex items-center focus-within:ring-2 focus-within:ring-[#F97316] focus-within:border-[#F97316]">
+          <div className="w-full border border-slate-300 rounded-md flex items-center focus-within:ring-2 focus-within:ring-primary focus-within:border-primary">
             <input
               id="confirm_password"
               type={show ? "text" : "password"}
@@ -146,7 +146,7 @@ const Password = () => {
             />
             <button
               type="button"
-              className="px-3 py-2 text-gray-500 hover:text-[#F97316]"
+              className="px-3 py-2 text-gray-500 hover:text-primary"
               onClick={() => setShow((prev) => !prev)}
             >
               {show ? (
@@ -168,7 +168,7 @@ const Password = () => {
           disabled={!allowSubmit || isSubmitting}
           className={` self-start py-2 px-4 rounded-md font-medium transition-colors ${
             allowSubmit || isSubmitting
-              ? "bg-[#F97316] hover:bg-[#ea580c] active:bg-[#c2410c] text-white"
+              ? "bg-primary hover:bg-[#ea580c] active:bg-[#c2410c] text-white"
               : "bg-gray-300 text-gray-600 cursor-not-allowed"
           }`}
         >

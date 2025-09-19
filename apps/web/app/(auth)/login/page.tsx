@@ -61,10 +61,10 @@ const Login = () => {
 
   return (
     <div className="max-w-md m-auto p-6 flex flex-col">
-      <h1 className="text-[28px] sm:text-4xl text-[#0F172A] mt-5">
+      <h1 className="text-[28px] sm:text-4xl text-heading mt-5">
         Log in to your account
       </h1>
-      <span className="text-sm sm:text-base leading-snug text-[#475569] mt-3">
+      <span className="text-sm sm:text-base leading-snug text-muted mt-3">
         Connect with Feexy:
       </span>
 
@@ -104,13 +104,13 @@ const Login = () => {
             />
           </svg>
 
-          <span className="ml-2 text-center text-sm sm:text-base leading-snug text-[#475569]">
+          <span className="ml-2 text-center text-sm sm:text-base leading-snug text-muted">
             Continue With Google
           </span>
         </button>
         <div className="flex justify-center items-center">
           <div className=" w-full border-t border-gray-300"></div>
-          <div className=" w-full text-center text-sm sm:text-base leading-snug text-[#475569]">
+          <div className=" w-full text-center text-sm sm:text-base leading-snug text-muted">
             Or continue with
           </div>
           <div className=" w-full border-t border-gray-300"></div>
@@ -128,7 +128,7 @@ const Login = () => {
           <input
             id="email"
             type="email"
-            className="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#F97316] focus:border-[#F97316]"
+            className="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
             {...register("email", {
               required: "Email is required",
               pattern: {
@@ -149,7 +149,7 @@ const Login = () => {
           >
             Password <span className="text-red-500">*</span>
           </label>
-          <div className="w-full border border-slate-300 rounded-md flex items-center focus-within:ring-2 focus-within:ring-[#F97316] focus-within:border-[#F97316]">
+          <div className="w-full border border-slate-300 rounded-md flex items-center focus-within:ring-2 focus-within:ring-primary focus-within:border-primary">
             <input
               id="password"
               type={show ? "text" : "password"}
@@ -164,7 +164,7 @@ const Login = () => {
             />
             <button
               type="button"
-              className="px-3 py-2 text-gray-500 hover:text-[#F97316]"
+              className="px-3 py-2 text-gray-500 hover:text-primary"
               onClick={() => setShow((p) => !p)}
             >
               {show ? (
@@ -184,7 +184,7 @@ const Login = () => {
         <div className="flex items-center justify-end">
           <Link
             href="/forgot-password"
-            className="text-sm sm:text-base leading-snug text-[#475569] underline"
+            className="text-sm sm:text-base leading-snug text-muted underline"
           >
             Forgot your password?
           </Link>
@@ -196,18 +196,18 @@ const Login = () => {
           className={`w-full py-2 px-4 rounded-md font-medium transition-colors ${
             isSubmitting
               ? "bg-gray-300 text-gray-600 cursor-not-allowed"
-              : "bg-[#F97316] hover:bg-[#ea580c] active:bg-[#c2410c] text-white"
+              : "bg-primary hover:bg-[#ea580c] active:bg-[#c2410c] text-white"
           }`}
         >
           {isSubmitting ? "Signing in..." : "Sign in"}
         </button>
       </form>
 
-      <div className="text-sm sm:text-base leading-snug text-[#475569] mt-5">
+      <div className="text-sm sm:text-base leading-snug text-muted mt-5">
         Don't have an account?{" "}
         <Link
           href="/register"
-          className="ml-0.5 underline text-[#F97316] hover:text-[#c2410c]"
+          className="ml-0.5 underline text-primary hover:text-[#c2410c]"
         >
           Sign up
         </Link>

@@ -47,10 +47,10 @@ const ForgotPassword = () => {
   };
   return (
     <div className="max-w-md m-auto p-6 flex flex-col mt-24">
-      <h1 className="text-[28px] sm:text-4xl text-[#0F172A] mt-5">
+      <h1 className="text-[28px] sm:text-4xl text-heading mt-5">
         Forgot Password
       </h1>
-      <span className="text-sm sm:text-base leading-snug text-[#475569] mt-3">
+      <span className="text-sm sm:text-base leading-snug text-muted mt-3">
         Enter your email to reset your password
       </span>
       {(message || errorMsg) && (
@@ -78,7 +78,7 @@ const ForgotPassword = () => {
                 message: "Invalid email address",
               },
             })}
-            className="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#F97316] focus:border-[#F97316]"
+            className="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
           />
           {errors.email && (
             <p className="mt-1 text-sm text-red-600">{errors.email.message}</p>
@@ -91,17 +91,17 @@ const ForgotPassword = () => {
           className={`w-full py-2 px-4 rounded-md font-medium transition-colors ${
             isSubmitting
               ? "bg-gray-300 text-gray-600 cursor-not-allowed"
-              : "bg-[#F97316] hover:bg-[#ea580c] active:bg-[#c2410c] text-white"
+              : "bg-primary hover:bg-[#ea580c] active:bg-[#c2410c] text-white"
           }`}
         >
           {isSubmitting ? "Submitting..." : "Submit"}
         </button>
       </form>
-      <div className="text-sm sm:text-base leading-snug text-[#475569] mt-5 text-center">
+      <div className="text-sm sm:text-base leading-snug text-muted mt-5 text-center">
         Remember your password?{" "}
         <Link
           href="/login"
-          className="underline text-[#F97316] hover:text-[#c2410c]"
+          className="underline text-primary hover:text-[#c2410c]"
         >
           Log in
         </Link>

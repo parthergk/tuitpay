@@ -12,7 +12,7 @@ const StudentCard: React.FC<PropInf> = ({ student }) => {
         Student Details
       </h2>
       {student && (
-        <div className="text-sm sm:text-base md:text-base leading-snug text-[#475569] space-y-1.5">
+        <div className="text-sm sm:text-base md:text-base leading-snug text-muted space-y-1.5">
           <p>
             <span className="font-medium text-gray-700">Name:</span>{" "}
             {student.name}

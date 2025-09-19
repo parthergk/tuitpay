@@ -62,7 +62,7 @@ const StudentForm: React.FC<PropInter> = ({ isOpen, setIsOpen, fetchData }) => {
     <div className="fixed inset-0 bg-opacity-30 flex items-center justify-center z-50  backdrop-blur-2xl px-2 rounded-lg">
       <div className="max-w-md w-full m-auto p-3 flex flex-col bg-gradient-to-bl from-[#E8DFFF] to-[#DDEBFF] border-l border-white/50 shadow-xl shadow-black/10 rounded-lg">
         <div className=" w-full flex justify-between items-center">
-          <h2 className="text-xl md:text-2xl leading-snug text-[#0F172A]">
+          <h2 className="text-xl md:text-2xl leading-snug text-heading">
             Add Student
           </h2>
           <button

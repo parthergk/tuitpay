@@ -50,7 +50,7 @@ const FormStep2: React.FC<Props> = ({ previous, submintHandler }) => {
               message: "Enter valid 10-digit number",
             },
           })}
-          className="w-full px-3 py-1.5 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#F97316] focus:border-[#F97316]"
+          className="w-full px-3 py-1.5 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
         />
         {errors.contact && (
           <p className="mt-1 text-sm text-red-600">{errors.contact.message}</p>
@@ -70,7 +70,7 @@ const FormStep2: React.FC<Props> = ({ previous, submintHandler }) => {
             required: "Monthly fee is required",
             min: { value: 1, message: "Fee must be greater than 0" },
           })}
-          className="w-full px-3 py-1.5 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#F97316] focus:border-[#F97316]"
+          className="w-full px-3 py-1.5 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
         />
         {errors.monthlyFee && (
           <p className="mt-1 text-sm text-red-600">
@@ -91,7 +91,7 @@ const FormStep2: React.FC<Props> = ({ previous, submintHandler }) => {
           {...register("joinDate", {
             required: "Join date is required",
           })}
-          className="w-full px-3 py-1.5 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#F97316] focus:border-[#F97316]"
+          className="w-full px-3 py-1.5 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
         />
         {errors.joinDate && (
           <p className="mt-1 text-sm text-red-600">{errors.joinDate.message}</p>
@@ -112,7 +112,7 @@ const FormStep2: React.FC<Props> = ({ previous, submintHandler }) => {
             min: { value: 1, message: "Must be between 1 and 31" },
             max: { value: 31, message: "Must be between 1 and 31" },
           })}
-          className="w-full px-3 py-1.5 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#F97316] focus:border-[#F97316]"
+          className="w-full px-3 py-1.5 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
         />
         {errors.feeDay && (
           <p className="mt-1 text-sm text-red-600">{errors.feeDay.message}</p>

@@ -50,7 +50,7 @@ const HeroSection = () => {
       ></div>
       <div className=" min-h-screen flex flex-col justify-center items-center pt-28 sm:pt-36 md:pt-48 gap-20 ">
         <div className="w-full max-w-4xl mx-auto text-center z-20 px-4">
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-forum text-[#0F172A] leading-snug sm:leading-tight md:leading-tight">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-forum text-heading leading-snug sm:leading-tight md:leading-tight">
             <motion.span
               variants={slideLeftVariants}
               initial="hidden"
@@ -76,7 +76,7 @@ const HeroSection = () => {
             variants={fadeUpVariants}
             initial="hidden"
             animate="visible"
-            className="mt-3 sm:mt-4 text-base sm:text-lg md:text-xl text-[#4B5563] max-w-2xl mx-auto"
+            className="mt-3 sm:mt-4 text-base sm:text-lg md:text-xl text-sub max-w-2xl mx-auto"
           >
             A smart fee tracker built for local tuition teachers & coaching
             centers

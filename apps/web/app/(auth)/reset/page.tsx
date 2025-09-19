@@ -52,10 +52,10 @@ const Reset = () => {
 
   return (
     <div className="max-w-md m-auto p-6 flex flex-col mt-24">
-      <h1 className="text-[28px] sm:text-4xl text-[#0F172A] mb-3">
+      <h1 className="text-[28px] sm:text-4xl text-heading mb-3">
         Reset Password
       </h1>
-      <span className="text-sm sm:text-base leading-snug text-[#475569] mb-5">
+      <span className="text-sm sm:text-base leading-snug text-muted mb-5">
         Enter your email and new password below
       </span>
 
@@ -84,7 +84,7 @@ const Reset = () => {
                 message: "Invalid email address",
               },
             })}
-            className="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#F97316] focus:border-[#F97316]"
+            className="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
           />
           {errors.email && (
             <p className="mt-1 text-sm text-red-600">{errors.email.message}</p>
@@ -108,7 +108,7 @@ const Reset = () => {
                 message: "Password must be at least 8 characters",
               },
             })}
-            className="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#F97316] focus:border-[#F97316]"
+            className="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
           />
           {errors.password && (
             <p className="mt-1 text-sm text-red-600">{errors.password.message}</p>
@@ -121,7 +121,7 @@ const Reset = () => {
           className={`w-full py-2 px-4 rounded-md font-medium transition-colors ${
             isSubmitting
               ? "bg-gray-300 text-gray-600 cursor-not-allowed"
-              : "bg-[#F97316] hover:bg-[#ea580c] active:bg-[#c2410c] text-white"
+              : "bg-primary hover:bg-[#ea580c] active:bg-[#c2410c] text-white"
           }`}
         >
           {isSubmitting ? "Submitting..." : "Reset Password"}
@@ -132,7 +132,7 @@ const Reset = () => {
         <div className="mt-6 text-center">
           <button
             onClick={() => router.push("/login")}
-            className="text-sm sm:text-base leading-snug text-[#F97316] hover:text-[#c2410c] underline"
+            className="text-sm sm:text-base leading-snug text-primary hover:text-[#c2410c] underline"
           >
             Go to Login
           </button>

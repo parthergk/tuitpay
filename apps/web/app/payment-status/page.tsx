@@ -64,30 +64,30 @@ export default function PaymentStatusPage() {
     <div className="flex flex-col items-center justify-center min-h-screen bg-[#EAE2FF]">
       {status === "pending" && (
         <div className="text-center">
-          <h1 className="text-2xl md:text-3xl lg:text-4xl text-[#0F172A]">
+          <h1 className="text-2xl md:text-3xl lg:text-4xl text-heading">
             We’re verifying your payment…
           </h1>
-          <p className="text-sm md:text-base lg:text-lg text-[#4B5563] mt-2">
+          <p className="text-sm md:text-base lg:text-lg text-sub mt-2">
             This can take up to a minute.
           </p>
         </div>
       )}
       {status === "completed" && (
         <div className="text-center">
-          <h1 className="text-2xl md:text-3xl lg:text-4xl text-[#0F172A]">
+          <h1 className="text-2xl md:text-3xl lg:text-4xl text-heading">
             ✅ Payment Successful!
           </h1>
-          <p className="text-sm md:text-base lg:text-lg text-[#4B5563] mt-2">
+          <p className="text-sm md:text-base lg:text-lg text-sub mt-2">
             Redirecting to your dashboard…
           </p>
         </div>
       )}
       {status === "failed" && (
         <div className="text-center">
-          <h1 className="text-2xl md:text-3xl lg:text-4xl text-[#0F172A]">
+          <h1 className="text-2xl md:text-3xl lg:text-4xl text-heading">
             ❌ Payment Failed
           </h1>
-          <p className="text-sm md:text-base lg:text-lg text-[#4B5563] mt-2">
+          <p className="text-sm md:text-base lg:text-lg text-sub mt-2">
             You can try again from your plan page.
           </p>
         </div>
@@ -97,7 +97,7 @@ export default function PaymentStatusPage() {
           <h1 className="text-2xl md:text-3xl lg:text-4xl text-yellow-600">
             ⚠️ Unable to verify right now
           </h1>
-          <p className="text-sm md:text-base lg:text-lg text-[#4B5563] mt-2">
+          <p className="text-sm md:text-base lg:text-lg text-sub mt-2">
             Please refresh or contact support.
           </p>
 

@@ -47,7 +47,7 @@ const FormStep1 = ({ nextStep }: { nextStep: () => void }) => {
         <input
           type="text"
           {...register("name", { required: "Student name is required" })}
-          className="w-full px-3 py-1.5 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#F97316] focus:border-[#F97316]"
+          className="w-full px-3 py-1.5 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
         />
         {errors.name && (
           <p className="mt-1 text-sm text-red-600">{errors.name.message}</p>
@@ -64,7 +64,7 @@ const FormStep1 = ({ nextStep }: { nextStep: () => void }) => {
         <input
           type="text"
           {...register("class", { required: "Class name is required" })}
-          className="w-full px-3 py-1.5 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#F97316] focus:border-[#F97316]"
+          className="w-full px-3 py-1.5 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
         />
         {errors.class && (
           <p className="mt-1 text-sm text-red-600">{errors.class.message}</p>
@@ -81,7 +81,7 @@ const FormStep1 = ({ nextStep }: { nextStep: () => void }) => {
         <input
           type="text"
           {...register("subject", { required: "Subject is required" })}
-          className="w-full px-3 py-1.5 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#F97316] focus:border-[#F97316]"
+          className="w-full px-3 py-1.5 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
         />
         {errors.subject && (
           <p className="mt-1 text-sm text-red-600">{errors.subject.message}</p>
