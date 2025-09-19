@@ -41,14 +41,14 @@ export default function PaymentStatusPage() {
           return;
         }
 
-        if (retries < 30) {
+        if (retries < 10) {
           // up to ~60s if interval=2s
           timer = setTimeout(() => setRetries((r) => r + 1), 2000);
         } else {
           setStatus("error");
         }
       } catch {
-        if (retries < 30) {
+        if (retries < 10) {
           timer = setTimeout(() => setRetries((r) => r + 1), 2000);
         } else {
           setStatus("error");
@@ -61,43 +61,65 @@ export default function PaymentStatusPage() {
   }, [orderId, retries, router]);
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-[#EAE2FF]">
       {status === "pending" && (
         <div className="text-center">
-          <p className="text-blue-600">We’re verifying your payment…</p>
-          <p className="text-sm text-gray-500 mt-2">
+          <h1 className="text-2xl md:text-3xl lg:text-4xl text-[#0F172A]">
+            We’re verifying your payment…
+          </h1>
+          <p className="text-sm md:text-base lg:text-lg text-[#4B5563] mt-2">
             This can take up to a minute.
           </p>
         </div>
       )}
       {status === "completed" && (
         <div className="text-center">
-          <p className="text-green-600 font-semibold text-lg">
+          <h1 className="text-2xl md:text-3xl lg:text-4xl text-[#0F172A]">
             ✅ Payment Successful!
-          </p>
-          <p className="text-sm text-gray-500">
+          </h1>
+          <p className="text-sm md:text-base lg:text-lg text-[#4B5563] mt-2">
             Redirecting to your dashboard…
           </p>
         </div>
       )}
       {status === "failed" && (
         <div className="text-center">
-          <p className="text-red-600 font-semibold text-lg">
+          <h1 className="text-2xl md:text-3xl lg:text-4xl text-[#0F172A]">
             ❌ Payment Failed
-          </p>
-          <p className="text-sm text-gray-500">
+          </h1>
+          <p className="text-sm md:text-base lg:text-lg text-[#4B5563] mt-2">
             You can try again from your plan page.
           </p>
         </div>
       )}
       {status === "error" && (
         <div className="text-center">
-          <p className="text-yellow-600 font-semibold text-lg">
+          <h1 className="text-2xl md:text-3xl lg:text-4xl text-yellow-600">
             ⚠️ Unable to verify right now
-          </p>
-          <p className="text-sm text-gray-500">
+          </h1>
+          <p className="text-sm md:text-base lg:text-lg text-[#4B5563] mt-2">
             Please refresh or contact support.
           </p>
+
+          {/* Support Details */}
+          <div className="mt-4 text-[#374151]">
+            <p className="text-sm md:text-base">
+              📧 Email:{" "}
+              <a
+                href="mailto:support@example.com"
+              >
+                support@example.com
+              </a>
+            </p>
+            <p className="text-sm md:text-base">
+              📞 Phone:{" "}
+              <a
+                href="tel:+911234567890"
+              >
+                +91 12345 67890
+              </a>
+            </p>
+          </div>
         </div>
       )}
     </div>
