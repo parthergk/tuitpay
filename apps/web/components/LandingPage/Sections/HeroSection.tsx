@@ -50,7 +50,7 @@ const HeroSection = () => {
       ></div>
       <div className=" min-h-screen flex flex-col justify-center items-center pt-28 sm:pt-36 md:pt-48 gap-20 ">
         <div className="w-full max-w-4xl mx-auto text-center z-20 px-4">
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-forum text-heading leading-snug sm:leading-tight md:leading-tight">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-forum text-heading leading-tight md:leading-none">
             <motion.span
               variants={slideLeftVariants}
               initial="hidden"

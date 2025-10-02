@@ -10,6 +10,7 @@ import StudentForm from "../../../components/student/StudentForm";
 import Plans from "../../../components/Plans";
 import { X } from "lucide-react";
 import { useOpenPlan } from "../../../context/OpenPlanProvider";
+import RightBar from "../../../components/dashboard/RightBar";
 
 interface DashboardData {
   teacher: IUser;
@@ -92,11 +93,14 @@ export default function DashboardPage() {
   };
 
   return (
-    <div className="h-screen px-5 pb-5 pt-24 bg-[linear-gradient(to_bottom_right,#FFFFFF_0%,#E0ECFF_25%,#EAE2FF_50%,#F8E8DB_75%,#FFFFFF_100%)] flex flex-col">
+    <div className="h-screen px-5 pb-5 pt-24 bg-[linear-gradient(to_bottom_right,#FFFFFF_0%,#E0ECFF_25%,#EAE2FF_50%,#F8E8DB_75%,#FFFFFF_100%)] flex gap-3 sm:gap-5">
+      <RightBar/>
       <div className="relative flex flex-col flex-1 w-full h-full mx-auto rounded-xl bg-offwhite/50 backdrop-blur-sm shadow-xl py-6 px-3 sm:px-4 md:px-5">
         {/* Header Section */}
         <div className="mb-5">
-          <h1 className="text-2xl md:text-3xl lg:text-4xl text-heading">Dashboard</h1>
+          <h1 className="text-2xl md:text-3xl lg:text-4xl text-heading">
+            Dashboard
+          </h1>
           <p className="text-sm md:text-base lg:text-lg text-sub mt-1">
             Track your students’ fee status and manage your profile
           </p>

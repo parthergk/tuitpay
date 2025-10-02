@@ -35,13 +35,13 @@ const Header = () => {
   };
 
   return (
-    <header className="fixed top-0 right-0 left-0 z-20 w-full mx-auto flex items-center">
+    <header className="fixed top-0 right-0 left-0 z-20 w-full mx-auto flex items-center justify-center">
       <motion.nav
         variants={scaleVariants}
         transition={{ duration: 0.8, ease: "easeOut" }}
         initial="hidden"
         animate="visible"
-        className="w-full py-3 m-5 flex justify-between items-center rounded-[50px] px-5 bg-offwhite/50 backdrop-blur-sm text-body shadow-2xl"
+        className="w-full py-2.5 md:py-3 m-5 flex justify-between items-center rounded-xl px-5 bg-offwhite/50 backdrop-blur-sm text-body shadow-2xl"
       >
         <motion.h1
           variants={scaleVariants}
@@ -55,24 +55,27 @@ const Header = () => {
           </Link>
         </motion.h1>
 
-        <div className="hidden md:block">
-          <motion.ul
-            variants={fadeUpVariants}
-            initial="hidden"
-            animate="visible"
-            className="flex gap-10 lg:gap-12 text-lg justify-center items-center tracking-wide"
-          >
-            {navItem.map((item) => (
-              <li
-                key={item.name}
-                className="hover:text-primary transition-colors duration-200"
-              >
-                <Link href={item.path}>{item.name}</Link>
-              </li>
-            ))}
-          </motion.ul>
-        </div>
-
+        {session.status === "authenticated" ? (
+          ""
+        ) :  (
+          <div className="hidden md:block">
+            <motion.ul
+              variants={fadeUpVariants}
+              initial="hidden"
+              animate="visible"
+              className="flex gap-10 lg:gap-12 text-lg justify-center items-center tracking-wider text-body"
+            >
+              {navItem.map((item) => (
+                <li
+                  key={item.name}
+                  className="hover:text-primary transition-colors duration-200"
+                >
+                  <Link href={item.path}>{item.name}</Link>
+                </li>
+              ))}
+            </motion.ul>
+          </div>
+        )}
         <motion.div
           variants={scaleVariants}
           transition={{ delay: 1, duration: 0.6, ease: "easeOut" }}
