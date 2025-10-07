@@ -114,14 +114,15 @@ const HeroSection = () => {
                 rotateX,
                 scale,
               }}
-              className="w-full p-2 border rounded-xl"
+              className="w-full rounded-xl"
             >
               <Image
-                width={2800}
-                height={1800}
-                sizes="746px"
+                width={5120}
+                height={2804}
+                quality={100}
+                unoptimized
                 alt="demo"
-                src="/image/dashboard.png"
+                src="/image/dashboard.webp"
                 className=" rounded-xl"
               />
             </motion.div>

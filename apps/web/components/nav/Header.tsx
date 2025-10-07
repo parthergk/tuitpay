@@ -51,7 +51,7 @@ const Header = () => {
           className="text-lg font-semibold tracking-wider"
         >
           <Link href="/" aria-label="Go to homepage">
-            Logo
+            FEEXY
           </Link>
         </motion.h1>
 
