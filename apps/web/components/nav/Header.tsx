@@ -48,10 +48,10 @@ const Header = () => {
           transition={{ delay: 1, duration: 0.6, ease: "easeOut" }}
           initial="hidden"
           animate="visible"
-          className="text-lg font-semibold tracking-wider"
+          className="text-lg font-semibold tracking-widest"
         >
           <Link href="/" aria-label="Go to homepage">
-            FEEXY
+            Feexy
           </Link>
         </motion.h1>
 

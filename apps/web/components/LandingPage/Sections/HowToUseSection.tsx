@@ -37,11 +37,11 @@ const HowToUseSection = () => {
             </div>
             <div className="relative z-10 h-full w-full bg-amer-400 flex items-end justify-end group cursor-pointer">
               <Image
-                src="/image/work/snd.png"
+                src="/image/work/fst1.png"
                 alt="sign-in"
                 width={350}
                 height={350}
-                className=" w-96 object-contain rounded-tl-lg transform origin-bottom-right transition-transform duration-500 group-hover:scale-110"
+                className=" w-72 sm:w-96 object-contain rounded-tl-lg transform origin-bottom-right transition-transform duration-500 group-hover:scale-110"
               />
             </div>
 
@@ -68,11 +68,11 @@ const HowToUseSection = () => {
             </div>
             <div className="relative z-10 h-full w-full bg-amer-400 flex items-end justify-start group cursor-pointer">
               <Image
-                src="/image/work/fst.png"
+                src="/image/work/snd1.png"
                 alt="sign-in"
                 width={350}
                 height={350}
-                className=" w-72 object-contain rounded-tr-lg transform origin-bottom-left transition-transform duration-500 group-hover:scale-105"
+                className=" w-72 sm:w-80 object-contain rounded-tr-lg transform origin-bottom-left transition-transform duration-500 group-hover:scale-105"
               />
             </div>
             <div className="h-full w-full absolute z-0 opacity-20 md:opacity-35 [background-image:radial-gradient(circle_at_top_right,_#FFFFFF_0%,_#E0ECFF_25%,_#EAE2FF_50%,_#F8E8DB_75%,_#FFFFFF_100%)] rounded-bl-full"></div>
@@ -99,11 +99,11 @@ const HowToUseSection = () => {
           </div>
           <div className="relative z-10 h-full w-full bg-amer-400 flex items-center justify-start group cursor-pointer">
               <Image
-                src="/image/work/trd.png"
+                src="/image/work/trd1.png"
                 alt="sign-in"
                 width={350}
                 height={750}
-                className=" w-80 object-contain rounded-tr-lg rounded-br-lg transform origin-left transition-transform duration-500 group-hover:scale-110"
+                className=" w-72 sm:w-80 object-contain rounded-tr-lg rounded-br-lg transform origin-left transition-transform duration-500 group-hover:scale-110"
               />
             </div>
           <div className="h-full w-full absolute z-0 opacity-25 md:opacity-35 [background-image:linear-gradient(to_right_top,_#FFFFFF_0%,_#E0ECFF_25%,_#EAE2FF_50%,_#F8E8DB_75%,_#FFFFFF_100%)]"></div>

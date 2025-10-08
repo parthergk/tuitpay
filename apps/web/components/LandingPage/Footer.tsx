@@ -16,8 +16,8 @@ const Footer = () => {
       <div className="relative max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-10">
         {/* Brand Info */}
         <div>
-          <h2 className="text-xl font-bold flex items-center gap-2 text-white">
-            <span className="text-black">//</span> YourBrand
+          <h2 className="text-xl font-bold flex items-center gap-2 text-white tracking-widest">
+            Feexy
           </h2>
           <p className="mt-3 text-sm text-orange-50 leading-relaxed">
             Empowering teachers and institutes to manage fees, track students,
