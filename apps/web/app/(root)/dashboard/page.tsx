@@ -34,7 +34,7 @@ export default function DashboardPage() {
 
   const fetchDashboardData = async () => {
     try {
-      const response = await fetch("http://localhost:8080/api/v1/dashboard", {
+      const response = await fetch("http://localhost:8080/api/v1/dashboard/summary", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -47,7 +47,8 @@ export default function DashboardPage() {
       }
 
       const result = await response.json();
-
+      console.log("Result", result);
+      
       if (result.success === false) {
         throw new Error(result.message || "Please try again later.");
       }
