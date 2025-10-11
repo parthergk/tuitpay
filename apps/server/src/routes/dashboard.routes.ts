@@ -18,20 +18,47 @@ dashboardRouter.get(
       });
       const unpaid = await FeePayment.countDocuments({
         teacherId: userId,
-        status: "pendding",
+        status: "pending",
       });
       const overdue = await FeePayment.countDocuments({
         teacherId: userId,
         status: "overdue",
       });
 
-      const recentPaid = await FeePayment.find({ status: "paid" })
+      const recentPaid = await FeePayment.find({
+        teacherId: userId,
+        status: "paid",
+      })
         .sort({ _id: -1 })
         .limit(4)
         .select("amount paidDate studentId")
         .populate<{ studentId: IStudent }>("studentId", "name")
         .lean();
-        
+
+      const overdues = await FeePayment.find({
+        teacherId: userId,
+        status: "overdue",
+      })
+        .sort({ _id: -1 })
+        .limit(4)
+        .select("amount dueDate studentId")
+        .populate<{ studentId: IStudent }>("studentId", "name")
+        .lean();
+
+      const today = new Date();
+
+      const overduesWithDays = overdues.map((item) => {
+        const dueDate = new Date(item.dueDate);
+        const diffTime = today.getTime() - dueDate.getTime();
+        const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+        return {
+          id: item._id,
+          name: item.studentId.name || "Unknown",
+          amount: item.amount,
+          daysOverdue: diffDays > 0 ? diffDays : 0,
+        };
+      });
+
       const formatedData = recentPaid.map((item) => ({
         id: item._id,
         name: item.studentId.name || "Unknown",
@@ -39,21 +66,17 @@ dashboardRouter.get(
         paidDate: item.paidDate,
       }));
 
-
       res.status(200).json({
         success: true,
         recentActivity: formatedData,
-        summary: {
-          totalStudents: allStudents.length,
-          paid,
-          unpaid,
-          overdue,
-        },
+        upcomingDues: overduesWithDays,
+        summary: { totalStudents: allStudents.length, paid, unpaid, overdue },
       });
     } catch (error) {
+      console.error("Dashboard summary error:", error);
       res.status(500).json({
         success: false,
-        error: "Unable to fetch summary data! Please try again",
+        message: "Unable to fetch summary data! Please try again.",
       });
     }
   }
