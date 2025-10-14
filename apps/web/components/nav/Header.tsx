@@ -1,15 +1,12 @@
 "use client";
 import React, { useState } from "react";
-import User from "../User";
 import Link from "next/link";
 import { MenuIcon, X } from "lucide-react";
 import { motion, Variants } from "motion/react";
-import { useSession } from "next-auth/react";
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const session = useSession();
-
+  
   const navItem = [
     { name: "Home", path: "/" },
     { name: "About", path: "/about" },
@@ -55,27 +52,24 @@ const Header = () => {
           </Link>
         </motion.h1>
 
-        {session.status === "authenticated" ? (
-          ""
-        ) :  (
-          <div className="hidden md:block">
-            <motion.ul
-              variants={fadeUpVariants}
-              initial="hidden"
-              animate="visible"
-              className="flex gap-10 lg:gap-12 text-lg justify-center items-center tracking-wider text-body"
-            >
-              {navItem.map((item) => (
-                <li
-                  key={item.name}
-                  className="hover:text-primary transition-colors duration-200"
-                >
-                  <Link href={item.path}>{item.name}</Link>
-                </li>
-              ))}
-            </motion.ul>
-          </div>
-        )}
+        <div className="hidden md:block">
+          <motion.ul
+            variants={fadeUpVariants}
+            initial="hidden"
+            animate="visible"
+            className="flex gap-10 lg:gap-12 text-lg justify-center items-center tracking-wider text-body"
+          >
+            {navItem.map((item) => (
+              <li
+                key={item.name}
+                className="hover:text-primary transition-colors duration-200"
+              >
+                <Link href={item.path}>{item.name}</Link>
+              </li>
+            ))}
+          </motion.ul>
+        </div>
+
         <motion.div
           variants={scaleVariants}
           transition={{ delay: 1, duration: 0.6, ease: "easeOut" }}
@@ -83,7 +77,12 @@ const Header = () => {
           animate="visible"
           className="hidden md:block"
         >
-          <User />
+          <Link
+            href="/login"
+            className="px-5 py-1.5 sm:px-6 sm:py-2 rounded-full bg-primary text-white font-medium shadow-md hover:bg-[#ea580c] transition-colors duration-200"
+          >
+            Log In
+          </Link>
         </motion.div>
 
         <motion.div
@@ -93,11 +92,7 @@ const Header = () => {
           animate="visible"
           className="md:hidden cursor-pointer"
         >
-          {session.status === "authenticated" ? (
-            <User />
-          ) : (
-            <MenuIcon size={28} onClick={() => setIsOpen(!isOpen)} />
-          )}
+          <MenuIcon size={28} onClick={() => setIsOpen(!isOpen)} />
         </motion.div>
       </motion.nav>
 
