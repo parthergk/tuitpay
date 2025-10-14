@@ -35,13 +35,14 @@ const RightBar = () => {
 
   return (
     <div className="flex flex-col items-center md:items-start max-w-12 md:max-w-xs w-full h-full rounded-xl bg-offwhite/50 backdrop-blur-sm shadow-xl py-3 md:py-6 px-1 md:px-5">
-      <ul className=" w-full flex flex-col gap-3 text-sm md:text-base lg:text-lg text-sub">
+      <h2 className="text-lg tracking-widest">FEEXY</h2>
+      <ul className=" w-full mt-5 flex flex-col gap-3 text-sm md:text-base lg:text-lg text-sub">
         {items.map((item, index) => {
           return (
             <li
               key={item.name}
               onClick={() => setActiveIndex(index)}
-              className={`w-full px-2 py-1 rounded-md ${index === activeIndex ? "bg-primary text-white": ""} flex gap-3 items-center transition-colors duration-200 ease-out`}
+              className={`w-full px-2 py-1 rounded-md ${index === activeIndex ? "bg-primary text-white" : ""} flex gap-3 items-center transition-colors duration-200 ease-out`}
             >
               {item.icon}
               <span className=" hidden md:block">{item.name}</span>

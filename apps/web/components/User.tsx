@@ -34,7 +34,7 @@ const User = () => {
     <div className="relative" ref={userRef}>
       {session.status === "authenticated" ? (
         <button
-          className=" h-9 w-9 rounded-full bg-primary  flex justify-center items-center cursor-pointer hover:scale-105 hover:-translate-y-0.5 transition-transform duration-150"
+          className=" h-9 w-9 rounded-md shadow-md bg-primary  flex justify-center items-center cursor-pointer hover:scale-105 hover:-translate-y-0.5 transition-transform duration-150"
           onClick={toggleUserProfile}
         >
           <UserIcon className=" h-7 w-7 text-white p-0.5"/>
