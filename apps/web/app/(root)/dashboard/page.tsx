@@ -8,7 +8,7 @@ import { useUserProfile } from "../../../context/UserProfileProvider";
 import { IUser } from "@repo/types";
 import StudentForm from "../../../components/student/StudentForm";
 import Plans from "../../../components/Plans";
-import { X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { useOpenPlan } from "../../../context/OpenPlanProvider";
 import RightBar from "../../../components/dashboard/RightBar";
 import User from "../../../components/User";
@@ -32,6 +32,7 @@ export default function DashboardPage() {
   const [isLoading, setIsLoading] = useState(true);
   const profileContext = useUserProfile();
   const { isOpenPlans, setIsOpenPlans } = useOpenPlan();
+  const [isOpen, setIsOpen] = useState(false);
 
   const fetchDashboardData = async () => {
     try {
@@ -98,12 +99,20 @@ export default function DashboardPage() {
   };
 
   return (
-    <div className="h-screen p-5 bg-[linear-gradient(to_bottom_right,#FFFFFF_0%,#E0ECFF_25%,#EAE2FF_50%,#F8E8DB_75%,#FFFFFF_100%)] flex gap-1 sm:gap-5">
-      <RightBar />
+    <div className="relative h-screen p-5 bg-[linear-gradient(to_bottom_right,#FFFFFF_0%,#E0ECFF_25%,#EAE2FF_50%,#F8E8DB_75%,#FFFFFF_100%)] flex gap-1 sm:gap-5">
+      <RightBar isOpen={isOpen} setIsOpen={setIsOpen} />
       <div className="relative flex flex-col flex-1 w-full h-full mx-auto rounded-xl bg-offwhite/50 backdrop-blur-sm shadow-xl py-6 px-3 sm:px-4 md:px-5">
         {/* Header Section */}
-        <div className=" flex justify-between">
-          <div className="mb-5">
+        <div className=" flex flex-col md:flex-row-reverse justify-between md:items-start">
+          
+          <div className=" flex justify-between items-center">
+            <div onClick={()=>setIsOpen(true)} className=" block md:hidden cursor-pointer">
+              <Menu size={28} />
+            </div>
+            <User />
+          </div>
+          
+          <div className=" mt-5 md:mt-0 mb-5 ">
             <h1 className="text-2xl md:text-3xl lg:text-4xl text-heading">
               Dashboard
             </h1>
@@ -111,7 +120,6 @@ export default function DashboardPage() {
               Track your students’ fee status and manage your profile
             </p>
           </div>
-          <User/>
         </div>
 
         {errorMsg && (
