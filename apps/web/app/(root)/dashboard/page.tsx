@@ -98,7 +98,7 @@ export default function DashboardPage() {
   };
 
   return (
-    <div className="h-screen p-5 bg-[linear-gradient(to_bottom_right,#FFFFFF_0%,#E0ECFF_25%,#EAE2FF_50%,#F8E8DB_75%,#FFFFFF_100%)] flex gap-1 sm:gap-3">
+    <div className="h-screen p-5 bg-[linear-gradient(to_bottom_right,#FFFFFF_0%,#E0ECFF_25%,#EAE2FF_50%,#F8E8DB_75%,#FFFFFF_100%)] flex gap-1 sm:gap-5">
       <RightBar />
       <div className="relative flex flex-col flex-1 w-full h-full mx-auto rounded-xl bg-offwhite/50 backdrop-blur-sm shadow-xl py-6 px-3 sm:px-4 md:px-5">
         {/* Header Section */}
