@@ -10,37 +10,49 @@ import {
 import { signOut } from "next-auth/react";
 import React, { useState } from "react";
 
-const RightBar = ({isOpen, setIsOpen}:{isOpen:boolean, setIsOpen:React.Dispatch<React.SetStateAction<boolean>>}) => {
+interface Props {
+  isOpen: boolean;
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setSection: React.Dispatch<React.SetStateAction<string>>;
+}
+
+const RightBar: React.FC<Props> = ({ isOpen, setIsOpen, setSection }) => {
   const [activeIndex, setActiveIndex] = useState(0);
 
   const items = [
     {
-      name: "Dashboard",
+      name: "dashboard",
       icon: <LayoutDashboard className="  h-5 w-5" />,
     },
     {
-      name: "Student",
+      name: "students",
       icon: <Users2 className="  h-5 w-5" />,
     },
     {
-      name: "Fee Tracking",
+      name: "fee Tracking",
       icon: <List className="  h-5 w-5" />,
     },
     {
-      name: "Reminders",
+      name: "reminder",
       icon: <Bell className="  h-5 w-5" />,
     },
     {
-      name: "Reports",
+      name: "report",
       icon: <LucideReceiptPoundSterling className="  h-5 w-5" />,
     },
   ];
 
   return (
-    <div className={` ${isOpen?"absolute": " hidden md:flex"} top-0 left-0 z-10 flex flex-col justify-between items-start md:max-w-72 w-full h-full rounded-xl bg-offwhite/50 backdrop-blur-sm shadow-xl py-6 px-5`}>
+    <div
+      className={` ${isOpen ? "absolute" : " hidden md:flex"} top-0 left-0 z-10 flex flex-col justify-between items-start md:max-w-72 w-full h-full rounded-xl bg-offwhite/50 backdrop-blur-sm shadow-xl py-6 px-5`}
+    >
       <div className=" w-full">
         <div className=" flex justify-between items-center">
-          <X size={28} className=" md:hidden" onClick={()=>setIsOpen(false)} />
+          <X
+            size={28}
+            className=" md:hidden"
+            onClick={() => setIsOpen(false)}
+          />
           <h2 className="text-lg tracking-widest">FEEXY</h2>
         </div>
 
@@ -49,11 +61,17 @@ const RightBar = ({isOpen, setIsOpen}:{isOpen:boolean, setIsOpen:React.Dispatch<
             return (
               <li
                 key={item.name}
-                onClick={() => setActiveIndex(index)}
+                onClick={() => {
+                  setActiveIndex(index);
+                  setSection(item.name);
+                  setIsOpen(false);
+                }}
                 className={`w-full px-2 py-1 rounded-md ${index === activeIndex ? "bg-primary text-white" : ""} flex gap-3 items-center transition-colors duration-200 ease-out`}
               >
                 {item.icon}
-                <span className="block">{item.name}</span>
+                <span className="block">
+                  {item.name.charAt(0).toUpperCase() + item.name.slice(1)}
+                </span>
               </li>
             );
           })}
