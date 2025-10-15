@@ -1,7 +1,7 @@
 import React from "react";
 interface PropsInf {
   title: string;
-  count: number | undefined;
+  count: string | number;
   color: string;
   textColor?: string;
 }

@@ -1,14 +1,7 @@
 "use client";
 
-import React, { lazy, Suspense, useEffect, useState } from "react";
-import StatCard from "../../../components/dashboard/StatCards";
-import Student from "../../../components/dashboard/Student";
-import { TeacherCard } from "../../../components/dashboard/TeacherCard";
-import { useUserProfile } from "../../../context/UserProfileProvider";
-import { IUser } from "@repo/types";
-import StudentForm from "../../../components/student/StudentForm";
-import Plans from "../../../components/Plans";
-import { Menu, X } from "lucide-react";
+import React, { lazy, Suspense, useState } from "react";
+import { Menu } from "lucide-react";
 import { useOpenPlan } from "../../../context/OpenPlanProvider";
 import RightBar from "../../../components/dashboard/RightBar";
 import User from "../../../components/User";
@@ -21,24 +14,9 @@ const FeeTracking = lazy(
 const Report = lazy(() => import("../../../components/dashboard/Report"));
 const Reminder = lazy(() => import("../../../components/dashboard/Reminders"));
 
-interface DashboardData {
-  teacher: IUser;
-  students: any[];
-  payments: {
-    paid: any[];
-    unpaid: any[];
-    overDue: any[];
-  };
-}
+
 
 export default function DashboardPage() {
-  const [errorMsg, setErrorMsg] = useState("");
-  const [showForm, setShowForm] = useState(false);
-  const [dashboardData, setDashboardData] = useState<DashboardData | null>(
-    null
-  );
-  const [isLoading, setIsLoading] = useState(true);
-  const profileContext = useUserProfile();
   const { isOpenPlans, setIsOpenPlans } = useOpenPlan();
   const [isOpen, setIsOpen] = useState(false);
   const [section, setSection] = useState("dashboard");
@@ -79,70 +57,6 @@ export default function DashboardPage() {
     },
   ];
 
-  const fetchDashboardData = async () => {
-    try {
-      const response = await fetch(
-        "http://localhost:8080/api/v1/dashboard/summary",
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          credentials: "include",
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error("Failed to fetch dashboard data");
-      }
-
-      const result = await response.json();
-      console.log("Result", result);
-
-      if (result.success === false) {
-        throw new Error(result.message || "Please try again later.");
-      }
-
-      setDashboardData(result.data);
-      profileContext.setUserDetail(result.data.teacher);
-    } catch (error) {
-      const errorMessage =
-        error instanceof Error ? error.message : "Please try again";
-      setErrorMsg(errorMessage);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchDashboardData();
-  }, []);
-
-  const statCards = [
-    {
-      title: "Total Paid",
-      count: dashboardData?.payments?.paid?.length || 0,
-      color: "bg-gradient-to-bl from-[#E8DFFF]/30 to-[#DDEBFF]/30",
-      textColor: "text-sub",
-    },
-    {
-      title: "Total Unpaid",
-      count: dashboardData?.payments?.unpaid?.length || 0,
-      color: "bg-gradient-to-bl from-[#E8DFFF]/30 to-[#DDEBFF]/30",
-      textColor: "text-sub",
-    },
-    {
-      title: "Total Overdue",
-      count: dashboardData?.payments?.overDue?.length || 0,
-      color: "bg-gradient-to-bl from-[#E8DFFF]/30 to-[#DDEBFF]/30",
-      textColor: "text-sub",
-    },
-  ];
-
-  const handleAddStudent = () => {
-    setShowForm((prev) => !prev);
-  };
-
   return (
     <div className="relative h-screen md:p-5 bg-[linear-gradient(to_bottom_right,#FFFFFF_0%,#E0ECFF_25%,#EAE2FF_50%,#F8E8DB_75%,#FFFFFF_100%)] flex gap-1 sm:gap-5">
       <RightBar isOpen={isOpen} setIsOpen={setIsOpen} setSection={setSection} />
@@ -168,12 +82,6 @@ export default function DashboardPage() {
             </p>
           </div>
         </div>
-
-        {errorMsg && (
-          <div className="mb-2 py-1.5 px-3 bg-red-100 text-red-700 border border-red-400 rounded-md">
-            {errorMsg}
-          </div>
-        )}
 
         {sections.map(
           (item) =>

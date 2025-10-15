@@ -1,9 +1,109 @@
-import React from 'react'
+import { IUser } from "@repo/types";
+import React, { useEffect, useState } from "react";
+import { useUserProfile } from "../../context/UserProfileProvider";
+import StatCard from "./StatCards";
 
-const Dashboard = () => {
-  return (
-    <div>Dashboard</div>
-  )
+interface DashboardData {
+  teacher: IUser;
+  students: any[];
+  summary: {
+    paid: string;
+    unpaid: string;
+    overdue: string;
+    totalStudents: string;
+  };
 }
 
-export default Dashboard
+const Dashboard = () => {
+  const [dashboardData, setDashboardData] = useState<DashboardData | null>(
+    null
+  );
+  const profileContext = useUserProfile();
+  const [errorMsg, setErrorMsg] = useState("");
+
+  const statCards = [
+    {
+      title: "Total Paid",
+      count: dashboardData?.summary.paid || 0,
+      color: "bg-gradient-to-bl from-[#E8DFFF]/30 to-[#DDEBFF]/30",
+      textColor: "text-sub",
+    },
+    {
+      title: "Total Unpaid",
+      count: dashboardData?.summary?.unpaid || 0,
+      color: "bg-gradient-to-bl from-[#E8DFFF]/30 to-[#DDEBFF]/30",
+      textColor: "text-sub",
+    },
+    {
+      title: "Total Overdue",
+      count: dashboardData?.summary?.overdue || 0,
+      color: "bg-gradient-to-bl from-[#E8DFFF]/30 to-[#DDEBFF]/30",
+      textColor: "text-sub",
+    },
+  ];
+
+  const fetchDashboardData = async () => {
+    try {
+      const response = await fetch(
+        "http://localhost:8080/api/v1/dashboard/summary",
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch dashboard data");
+      }
+
+      const result = await response.json();
+      if (result.success === false) {
+        throw new Error(result.message || "Please try again later.");
+      }
+
+      setDashboardData(result);      
+      // profileContext.setUserDetail(result.data.teacher);
+    } catch (error) {
+      const errorMessage =
+        error instanceof Error ? error.message : "Please try again";
+      setErrorMsg(errorMessage);
+    }
+  };
+
+  useEffect(() => {
+    fetchDashboardData();
+  }, []);
+  console.log("Dashborad data", dashboardData);
+  
+  return (
+    <div>
+      {errorMsg && (
+        <div className="mb-2 py-1.5 px-3 bg-red-100 text-red-700 border border-red-400 rounded-md">
+          {errorMsg}
+        </div>
+      )}
+
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
+          <StatCard
+            title="Total Students"
+            count={dashboardData?.summary.totalStudents || 0}
+            color="bg-primary"
+            textColor="text-white"
+          />
+          {statCards.map((card) => (
+            <StatCard
+              key={card.title}
+              title={card.title}
+              count={card.count}
+              color={card.color}
+            />
+          ))}
+        </div>
+    </div>
+  );
+};
+
+export default Dashboard;
