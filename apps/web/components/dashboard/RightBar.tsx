@@ -44,7 +44,7 @@ const RightBar = ({isOpen, setIsOpen}:{isOpen:boolean, setIsOpen:React.Dispatch<
           <h2 className="text-lg tracking-widest">FEEXY</h2>
         </div>
 
-        <ul className=" w-full mt-24 md:mt-5 flex flex-col gap-3 text-lg text-sub">
+        <ul className=" w-full mt-12 md:mt-5 flex flex-col gap-5 md:gap-3 text-lg text-sub">
           {items.map((item, index) => {
             return (
               <li
