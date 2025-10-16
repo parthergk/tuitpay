@@ -63,7 +63,7 @@ dashboardRouter.get(
         id: item._id,
         name: item.studentId.name || "Unknown",
         amount: item.amount,
-        paidDate: item.paidDate,
+        paidDate: item.paidDate?.toDateString(),
       }));
 
       res.status(200).json({

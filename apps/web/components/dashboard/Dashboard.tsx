@@ -1,4 +1,3 @@
-import { IUser } from "@repo/types";
 import React, { useEffect, useState } from "react";
 import { useUserProfile } from "../../context/UserProfileProvider";
 import StatCard from "./StatCards";
@@ -6,8 +5,16 @@ import ActivityCard from "./ActivityCard";
 import Upcoming from "./Upcoming";
 
 interface DashboardData {
-  teacher: IUser;
-  students: any[];
+  recentActivity: {
+    name: string;
+    amount: number;
+    paidDate: string;
+  }[];
+  upcomingDues: {
+    name: string;
+    amount: number;
+    daysOverdue: number;
+  }[];
   summary: {
     paid: string;
     unpaid: string;
@@ -20,7 +27,6 @@ const Dashboard = () => {
   const [dashboardData, setDashboardData] = useState<DashboardData | null>(
     null
   );
-  const profileContext = useUserProfile();
   const [errorMsg, setErrorMsg] = useState("");
 
   const statCards = [
@@ -67,7 +73,6 @@ const Dashboard = () => {
       }
 
       setDashboardData(result);
-      // profileContext.setUserDetail(result.data.teacher);
     } catch (error) {
       const errorMessage =
         error instanceof Error
@@ -80,6 +85,7 @@ const Dashboard = () => {
   useEffect(() => {
     fetchDashboardData();
   }, []);
+
 
   return (
     <>
@@ -106,8 +112,8 @@ const Dashboard = () => {
         ))}
       </div>
       <div className=" grid grid-cols-1 sm:grid-cols-2  gap-5">
-        <ActivityCard/>
-        <Upcoming/>
+       { dashboardData?.recentActivity && <ActivityCard activity={dashboardData?.recentActivity} />}
+        { dashboardData?.upcomingDues && <Upcoming upcomingDues={dashboardData?.upcomingDues} />}
       </div>
     </>
   );

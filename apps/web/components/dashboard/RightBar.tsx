@@ -22,7 +22,7 @@ const RightBar: React.FC<Props> = ({ isOpen, setIsOpen, setSection }) => {
   const items = [
     {
       name: "dashboard",
-      icon: <LayoutDashboard className="  h-5 w-5" />,
+      icon: <LayoutDashboard className="  h-5 w-5 " />,
     },
     {
       name: "students",
@@ -44,7 +44,7 @@ const RightBar: React.FC<Props> = ({ isOpen, setIsOpen, setSection }) => {
 
   return (
     <div
-      className={` ${isOpen ? "absolute" : " hidden md:flex"} top-0 left-0 z-10 flex flex-col justify-between items-start md:max-w-72 w-full h-full rounded-xl bg-offwhite/50 backdrop-blur-sm shadow-xl py-6 px-5`}
+      className={` ${isOpen ? "absolute" : " hidden md:flex"} top-0 left-0 z-10 flex flex-col justify-between items-start md:max-w-24 lg:max-w-72 w-full h-screen sm:h-full rounded-xl bg-offwhite/50 backdrop-blur-sm shadow-xl py-6 px-5`}
     >
       <div className=" w-full">
         <div className=" flex justify-between items-center">
@@ -69,7 +69,7 @@ const RightBar: React.FC<Props> = ({ isOpen, setIsOpen, setSection }) => {
                 className={`w-full px-2 py-1 rounded-md ${index === activeIndex ? "bg-primary text-white" : ""} flex gap-3 items-center transition-colors duration-200 ease-out cursor-pointer`}
               >
                 {item.icon}
-                <span className="block">
+                <span className="block md:hidden lg:block">
                   {item.name.charAt(0).toUpperCase() + item.name.slice(1)}
                 </span>
               </li>
@@ -81,7 +81,8 @@ const RightBar: React.FC<Props> = ({ isOpen, setIsOpen, setSection }) => {
         onClick={() => signOut()}
         className=" text-sub flex justify-center items-center gap-2 px-2 cursor-pointer py-1"
       >
-        <LogOut className=" h-5 w-5" /> Logout
+        <LogOut className=" h-5 w-5" />{" "}
+        <span className="block md:hidden lg:block">Logout</span>
       </button>
     </div>
   );

@@ -1,25 +1,33 @@
 import React from "react";
 
-const ActivityCard = () => {
-  const array = [
-    { name: "Raj", amount: "paid 2000", date: "05/09/2025" },
-    { name: "Kapil", amount: "paid 1200", date: "20/08/2025" },
-    { name: "Gaurav", amount: "paid 500", date: "15/08/2025" },
-    { name: "Anuj", amount: "paid 2000", date: "30/07/2025" },
-  ];
+interface Props {
+  activity:{
+        name: string;
+        amount: number;
+        paidDate: string;
+      }[]
+}
+
+const ActivityCard: React.FC<Props> = ({ activity }) => {
+
   return (
-    <div className="flex flex-col px-4 py-2 shadow-lg shadow-black/10 border border-white/50 rounded-xl">
+    <div className="flex flex-col px-4 py-2 shadow-lg shadow-black/10 border border-white/50 rounded-xl min-h-[287px]">
       {/* header */}
       <h2 className=" border-b pb-2 text-xl text-heading">Recent activity</h2>
       <div className=" my-5 flex flex-col gap-2">
-        {array.map((item) => (
-          <div className="text-xs md:text-sm lg:text-base leading-snug text-heading">
-            <span>{item.name}</span>
-            {" "}
-            <span>{item.amount}</span>
-            <p className=" text-sub text-xs md:text-[13px] lg:text-sm">{item.date}</p>
+        {activity?.length > 0 ? activity.map((item) => (
+          <div
+            key={item.name}
+            className="text-xs md:text-sm lg:text-base leading-snug text-heading"
+          >
+            <div className=" flex justify-between items-center">
+            <span>{item.name}</span> <span className=" text-sub ">{item.amount}{" "}Paid</span>
+            </div>
+            <p className=" text-sub text-xs md:text-[13px] lg:text-sm">
+              {item.paidDate}
+            </p>
           </div>
-        ))}
+        )):<div className=" text-center text-sub text-lg">No reacent activity</div>}
       </div>
     </div>
   );
