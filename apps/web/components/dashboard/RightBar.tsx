@@ -66,7 +66,7 @@ const RightBar: React.FC<Props> = ({ isOpen, setIsOpen, setSection }) => {
                   setSection(item.name);
                   setIsOpen(false);
                 }}
-                className={`w-full px-2 py-1 rounded-md ${index === activeIndex ? "bg-primary text-white" : ""} flex gap-3 items-center transition-colors duration-200 ease-out`}
+                className={`w-full px-2 py-1 rounded-md ${index === activeIndex ? "bg-primary text-white" : ""} flex gap-3 items-center transition-colors duration-200 ease-out cursor-pointer`}
               >
                 {item.icon}
                 <span className="block">

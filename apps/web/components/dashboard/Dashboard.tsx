@@ -2,6 +2,8 @@ import { IUser } from "@repo/types";
 import React, { useEffect, useState } from "react";
 import { useUserProfile } from "../../context/UserProfileProvider";
 import StatCard from "./StatCards";
+import ActivityCard from "./ActivityCard";
+import Upcoming from "./Upcoming";
 
 interface DashboardData {
   teacher: IUser;
@@ -64,11 +66,13 @@ const Dashboard = () => {
         throw new Error(result.message || "Please try again later.");
       }
 
-      setDashboardData(result);      
+      setDashboardData(result);
       // profileContext.setUserDetail(result.data.teacher);
     } catch (error) {
       const errorMessage =
-        error instanceof Error ? error.message : "Please try again";
+        error instanceof Error
+          ? `${error.message} please check your internet connection`
+          : "Please try again";
       setErrorMsg(errorMessage);
     }
   };
@@ -76,33 +80,36 @@ const Dashboard = () => {
   useEffect(() => {
     fetchDashboardData();
   }, []);
-  console.log("Dashborad data", dashboardData);
-  
+
   return (
-    <div>
+    <>
       {errorMsg && (
-        <div className="mb-2 py-1.5 px-3 bg-red-100 text-red-700 border border-red-400 rounded-md">
+        <div className="mb-3 py-1.5 px-3 bg-red-100 text-red-700 border border-red-400 rounded-md">
           {errorMsg}
         </div>
       )}
 
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6 ">
+        <StatCard
+          title="Total Students"
+          count={dashboardData?.summary.totalStudents || 0}
+          color="bg-primary"
+          textColor="text-white"
+        />
+        {statCards.map((card) => (
           <StatCard
-            title="Total Students"
-            count={dashboardData?.summary.totalStudents || 0}
-            color="bg-primary"
-            textColor="text-white"
+            key={card.title}
+            title={card.title}
+            count={card.count}
+            color={card.color}
           />
-          {statCards.map((card) => (
-            <StatCard
-              key={card.title}
-              title={card.title}
-              count={card.count}
-              color={card.color}
-            />
-          ))}
-        </div>
-    </div>
+        ))}
+      </div>
+      <div className=" grid grid-cols-1 sm:grid-cols-2  gap-5">
+        <ActivityCard/>
+        <Upcoming/>
+      </div>
+    </>
   );
 };
 

@@ -1,5 +1,4 @@
 "use client";
-
 import React, { lazy, Suspense, useState } from "react";
 import { Menu } from "lucide-react";
 import { useOpenPlan } from "../../../context/OpenPlanProvider";
