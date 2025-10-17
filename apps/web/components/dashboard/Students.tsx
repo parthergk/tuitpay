@@ -1,13 +1,115 @@
-import React, { useState } from 'react'
+import { BadgeCheck, Pen, Trash2 } from "lucide-react";
+import React, { useState } from "react";
 
 const Students = () => {
-    const [showForm, setShowForm] = useState(false);
-    const handleAddStudent = () => {
+  const [showForm, setShowForm] = useState(false);
+  const handleAddStudent = () => {
     setShowForm((prev) => !prev);
   };
-  return (
-    <div>Students</div>
-  )
-}
 
-export default Students
+  const items = [
+    "Name",
+    "Course",
+    "Monthly Fee",
+    "Due Date",
+    "Join Date",
+    "Status",
+    "Actions",
+  ];
+
+  const [students, setStudents] = useState([
+    {
+      id: 1,
+      name: "Gaurav Kumar",
+      course: "Mathematics",
+      fee: "₹2,000",
+      dueDate: "05th",
+      joinDate: "15/01/2024",
+      status: "Overdue",
+    },
+    {
+      id: 2,
+      name: "Anjali Sharma",
+      course: "Physics",
+      fee: "₹1,800",
+      dueDate: "10th",
+      joinDate: "10/02/2024",
+      status: "Paid",
+    },
+    {
+      id: 3,
+      name: "Rohit Singh",
+      course: "Chemistry",
+      fee: "₹2,200",
+      dueDate: "07th",
+      joinDate: "20/01/2024",
+      status: "Pending",
+    },
+  ]);
+  return (
+    <div>
+      <div className=" flex justify-between items-center">
+        <button className=" bg-primary text-white py-1 px-2.5 sm:py-1.5 sm:px-3 rounded-md shadow-md cursor-pointer">
+          Add Student
+        </button>
+        <input
+          type="text"
+          placeholder="Search students..."
+          className=" py-1 px-2.5 sm:py-1.5 sm:px-3 border border-slate-300 rounded-md focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary"
+        />
+      </div>
+
+      <div className=" w-full mt-8 overflow-x-auto min-h-80 shadow-lg  border border-white/50 rounded-lg">
+        <div className=" w-full min-w-[800px] md:min-w-[590px] bg-primary text-white  px-4 py-3 rounded-tl-lg rounded-se-xl shadow-lg">
+          <ul className=" grid grid-cols-7">
+            {items.map((item) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ul>
+        </div>
+
+        <div className=" w-full p-4 min-w-[800px] md:min-w-[590px]">
+          <ul className="space-y-3">
+            {students.length > 0 ?  students.map((student) => (
+              <li key={student.id} className=" w-full grid grid-cols-7  items-center border-b border-slate-100 pb-2 text-sm sm:text-base">
+                <span className="truncate">{student.name}</span>
+                <span className="truncate">{student.course}</span>
+                <span>{student.fee}</span>
+                <span>{student.dueDate}</span>
+                <span>{student.joinDate}</span>
+                <div
+                  className={` w-full max-w-20 sm:max-w-24 px-2 py-0.5 rounded-2xl text-center border ${
+                    student.status.toLowerCase() === "paid"
+                      ? "border-green-500 text-green-600"
+                      : student.status.toLowerCase() === "pending"
+                        ? "border-yellow-500 text-yellow-600"
+                        : "border-red-500 text-red-600"
+                  }`}
+                >
+                  {student.status}
+                </div>
+                <div className="flex gap-5">
+                  <button className=" text-sub hover:underline text-sm cursor-pointer">
+                    <Pen className=" h-4 w-4"/>
+                  </button>
+                  <button className="text-red-600 hover:underline text-sm cursor-pointer">
+                    <Trash2 className=" h-4 w-4"/>
+                  </button>
+                  <button className=" text-sub hover:underline text-sm cursor-pointer">
+                    <BadgeCheck className=" h-4 w-4"/>
+                  </button>
+                </div>
+              </li>
+            )): (
+            <p className="text-center text-gray-500 py-4">
+              No students found.
+            </p>
+          )}
+          </ul>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Students;
