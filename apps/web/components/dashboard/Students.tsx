@@ -2,9 +2,11 @@ import { BadgeCheck, Pen, Trash2 } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import StudentsHeader from "./StudentsHeader";
 import StudentForm from "../student/StudentForm";
+import MarkAsPaid from "../student/MarkAsPaid";
 
 interface Student{
   _id: string;
+  feeId: string;
   name: string;
   sub: string;
   monthlyFee: string;
@@ -15,6 +17,9 @@ interface Student{
 
 const Students = () => {
   const [showForm, setShowForm] = useState(false);
+  const [openMark, setOpenMark] = useState(false);
+  const [feeId, setFeeId] = useState("");
+  
   const handleAddStudent = () => {
     setShowForm((prev) => !prev);
   };
@@ -36,6 +41,7 @@ const Students = () => {
   useEffect(()=>{
     fetchStudents();
   },[]);
+
   
   return (
     <>
@@ -84,7 +90,7 @@ const Students = () => {
                     <button className="text-red-600 hover:underline text-sm cursor-pointer">
                       <Trash2 className=" h-4 w-4" />
                     </button>
-                    <button className=" text-sub hover:underline text-sm cursor-pointer">
+                    <button onClick={()=>{setOpenMark(true), setFeeId(student.feeId)}} className=" text-sub hover:underline text-sm cursor-pointer">
                       <BadgeCheck className=" h-4 w-4" />
                     </button>
                   </div>
@@ -99,6 +105,12 @@ const Students = () => {
         </div>
       </div>
       <StudentForm isOpen={showForm} setIsOpen={setShowForm} fetchData={fetchStudents}/>
+      {openMark && (
+        <MarkAsPaid
+          setOpenMark={setOpenMark}
+          feeId={feeId}
+        />
+      )}
     </>
   );
 };

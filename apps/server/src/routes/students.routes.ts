@@ -35,6 +35,7 @@ studentRouter.get("/", verifyJwt, async (req, res) => {
         return {
           ...student.toObject(),
           status: fee?.status,
+          feeId: fee?._id
         };
       })
     );
