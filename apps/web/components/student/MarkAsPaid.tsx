@@ -59,7 +59,7 @@ const MarkAsPaid: React.FC<Prop> = ({ setOpenMark, feeId, fetchData}) => {
   };
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black/30 backdrop-blur-xs px-5">
+    <div className="fixed inset-0 bg-opacity-30 flex items-center justify-center backdrop-blur-2xl px-5">
       <div className="bg-[linear-gradient(to_bottom_right,#FFFFFF_0%,#F0F4FF_50%,#E8DFFF_100%)] backdrop-blur-sm p-3 sm:p-6 rounded-xl shadow-lg w-full max-w-md mx-auto">
         <h2 className="text-lg sm:text-xl md:text-2xl text-gray-800">
           Mark as Paid
