@@ -1,5 +1,7 @@
 import { BadgeCheck, Pen, Trash2 } from "lucide-react";
 import React, { useEffect, useState } from "react";
+import StudentsHeader from "./StudentsHeader";
+import StudentForm from "../student/StudentForm";
 
 interface Student{
   _id: string;
@@ -27,8 +29,6 @@ const Students = () => {
       }
     });
     const result = await response.json();
-    // setStudents(result.students);
-    console.log("Students", result.studentWithStatus);
     setStudents(result.studentWithStatus)
     
   }
@@ -36,21 +36,11 @@ const Students = () => {
   useEffect(()=>{
     fetchStudents();
   },[]);
-
-  const items = [
-    "Name",
-    "Course",
-    "Monthly Fee",
-    "Due Date",
-    "Join Date",
-    "Status",
-    "Actions",
-  ];
   
   return (
     <>
       <div className=" flex justify-between items-center">
-        <button className=" bg-primary text-white py-1 px-2.5 sm:py-1.5 sm:px-3 rounded-md shadow-md cursor-pointer">
+        <button onClick={handleAddStudent} className=" bg-primary text-white py-1 px-2.5 sm:py-1.5 sm:px-3 rounded-md shadow-md cursor-pointer">
           Add Student
         </button>
         <input
@@ -61,13 +51,7 @@ const Students = () => {
       </div>
 
       <div className=" w-full mt-8 overflow-x-auto min-h-80 shadow-lg  border border-white/50 rounded-lg">
-        <div className=" w-full min-w-[800px] md:min-w-[590px] bg-primary text-white  px-4 py-3 rounded-tl-lg rounded-se-xl shadow-lg">
-          <ul className=" grid grid-cols-7 gap-1">
-            {items.map((item) => (
-              <li key={item}>{item}</li>
-            ))}
-          </ul>
-        </div>
+        <StudentsHeader/>
 
         <div className=" w-full h-full p-4 min-w-[800px] md:min-w-[590px] max-h-80 overflow-y-scroll">
           <ul className="space-y-3">
@@ -114,6 +98,7 @@ const Students = () => {
           </ul>
         </div>
       </div>
+      <StudentForm isOpen={showForm} setIsOpen={setShowForm} fetchData={fetchStudents}/>
     </>
   );
 };
