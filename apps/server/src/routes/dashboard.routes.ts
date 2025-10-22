@@ -31,7 +31,7 @@ dashboardRouter.get(
       })
         .sort({ _id: -1 })
         .limit(4)
-        .select("amount paidDate studentId")
+        .select("paidAmount paidDate studentId")
         .populate<{ studentId: IStudent }>("studentId", "name")
         .lean();
 
@@ -62,7 +62,7 @@ dashboardRouter.get(
       const formatedData = recentPaid.map((item) => ({
         id: item._id,
         name: item.studentId.name || "Unknown",
-        amount: item.amount,
+        amount: item.paidAmount,
         paidDate: item.paidDate?.toDateString(),
       }));
 

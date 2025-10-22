@@ -67,7 +67,7 @@ const Dashboard = () => {
         throw new Error("Failed to fetch dashboard data");
       }
 
-      const result = await response.json();
+      const result = await response.json();      
       if (result.success === false) {
         throw new Error(result.message || "Please try again later.");
       }

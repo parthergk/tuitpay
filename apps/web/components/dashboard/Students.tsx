@@ -1,40 +1,22 @@
 import { BadgeCheck, Pen, Trash2 } from "lucide-react";
 import React, { useEffect, useState } from "react";
 
+interface Student{
+  _id: string;
+  name: string;
+  sub: string;
+  monthlyFee: string;
+  feeDay: string;
+  joinDate: string;
+  status: string;
+}
+
 const Students = () => {
   const [showForm, setShowForm] = useState(false);
   const handleAddStudent = () => {
     setShowForm((prev) => !prev);
   };
-  const [students, setStudents] = useState([
-    {
-      id: 1,
-      name: "Gaurav Kumar",
-      course: "Mathematics",
-      fee: "₹2,000",
-      dueDate: "05th",
-      joinDate: "15/01/2024",
-      status: "Overdue",
-    },
-    {
-      id: 2,
-      name: "Anjali Sharma",
-      course: "Physics",
-      fee: "₹1,800",
-      dueDate: "10th",
-      joinDate: "10/02/2024",
-      status: "Paid",
-    },
-    {
-      id: 3,
-      name: "Rohit Singh",
-      course: "Chemistry",
-      fee: "₹2,200",
-      dueDate: "07th",
-      joinDate: "20/01/2024",
-      status: "Pending",
-    },
-  ]);
+  const [students, setStudents] = useState<Student[]>([]);
 
   async function fetchStudents() {
     const response = await fetch("http://localhost:8080/api/v1/student", {
@@ -46,7 +28,8 @@ const Students = () => {
     });
     const result = await response.json();
     // setStudents(result.students);
-    console.log("Students", result.students);
+    console.log("Students", result.studentWithStatus);
+    setStudents(result.studentWithStatus)
     
   }
 
@@ -86,7 +69,7 @@ const Students = () => {
           </ul>
         </div>
 
-        <div className=" w-full p-4 min-w-[800px] md:min-w-[590px]">
+        <div className=" w-full h-full p-4 min-w-[800px] md:min-w-[590px] max-h-80 overflow-y-scroll">
           <ul className="space-y-3">
             {students.length > 0 ? (
               students.map((student) => (
@@ -98,7 +81,7 @@ const Students = () => {
                   <span className="truncate">{student.sub}</span>
                   <span>₹{student.monthlyFee}</span>
                   <span>{student.feeDay}</span>
-                  <span>{student.joinDate}</span>
+                  <span>{new Date(student.joinDate).toDateString()}</span>
                   <div
                     className={` w-full max-w-20 sm:max-w-24 px-2 py-0.5 rounded-2xl text-center border ${
                       student.status.toLowerCase() === "paid"

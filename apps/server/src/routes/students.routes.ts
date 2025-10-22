@@ -15,7 +15,31 @@ studentRouter.get("/", verifyJwt, async (req, res) => {
       teacherId: teacherId.id,
     }).sort({ name: 1 });
 
-    res.status(200).json({ message: "All students", students });
+    const now = new Date();
+
+    const firstDayOfMonth = new Date(
+      Date.UTC(now.getFullYear(), now.getMonth(), 1, 0, 0, 0, 0)
+    );
+
+    const lastDayOfMonth = new Date(
+      Date.UTC(now.getFullYear(), now.getMonth() + 1, 0, 0, 0, 0)
+    );
+
+    const studentWithStatus = await Promise.all(
+      students.map(async (student) => {
+        const fee = await FeePayment.findOne({
+          studentId: student._id,
+          dueDate: { $gte: firstDayOfMonth, $lte: lastDayOfMonth },
+        });
+
+        return {
+          ...student.toObject(),
+          status: fee?.status,
+        };
+      })
+    );
+    
+    res.status(200).json({ message: "All students", studentWithStatus });
     return;
   } catch (error) {
     console.error("Error fetching teacher students:", error);
@@ -137,20 +161,29 @@ studentRouter.get("/:id", verifyJwt, async (req, res) => {
 
     const fees = await FeePayment.find({
       studentId: id,
-      teacherId: teacherId.id
-    })
+      teacherId: teacherId.id,
+    });
     if (!student || !fees) {
-      res.status(400).json({ success: false, error: "Student or fee data not found with this id"});
+      res.status(400).json({
+        success: false,
+        error: "Student or fee data not found with this id",
+      });
       return;
     }
-    res.status(200).json({ success: true, message: "Student", studentData:{
-      student,
-      fees
-    } });
+    res.status(200).json({
+      success: true,
+      message: "Student",
+      studentData: {
+        student,
+        fees,
+      },
+    });
     return;
   } catch (error) {
     console.error("Error fetching student:", error);
-    res.status(500).json({success: false, error: "student not found try again" });
+    res
+      .status(500)
+      .json({ success: false, error: "student not found try again" });
   }
 });
 
