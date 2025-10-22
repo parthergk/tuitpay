@@ -238,7 +238,7 @@ studentRouter.delete("/:id", verifyJwt, async (req: Request, res: Response) => {
     const student = await Student.findOne({ _id: id, teacherId: userBody.id });
 
     if (!student) {
-      res.status(404).json({ message: "Student not found" });
+      res.status(404).json({success: false, error: "Student not found" });
       return;
     }
 
@@ -248,6 +248,7 @@ studentRouter.delete("/:id", verifyJwt, async (req: Request, res: Response) => {
     await FeePayment.deleteMany({ studentId: id });
 
     res.status(200).json({
+      success: true,
       message: "Student and related fee records deleted successfully",
     });
     return;
@@ -255,7 +256,7 @@ studentRouter.delete("/:id", verifyJwt, async (req: Request, res: Response) => {
     console.error("Error deleting student:", error);
     res
       .status(500)
-      .json({ message: "Failed to delete student. Please try again." });
+      .json({ success: false, error: "Failed to delete student. Please try again." });
     return;
   }
 });

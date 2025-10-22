@@ -3,8 +3,14 @@ import React, { useEffect, useState } from "react";
 import StudentsHeader from "./StudentsHeader";
 import StudentForm from "../student/StudentForm";
 import MarkAsPaid from "../student/MarkAsPaid";
+import DeleteForm from "./DeleteForm";
 
-interface Student{
+interface SelectedStudent {
+  id: string;
+  name: string;
+}
+
+interface Student {
   _id: string;
   feeId: string;
   name: string;
@@ -18,8 +24,11 @@ interface Student{
 const Students = () => {
   const [showForm, setShowForm] = useState(false);
   const [openMark, setOpenMark] = useState(false);
+  const [isDelete, setIsDelete] = useState(false);
   const [feeId, setFeeId] = useState("");
-  
+const [student, setStudent] = useState<SelectedStudent | null>(null);
+
+
   const handleAddStudent = () => {
     setShowForm((prev) => !prev);
   };
@@ -30,23 +39,24 @@ const Students = () => {
       method: "GET",
       credentials: "include",
       headers: {
-        "Content-Type": "application/json"
-      }
+        "Content-Type": "application/json",
+      },
     });
     const result = await response.json();
-    setStudents(result.studentWithStatus)
-    
+    setStudents(result.studentWithStatus);
   }
 
-  useEffect(()=>{
+  useEffect(() => {
     fetchStudents();
-  },[]);
+  }, []);
 
-  
   return (
     <>
       <div className=" flex justify-between items-center">
-        <button onClick={handleAddStudent} className=" bg-primary text-white py-1 px-2.5 sm:py-1.5 sm:px-3 rounded-md shadow-md cursor-pointer">
+        <button
+          onClick={handleAddStudent}
+          className=" bg-primary text-white py-1 px-2.5 sm:py-1.5 sm:px-3 rounded-md shadow-md cursor-pointer"
+        >
           Add Student
         </button>
         <input
@@ -57,7 +67,7 @@ const Students = () => {
       </div>
 
       <div className=" w-full mt-8 overflow-x-auto min-h-80 shadow-lg  border border-white/50 rounded-lg">
-        <StudentsHeader/>
+        <StudentsHeader />
 
         <div className=" w-full h-full p-4 min-w-[800px] md:min-w-[590px] max-h-80 overflow-y-scroll">
           <ul className="space-y-3">
@@ -87,10 +97,22 @@ const Students = () => {
                     <button className=" text-sub hover:underline text-sm cursor-pointer">
                       <Pen className=" h-4 w-4" />
                     </button>
-                    <button className="text-red-600 hover:underline text-sm cursor-pointer">
+                    <button
+                      onClick={() => {
+                        setIsDelete(true);
+                        setStudent({id:student._id, name:student.name});
+                      }}
+                      className="text-red-600 hover:underline text-sm cursor-pointer"
+                    >
                       <Trash2 className=" h-4 w-4" />
                     </button>
-                    <button disabled={student.status.toLowerCase()==="paid"} onClick={()=>{setOpenMark(true), setFeeId(student.feeId)}} className={`text-sub hover:underline text-sm ${student.status.toLowerCase() === "paid"?"cursor-not-allowed": "cursor-pointer"}`}>
+                    <button
+                      disabled={student.status.toLowerCase() === "paid"}
+                      onClick={() => {
+                        (setOpenMark(true), setFeeId(student.feeId));
+                      }}
+                      className={`text-sub hover:underline text-sm ${student.status.toLowerCase() === "paid" ? "cursor-not-allowed" : "cursor-pointer"}`}
+                    >
                       <BadgeCheck className=" h-4 w-4" />
                     </button>
                   </div>
@@ -104,11 +126,22 @@ const Students = () => {
           </ul>
         </div>
       </div>
-      <StudentForm isOpen={showForm} setIsOpen={setShowForm} fetchData={fetchStudents}/>
+      <StudentForm
+        isOpen={showForm}
+        setIsOpen={setShowForm}
+        fetchData={fetchStudents}
+      />
       {openMark && (
         <MarkAsPaid
           setOpenMark={setOpenMark}
           feeId={feeId}
+          fetchData={fetchStudents}
+        />
+      )}
+      {isDelete && (
+        <DeleteForm
+          student={student}
+          setIsDelete={setIsDelete}
           fetchData={fetchStudents}
         />
       )}

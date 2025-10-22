@@ -4,16 +4,14 @@ import { useForm } from "react-hook-form";
 interface Prop {
   setOpenMark: React.Dispatch<React.SetStateAction<boolean>>;
   feeId: string;
-    fetchData: () => Promise<void>;
-
+  fetchData: () => Promise<void>;
 }
 
 interface FormValues {
   paidAmount: number;
 }
 
-const MarkAsPaid: React.FC<Prop> = ({ setOpenMark, feeId, fetchData}) => {
-  
+const MarkAsPaid: React.FC<Prop> = ({ setOpenMark, feeId, fetchData }) => {
   const {
     register,
     handleSubmit,
@@ -64,7 +62,10 @@ const MarkAsPaid: React.FC<Prop> = ({ setOpenMark, feeId, fetchData}) => {
         <h2 className="text-lg sm:text-xl md:text-2xl text-gray-800">
           Mark as Paid
         </h2>
-        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3 mt-2">
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="flex flex-col gap-3 mt-2"
+        >
           {/* Paid Amount */}
           <div>
             <label
