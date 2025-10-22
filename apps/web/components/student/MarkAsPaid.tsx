@@ -4,14 +4,15 @@ import { useForm } from "react-hook-form";
 interface Prop {
   setOpenMark: React.Dispatch<React.SetStateAction<boolean>>;
   feeId: string;
+    fetchData: () => Promise<void>;
+
 }
 
 interface FormValues {
   paidAmount: number;
 }
 
-const MarkAsPaid: React.FC<Prop> = ({ setOpenMark, feeId }) => {
-  console.log("Fee id", feeId);
+const MarkAsPaid: React.FC<Prop> = ({ setOpenMark, feeId, fetchData}) => {
   
   const {
     register,
@@ -48,6 +49,7 @@ const MarkAsPaid: React.FC<Prop> = ({ setOpenMark, feeId }) => {
         return;
       }
 
+      fetchData();
       alert("Fee marked as paid!");
       setOpenMark(false);
     } catch (err) {
