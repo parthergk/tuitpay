@@ -14,6 +14,7 @@ interface Student {
   _id: string;
   feeId: string;
   name: string;
+  contact: number;
   sub: string;
   monthlyFee: string;
   feeDay: string;
@@ -69,19 +70,20 @@ const [student, setStudent] = useState<SelectedStudent | null>(null);
       <div className=" w-full mt-8 overflow-x-auto min-h-80 shadow-lg  border border-white/50 rounded-lg">
         <StudentsHeader />
 
-        <div className=" w-full h-full p-4 min-w-[800px] md:min-w-[590px] max-h-80 overflow-y-scroll">
-          <ul className="space-y-3">
+        <div className=" w-full h-full p-4 min-w-[810px] md:min-w-[600px] max-h-80 overflow-y-scroll">
+          <ul className=" w-full space-y-3">
             {students.length > 0 ? (
               students.map((student) => (
                 <li
                   key={student._id}
-                  className=" w-full grid grid-cols-7 gap-1 items-center border-b border-slate-100 pb-2 text-sm sm:text-base"
+                  className=" w-full grid grid-cols-8 gap-1 items-center border-b border-slate-100 pb-2 text-sm sm:text-base"
                 >
                   <span className="truncate">{student.name}</span>
+                  <span>{student.contact}</span>
                   <span className="truncate">{student.sub}</span>
                   <span>₹{student.monthlyFee}</span>
-                  <span>{student.feeDay}</span>
-                  <span>{new Date(student.joinDate).toDateString()}</span>
+                  <span>{new Date(student.joinDate).toLocaleDateString()}</span>
+                  <span className=" text-center">{student.feeDay}</span>
                   <div
                     className={` w-full max-w-20 sm:max-w-24 px-2 py-0.5 rounded-2xl text-center border ${
                       student.status.toLowerCase() === "paid"
