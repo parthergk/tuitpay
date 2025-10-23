@@ -25,6 +25,14 @@ export const StudentSchema = z.object({
   feeDay: z.string().optional(),
 });
 
+export const StudentUpdateSchema = z.object({
+  name: z.string(),
+  contact: z.string().min(10),
+  class: z.string(),
+  monthlyFee: z.number(),
+  dueDate: z.number(),
+})
+
 export const CodeSchema = z.object({
   email: z.string().email(),
   code: z.string(),

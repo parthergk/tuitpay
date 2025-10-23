@@ -1,6 +1,6 @@
 import { Request, Response, Router } from "express";
 import { verifyJwt } from "../middleware/verifyJwt";
-import { StudentSchema } from "@repo/validation/types";
+import { StudentSchema, StudentUpdateSchema } from "@repo/validation/types";
 import { Student, User, FeePayment } from "@repo/db";
 import { checkPlanLimit } from "../middleware/checkPlanLimit";
 import { getTodayDate } from "../utils/dateUtils";
@@ -190,11 +190,11 @@ studentRouter.get("/:id", verifyJwt, async (req, res) => {
 
 studentRouter.put("/:id", verifyJwt, async (req: Request, res: Response) => {
   const { id } = req.params;
-  const { data } = req.body;
+  const  data  = req.body;
   const userBody = req.user;
-
+  
   try {
-    const parsedBody = StudentSchema.safeParse(data);
+    const parsedBody = StudentUpdateSchema.safeParse(data);
     if (!parsedBody.success) {
       res.status(422).json({
         message: "Invalid student inputs",
@@ -212,11 +212,9 @@ studentRouter.put("/:id", verifyJwt, async (req: Request, res: Response) => {
 
     student.name = parsedBody.data.name;
     student.class = parsedBody.data.class;
-    student.sub = parsedBody.data.subject;
     student.contact = parsedBody.data.contact;
     student.monthlyFee = parsedBody.data.monthlyFee;
-    student.isActivate = parsedBody.data.isActivate;
-
+    student.feeDay = parsedBody.data.dueDate;
     await student.save();
 
     res.status(200).json({ message: "Student updated successfully", student });
