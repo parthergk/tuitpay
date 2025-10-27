@@ -87,7 +87,7 @@ const Students = () => {
       <div className=" w-full mt-8 overflow-x-auto min-h-80 shadow-lg  border border-white/50 rounded-lg">
         <StudentsHeader />
 
-        <div className=" w-full h-full p-4 min-w-[810px] md:min-w-[600px] max-h-80 overflow-y-scroll">
+        <div className=" w-full h-full p-4 min-w-[810px] md:min-w-[600px] sm:max-h-80 overflow-y-scroll">
           <ul className=" w-full space-y-3">
             {students.length > 0 ? (
               filteredStudents.map((student) => (

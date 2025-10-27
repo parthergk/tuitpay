@@ -3,6 +3,7 @@ import { useUserProfile } from "../../context/UserProfileProvider";
 import StatCard from "./StatCards";
 import ActivityCard from "./ActivityCard";
 import Upcoming from "./Upcoming";
+import { useOverDue } from "../../context/OverDueProvider";
 
 interface DashboardData {
   recentActivity: {
@@ -27,6 +28,7 @@ const Dashboard = () => {
   const [dashboardData, setDashboardData] = useState<DashboardData | null>(
     null
   );
+  const {setOverDues} = useOverDue();
   const [errorMsg, setErrorMsg] = useState("");
 
   const statCards = [
@@ -73,6 +75,7 @@ const Dashboard = () => {
       }
 
       setDashboardData(result);
+      setOverDues(result.upcomingDues);
     } catch (error) {
       const errorMessage =
         error instanceof Error

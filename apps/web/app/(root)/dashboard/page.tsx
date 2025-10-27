@@ -6,14 +6,13 @@ import RightBar from "../../../components/dashboard/RightBar";
 import User from "../../../components/User";
 
 import Dashboard from "../../../components/dashboard/Dashboard";
+import { OverdueProvider } from "../../../context/OverDueProvider";
 const Students = lazy(() => import("../../../components/dashboard/Students"));
 const FeeTracking = lazy(
   () => import("../../../components/dashboard/FeeTracking")
 );
 const Report = lazy(() => import("../../../components/dashboard/Report"));
 const Reminder = lazy(() => import("../../../components/dashboard/Reminders"));
-
-
 
 export default function DashboardPage() {
   const { isOpenPlans, setIsOpenPlans } = useOpenPlan();
@@ -82,10 +81,14 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        {sections.map(
-          (item) =>
-            item.name === section && <div key={item.name}>{item.component}</div>
-        )}
+        <OverdueProvider>
+          {sections.map(
+            (item) =>
+              item.name === section && (
+                <div key={item.name}>{item.component}</div>
+              )
+          )}
+        </OverdueProvider>
       </div>
     </div>
   );
