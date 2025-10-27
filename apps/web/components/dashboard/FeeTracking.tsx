@@ -66,6 +66,32 @@ const studentsData: Student[] = [
       },
     ],
   },
+  {
+    name: "Prachi Kumari",
+    feeRecords: [
+      {
+        month: "August 2025",
+        paidAmount: 1100,
+        unpaid: 0,
+        overdue: 0,
+        paymentDate: "2025-08-20",
+      },
+      {
+        month: "September 2025",
+        paidAmount: 0,
+        unpaid: 1100,
+        overdue: 0,
+        paymentDate: null,
+      },
+      {
+        month: "October 2025",
+        paidAmount: 1100,
+        unpaid: 0,
+        overdue: 0,
+        paymentDate: "2025-10-10",
+      },
+    ],
+  },
 ];
 
 const FeeTracking = () => {
