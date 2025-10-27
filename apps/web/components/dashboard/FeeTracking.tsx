@@ -96,6 +96,16 @@ const studentsData: Student[] = [
 
 const FeeTracking = () => {
   const [input, setInput] = useState("");
+  async function fetchRecord() {
+  const response = await fetch("http://localhost:8080/api/v1/dashboard/feeRecord", {
+    method: "GET",
+    credentials: "include",
+  });
+}
+
+useEffect(() => {
+  fetchRecord();
+}, []);
 
   const searchData =
     input === ""

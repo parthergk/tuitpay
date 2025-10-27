@@ -82,4 +82,40 @@ dashboardRouter.get(
   }
 );
 
+dashboardRouter.get(
+  "/feeRecord",
+  verifyJwt,
+  async (req: Request, res: Response) => {
+    const { id: userId } = req.user;
+
+    try {
+      const feeRecords = await FeePayment.find({ teacherId: userId })
+        .select("amount paidAmount dueDate status paidDate")
+        .populate<{ studentId: IStudent }>("studentId", "name");
+
+      if (!feeRecords || feeRecords.length === 0) {
+        res.status(404).json({
+          success: false,
+          error: "No fee records found for this teacher.",
+        });
+        return;
+      }
+
+      res.status(200).json({
+        success: true,
+        message: "Fee records fetched successfully.",
+        data: feeRecords,
+      });
+      return;
+    } catch (error) {
+      console.error("Error fetching fee records:", error);
+
+      res.status(500).json({
+        success: false,
+        error: "Internal Server Error. Unable to fetch fee records."});
+      return;
+    }
+  }
+);
+
 export default dashboardRouter;
