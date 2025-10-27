@@ -1,147 +1,152 @@
 import React, { useEffect, useState } from "react";
 
-interface FeeRecord {
+interface RawFeeRecord {
+  amount: number;
+  paidAmount: number;
+  status: "paid" | "pending" | "overdue";
+  dueDate: string;
+  paidDate?: string | null;
+  studentId: {
+    _id: string;
+    name: string;
+  };
+}
+
+interface ProcessedFeeRecord {
   month: string;
   paidAmount: number;
   unpaid: number;
   overdue: number;
   paymentDate: string | null;
+  status: "paid" | "pending" | "overdue";
+  amount: number;
 }
 
-interface Student {
-  name: string;
-  feeRecords: FeeRecord[];
+interface GroupedStudentData {
+  [studentName: string]: ProcessedFeeRecord[];
 }
 
-const studentsData: Student[] = [
-  {
-    name: "Gaurav Kumar",
-    feeRecords: [
-      {
-        month: "August 2025",
-        paidAmount: 1200,
-        unpaid: 0,
-        overdue: 0,
-        paymentDate: "2025-08-25",
-      },
-      {
-        month: "September 2025",
-        paidAmount: 1200,
-        unpaid: 0,
-        overdue: 0,
-        paymentDate: "2025-09-09",
-      },
-      {
-        month: "October 2025",
-        paidAmount: 0,
-        unpaid: 1200,
-        overdue: 0,
-        paymentDate: null,
-      },
-    ],
-  },
-  {
-    name: "Prachi Kumari",
-    feeRecords: [
-      {
-        month: "August 2025",
-        paidAmount: 1100,
-        unpaid: 0,
-        overdue: 0,
-        paymentDate: "2025-08-20",
-      },
-      {
-        month: "September 2025",
-        paidAmount: 0,
-        unpaid: 1100,
-        overdue: 0,
-        paymentDate: null,
-      },
-      {
-        month: "October 2025",
-        paidAmount: 1100,
-        unpaid: 0,
-        overdue: 0,
-        paymentDate: "2025-10-10",
-      },
-    ],
-  },
-  {
-    name: "Prachi Kumari",
-    feeRecords: [
-      {
-        month: "August 2025",
-        paidAmount: 1100,
-        unpaid: 0,
-        overdue: 0,
-        paymentDate: "2025-08-20",
-      },
-      {
-        month: "September 2025",
-        paidAmount: 0,
-        unpaid: 1100,
-        overdue: 0,
-        paymentDate: null,
-      },
-      {
-        month: "October 2025",
-        paidAmount: 1100,
-        unpaid: 0,
-        overdue: 0,
-        paymentDate: "2025-10-10",
-      },
-    ],
-  },
-];
-
-const FeeTracking = () => {
+const FeeTracking: React.FC = () => {
+  const [feeRecords, setFeeRecords] = useState<GroupedStudentData>({});
   const [input, setInput] = useState("");
-  async function fetchRecord() {
-  const response = await fetch("http://localhost:8080/api/v1/dashboard/feeRecord", {
-    method: "GET",
-    credentials: "include",
-  });
-}
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
 
-useEffect(() => {
-  fetchRecord();
-}, []);
+  const fetchRecord = async () => {
+    try {
+      setLoading(true);
+      setError(null);
 
-  const searchData =
-    input === ""
-      ? studentsData
-      : studentsData.filter((student) =>
-          student.name.toLowerCase().includes(input.toLowerCase())
-        );
+      const response = await fetch(
+        "http://localhost:8080/api/v1/dashboard/feeRecord",
+        {
+          method: "GET",
+          credentials: "include",
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const result = await response.json();
+
+      if (!result.success || !Array.isArray(result.data)) {
+        throw new Error("Invalid API response format");
+      }
+
+      const groupedData = result.data.reduce((acc: GroupedStudentData, record: RawFeeRecord) => {
+        const studentName = record.studentId?.name || "Unknown Student";
+
+        if (!acc[studentName]) acc[studentName] = [];
+
+        acc[studentName].push({
+          month: new Date(record.dueDate).toLocaleString("default", { month: "long" }),
+          paidAmount: record.paidAmount || 0,
+          unpaid: record.status === "pending" ? record.amount : 0,
+          overdue: record.status === "overdue" ? record.amount : 0,
+          amount: record.amount,
+          status: record.status,
+          paymentDate:  record.paidDate?.split("T")[0] ?? null ,
+        });
+
+        return acc;
+      }, {});
+
+      setFeeRecords(groupedData);
+    } catch (err: any) {
+      console.error("Error fetching fee records:", err);
+      setError(err.message || "Something went wrong while fetching records");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchRecord();
+  }, []);
+
+  const filteredData = Object.entries(feeRecords).filter(([studentName]) =>
+    studentName.toLowerCase().includes(input.toLowerCase())
+  );
+
+  if (loading) {
+    return (
+      <div className="text-center py-10 text-slate-600 animate-pulse">
+        Loading fee records...
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="text-center py-10 text-red-600">
+        ⚠️ {error}
+      </div>
+    );
+  }
+
+  if (filteredData.length === 0) {
+    return (
+      <div className="text-center py-10 text-slate-500">
+        No records found.
+      </div>
+    );
+  }
 
   return (
     <div>
+      {/* Search Bar */}
       <input
         type="text"
         placeholder="Search students..."
         value={input}
         onChange={(e) => setInput(e.target.value)}
-        className="py-1 px-2.5 sm:py-1.5 sm:px-3 border border-slate-300 rounded-md focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary"
+        className="py-1.5 px-3 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition"
       />
-      <div className=" w-full mt-8 overflow-x-auto min-h-80 shadow-lg border border-white/50 rounded-lg">
-        <div className=" w-full h-full p-4 min-w-[810px] md:min-w-[600px] sm:max-h-80 overflow-y-scroll space-y-3">
-          {searchData.map((student, i) => (
-            <table key={i} className="w-full border-collapse text-sm">
-              <caption className="text-lg font-semibold mb-1 text-heading text-start">
-                {student.name}
+
+      {/* Records Table */}
+      <div className="w-full mt-6 overflow-x-auto shadow-md border border-slate-200 rounded-lg">
+        <div className="p-4 min-w-[800px] max-h-[70vh] overflow-y-auto space-y-6">
+          {filteredData.map(([studentName, records]) => (
+            <table key={studentName} className="w-full border-collapse text-sm">
+              <caption className="text-lg font-semibold mb-1 text-heading text-left">
+                {studentName}
               </caption>
-              <thead className=" text-start">
+
+              <thead className="bg-slate-100 text-left">
                 <tr>
-                  <th className="py-2 px-3 text-left">Month</th>
-                  <th className="py-2 px-3 text-left">Paid Amount</th>
-                  <th className="py-2 px-3 text-left">Unpaid</th>
-                  <th className="py-2 px-3 text-left">Overdue</th>
-                  <th className="py-2 px-3 text-left">Payment Date</th>
+                  <th className="py-2 px-3">Month</th>
+                  <th className="py-2 px-3">Paid Amount</th>
+                  <th className="py-2 px-3">Unpaid</th>
+                  <th className="py-2 px-3">Overdue</th>
+                  <th className="py-2 px-3">Payment Date</th>
                 </tr>
               </thead>
+
               <tbody>
-                {student.feeRecords.map((fee, i) => (
-                  <tr key={i} className="border-b last:border-none">
+                {records.map((fee, i) => (
+                  <tr key={i} className="border-b last:border-none hover:bg-slate-50">
                     <td className="py-2 px-3">{fee.month}</td>
                     <td className="py-2 px-3 text-green-700 font-medium">
                       {fee.paidAmount ? `₹${fee.paidAmount}` : "-"}
@@ -154,31 +159,27 @@ useEffect(() => {
                     </td>
                     <td className="py-2 px-3">
                       {fee.paymentDate
-                        ? new Date(fee.paymentDate).toLocaleDateString(
-                            "en-GB",
-                            {
-                              day: "2-digit",
-                              month: "short",
-                              year: "numeric",
-                            }
-                          )
+                        ? new Date(fee.paymentDate).toLocaleDateString("en-GB", {
+                            day: "2-digit",
+                            month: "short",
+                            year: "numeric",
+                          })
                         : "-"}
                     </td>
                   </tr>
                 ))}
-                <tr className="text-left ">
-                  <th className="py-2 px-3">Total</th>
-                  <th className="py-2 px-3">
-                    ₹{student.feeRecords.reduce((s, r) => s + r.paidAmount, 0)}
-                  </th>
-                  <th className="py-2 px-3">
-                    ₹{student.feeRecords.reduce((s, r) => s + r.unpaid, 0)}
-                  </th>
+
+                {/* Totals */}
+                <tr className="font-semibold text-slate-800 bg-slate-50">
+                  <td className="py-2 px-3">Total</td>
                   <td className="py-2 px-3">
-                    ₹
-                    {student.feeRecords
-                      .reduce((s, r) => s + r.overdue, 0)
-                      .toLocaleString()}
+                    ₹{records.reduce((s, r) => s + r.paidAmount, 0).toLocaleString()}
+                  </td>
+                  <td className="py-2 px-3">
+                    ₹{records.reduce((s, r) => s + r.unpaid, 0).toLocaleString()}
+                  </td>
+                  <td className="py-2 px-3">
+                    ₹{records.reduce((s, r) => s + r.overdue, 0).toLocaleString()}
                   </td>
                   <td className="py-2 px-3">—</td>
                 </tr>
