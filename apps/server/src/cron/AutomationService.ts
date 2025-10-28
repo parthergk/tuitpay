@@ -167,7 +167,11 @@ export class FeeAutomationService {
         break;
       case "whatsapp":
         console.log(`Sending WhatsApp to ${student.name}`);
-        whatsappSender(student, fee);
+        whatsappSender({
+          name: student.name,
+          contact: student.contact,
+          teacherId: student.teacherId
+        }, {dueDate:fee.dueDate, amount: fee.amount}, type);
         break;
       default:
         throw new Error(`Unsupported channel: ${channel}`);
