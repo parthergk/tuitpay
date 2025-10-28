@@ -10,7 +10,6 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-// Define types for fee record and report
 interface FeeRecord {
   amount: number;
   paidAmount: number;
@@ -173,7 +172,7 @@ const Report: React.FC = () => {
   if (error) {
     return <div className="text-center py-10 text-red-600">⚠️ {error}</div>;
   }
-  
+
   return (
     <div className="w-full">
       <div className="flex flex-col py-2">

@@ -40,7 +40,6 @@ dashboardRouter.get(
         status: "overdue",
       })
         .sort({ _id: -1 })
-        .limit(4)
         .select("amount dueDate studentId")
         .populate<{ studentId: IStudent }>("studentId", "name")
         .lean();
