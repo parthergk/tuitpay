@@ -118,7 +118,7 @@ const FeeTracking: React.FC = () => {
       />
 
       {/* Records Table */}
-      <div className=" w-full mt-8 overflow-x-auto min-h-80 shadow-lg border border-white/50 rounded-lg">
+      <div className=" w-full mt-8 overflow-x-auto min-h-80 ">
         <div className=" w-full h-full p-4 min-w-[810px] md:min-w-[600px] sm:max-h-80 overflow-y-auto space-y-3">
           {filteredData.length !== 0 ? (
             filteredData.map(([studentName, records]) => (

@@ -15,7 +15,10 @@
     "@repo/db": "workspace:*",
     "@repo/types": "workspace:*",
     "@repo/typescript-config": "workspace:*",
-    "@repo/validation": "workspace:*"
+    "@repo/validation": "workspace:*",
+    "nodemon": "^3.1.10",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
   },
   "dependencies": {
     "@types/cookie-parser": "^1.4.9",

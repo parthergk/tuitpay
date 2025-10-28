@@ -5,6 +5,17 @@ const Reminders = () => {
   const { overDues } = useOverDue();
   console.log("Over dues", overDues);
 
+  async function handleSendOverdue(id){
+    console.log("Id", id);
+    
+    const response = await fetch(`http://localhost:8080/api/v1/overdue/${id}`, {
+      method: "GET",
+      credentials: 'include'
+    });
+    const result = await response.json();
+    console.log("Result", result);
+  }
+
   return (
     <div className="flex flex-col px-4 py-2 shadow-lg shadow-black/10 border border-white/50 rounded-xl min-h-[287px]">
       <h2 className=" border-b pb-2 text-xl text-heading">Overdue Payments</h2>
@@ -23,7 +34,7 @@ const Reminders = () => {
                 </div>
 
               </div>
-              <button className=" bg-primary text-white text-center px-2 py-0.5 rounded-md">Send Reminder</button>
+              <button onClick={()=>handleSendOverdue(student.id)} className=" bg-primary text-white text-center px-2 py-0.5 rounded-md">Send Reminder</button>
             </div>
           ))}
       </div>
