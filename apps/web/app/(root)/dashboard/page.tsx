@@ -7,6 +7,7 @@ import User from "../../../components/User";
 
 import Dashboard from "../../../components/dashboard/Dashboard";
 import { OverdueProvider } from "../../../context/OverDueProvider";
+import { FeeRecordProvider } from "../../../context/FeeRecordProvider";
 const Students = lazy(() => import("../../../components/dashboard/Students"));
 const FeeTracking = lazy(
   () => import("../../../components/dashboard/FeeTracking")
@@ -81,14 +82,16 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        <OverdueProvider>
-          {sections.map(
-            (item) =>
-              item.name === section && (
-                <div key={item.name}>{item.component}</div>
-              )
-          )}
-        </OverdueProvider>
+        <FeeRecordProvider>
+          <OverdueProvider>
+            {sections.map(
+              (item) =>
+                item.name === section && (
+                  <div key={item.name}>{item.component}</div>
+                )
+            )}
+          </OverdueProvider>
+        </FeeRecordProvider>
       </div>
     </div>
   );

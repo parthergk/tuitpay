@@ -50,7 +50,6 @@ const FeeTracking: React.FC = () => {
       }
 
       const result = await response.json();
-
       if (!result.success || !Array.isArray(result.data)) {
         throw new Error("Invalid API response format");
       }
@@ -121,77 +120,88 @@ const FeeTracking: React.FC = () => {
       {/* Records Table */}
       <div className=" w-full mt-8 overflow-x-auto min-h-80 shadow-lg border border-white/50 rounded-lg">
         <div className=" w-full h-full p-4 min-w-[810px] md:min-w-[600px] sm:max-h-80 overflow-y-auto space-y-3">
-          {filteredData.length !== 0 ? filteredData.map(([studentName, records]) => (
-            <table key={studentName} className="w-full border-collapse text-sm">
-              <caption className="text-lg font-semibold mb-1 text-heading text-start">
-                {studentName}
-              </caption>
+          {filteredData.length !== 0 ? (
+            filteredData.map(([studentName, records]) => (
+              <table
+                key={studentName}
+                className="w-full border-collapse text-sm"
+              >
+                <caption className="text-lg font-semibold mb-1 text-heading text-start">
+                  {studentName}
+                </caption>
 
-              <thead className="text-left">
-                <tr>
-                  <th className="py-2 px-3">Month</th>
-                  <th className="py-2 px-3">Paid Amount</th>
-                  <th className="py-2 px-3">Unpaid</th>
-                  <th className="py-2 px-3">Overdue</th>
-                  <th className="py-2 px-3">Payment Date</th>
-                </tr>
-              </thead>
+                <thead className="text-left">
+                  <tr>
+                    <th className="py-2 px-3">Month</th>
+                    <th className="py-2 px-3">Paid Amount</th>
+                    <th className="py-2 px-3">Unpaid</th>
+                    <th className="py-2 px-3">Overdue</th>
+                    <th className="py-2 px-3">Payment Date</th>
+                  </tr>
+                </thead>
 
-              <tbody>
-                {records.map((fee, i) => (
-                  <tr
-                    key={i}
-                    className="border-b last:border-none hover:bg-slate-50"
-                  >
-                    <td className="py-2 px-3">{fee.month}</td>
-                    <td className="py-2 px-3 text-green-700 font-medium">
-                      {fee.paidAmount ? `₹${fee.paidAmount}` : "-"}
-                    </td>
-                    <td className="py-2 px-3 text-yellow-700 font-medium">
-                      {fee.unpaid ? `₹${fee.unpaid}` : "-"}
-                    </td>
-                    <td className="py-2 px-3 text-red-700 font-medium">
-                      {fee.overdue ? `₹${fee.overdue}` : "-"}
+                <tbody>
+                  {records.map((fee, i) => (
+                    <tr
+                      key={i}
+                      className="border-b last:border-none hover:bg-slate-50"
+                    >
+                      <td className="py-2 px-3">{fee.month}</td>
+                      <td className="py-2 px-3 text-green-700 font-medium">
+                        {fee.paidAmount ? `₹${fee.paidAmount}` : "-"}
+                      </td>
+                      <td className="py-2 px-3 text-yellow-700 font-medium">
+                        {fee.unpaid ? `₹${fee.unpaid}` : "-"}
+                      </td>
+                      <td className="py-2 px-3 text-red-700 font-medium">
+                        {fee.overdue ? `₹${fee.overdue}` : "-"}
+                      </td>
+                      <td className="py-2 px-3">
+                        {fee.paymentDate
+                          ? new Date(fee.paymentDate).toLocaleDateString(
+                              "en-GB",
+                              {
+                                day: "2-digit",
+                                month: "short",
+                                year: "numeric",
+                              }
+                            )
+                          : "-"}
+                      </td>
+                    </tr>
+                  ))}
+
+                  {/* Totals */}
+                  <tr className="font-semibold text-heading">
+                    <td className="py-2 px-3">Total</td>
+                    <td className="py-2 px-3">
+                      ₹
+                      {records
+                        .reduce((s, r) => s + r.paidAmount, 0)
+                        .toLocaleString()}
                     </td>
                     <td className="py-2 px-3">
-                      {fee.paymentDate
-                        ? new Date(fee.paymentDate).toLocaleDateString(
-                            "en-GB",
-                            {
-                              day: "2-digit",
-                              month: "short",
-                              year: "numeric",
-                            }
-                          )
-                        : "-"}
+                      ₹
+                      {records
+                        .reduce((s, r) => s + r.unpaid, 0)
+                        .toLocaleString()}
                     </td>
+                    <td className="py-2 px-3">
+                      ₹
+                      {records
+                        .reduce((s, r) => s + r.overdue, 0)
+                        .toLocaleString()}
+                    </td>
+                    <td className="py-2 px-3">—</td>
                   </tr>
-                ))}
-
-                {/* Totals */}
-                <tr className="font-semibold text-heading">
-                  <td className="py-2 px-3">Total</td>
-                  <td className="py-2 px-3">
-                    ₹
-                    {records
-                      .reduce((s, r) => s + r.paidAmount, 0)
-                      .toLocaleString()}
-                  </td>
-                  <td className="py-2 px-3">
-                    ₹
-                    {records.reduce((s, r) => s + r.unpaid, 0).toLocaleString()}
-                  </td>
-                  <td className="py-2 px-3">
-                    ₹
-                    {records
-                      .reduce((s, r) => s + r.overdue, 0)
-                      .toLocaleString()}
-                  </td>
-                  <td className="py-2 px-3">—</td>
-                </tr>
-              </tbody>
-            </table>
-          )):       <div className="text-center py-10 text-slate-500">No records found.</div>}
+                </tbody>
+              </table>
+            ))
+          ) : (
+            <div className="text-center py-10 text-slate-500">
+              No records found.
+            </div>
+          )}
         </div>
       </div>
     </div>
