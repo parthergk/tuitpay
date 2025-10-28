@@ -55,23 +55,28 @@ const FeeTracking: React.FC = () => {
         throw new Error("Invalid API response format");
       }
 
-      const groupedData = result.data.reduce((acc: GroupedStudentData, record: RawFeeRecord) => {
-        const studentName = record.studentId?.name || "Unknown Student";
+      const groupedData = result.data.reduce(
+        (acc: GroupedStudentData, record: RawFeeRecord) => {
+          const studentName = record.studentId?.name || "Unknown Student";
 
-        if (!acc[studentName]) acc[studentName] = [];
+          if (!acc[studentName]) acc[studentName] = [];
 
-        acc[studentName].push({
-          month: new Date(record.dueDate).toLocaleString("default", { month: "long" }),
-          paidAmount: record.paidAmount || 0,
-          unpaid: record.status === "pending" ? record.amount : 0,
-          overdue: record.status === "overdue" ? record.amount : 0,
-          amount: record.amount,
-          status: record.status,
-          paymentDate:  record.paidDate?.split("T")[0] ?? null ,
-        });
+          acc[studentName].push({
+            month: new Date(record.dueDate).toLocaleString("default", {
+              month: "long",
+            }),
+            paidAmount: record.paidAmount || 0,
+            unpaid: record.status === "pending" ? record.amount : 0,
+            overdue: record.status === "overdue" ? record.amount : 0,
+            amount: record.amount,
+            status: record.status,
+            paymentDate: record.paidDate?.split("T")[0] ?? null,
+          });
 
-        return acc;
-      }, {});
+          return acc;
+        },
+        {}
+      );
 
       setFeeRecords(groupedData);
     } catch (err: any) {
@@ -99,19 +104,7 @@ const FeeTracking: React.FC = () => {
   }
 
   if (error) {
-    return (
-      <div className="text-center py-10 text-red-600">
-        ⚠️ {error}
-      </div>
-    );
-  }
-
-  if (filteredData.length === 0) {
-    return (
-      <div className="text-center py-10 text-slate-500">
-        No records found.
-      </div>
-    );
+    return <div className="text-center py-10 text-red-600">⚠️ {error}</div>;
   }
 
   return (
@@ -122,19 +115,19 @@ const FeeTracking: React.FC = () => {
         placeholder="Search students..."
         value={input}
         onChange={(e) => setInput(e.target.value)}
-        className="py-1.5 px-3 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition"
+        className="py-1 px-2.5 sm:py-1.5 sm:px-3 border border-slate-300 rounded-md focus:outline-none"
       />
 
       {/* Records Table */}
-      <div className="w-full mt-6 overflow-x-auto shadow-md border border-slate-200 rounded-lg">
-        <div className="p-4 min-w-[800px] max-h-[70vh] overflow-y-auto space-y-6">
-          {filteredData.map(([studentName, records]) => (
+      <div className=" w-full mt-8 overflow-x-auto min-h-80 shadow-lg border border-white/50 rounded-lg">
+        <div className=" w-full h-full p-4 min-w-[810px] md:min-w-[600px] sm:max-h-80 overflow-y-auto space-y-3">
+          {filteredData.length !== 0 ? filteredData.map(([studentName, records]) => (
             <table key={studentName} className="w-full border-collapse text-sm">
-              <caption className="text-lg font-semibold mb-1 text-heading text-left">
+              <caption className="text-lg font-semibold mb-1 text-heading text-start">
                 {studentName}
               </caption>
 
-              <thead className="bg-slate-100 text-left">
+              <thead className="text-left">
                 <tr>
                   <th className="py-2 px-3">Month</th>
                   <th className="py-2 px-3">Paid Amount</th>
@@ -146,7 +139,10 @@ const FeeTracking: React.FC = () => {
 
               <tbody>
                 {records.map((fee, i) => (
-                  <tr key={i} className="border-b last:border-none hover:bg-slate-50">
+                  <tr
+                    key={i}
+                    className="border-b last:border-none hover:bg-slate-50"
+                  >
                     <td className="py-2 px-3">{fee.month}</td>
                     <td className="py-2 px-3 text-green-700 font-medium">
                       {fee.paidAmount ? `₹${fee.paidAmount}` : "-"}
@@ -159,33 +155,43 @@ const FeeTracking: React.FC = () => {
                     </td>
                     <td className="py-2 px-3">
                       {fee.paymentDate
-                        ? new Date(fee.paymentDate).toLocaleDateString("en-GB", {
-                            day: "2-digit",
-                            month: "short",
-                            year: "numeric",
-                          })
+                        ? new Date(fee.paymentDate).toLocaleDateString(
+                            "en-GB",
+                            {
+                              day: "2-digit",
+                              month: "short",
+                              year: "numeric",
+                            }
+                          )
                         : "-"}
                     </td>
                   </tr>
                 ))}
 
                 {/* Totals */}
-                <tr className="font-semibold text-slate-800 bg-slate-50">
+                <tr className="font-semibold text-heading">
                   <td className="py-2 px-3">Total</td>
                   <td className="py-2 px-3">
-                    ₹{records.reduce((s, r) => s + r.paidAmount, 0).toLocaleString()}
+                    ₹
+                    {records
+                      .reduce((s, r) => s + r.paidAmount, 0)
+                      .toLocaleString()}
                   </td>
                   <td className="py-2 px-3">
-                    ₹{records.reduce((s, r) => s + r.unpaid, 0).toLocaleString()}
+                    ₹
+                    {records.reduce((s, r) => s + r.unpaid, 0).toLocaleString()}
                   </td>
                   <td className="py-2 px-3">
-                    ₹{records.reduce((s, r) => s + r.overdue, 0).toLocaleString()}
+                    ₹
+                    {records
+                      .reduce((s, r) => s + r.overdue, 0)
+                      .toLocaleString()}
                   </td>
                   <td className="py-2 px-3">—</td>
                 </tr>
               </tbody>
             </table>
-          ))}
+          )):       <div className="text-center py-10 text-slate-500">No records found.</div>}
         </div>
       </div>
     </div>
