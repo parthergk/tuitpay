@@ -1,9 +1,11 @@
 import { createContext, ReactNode, useContext, useState } from "react";
 
 interface Overdue {
+  id: string;
   name: string;
   amount: number;
   daysOverdue: number;
+  lastReminder: string;
 }
 
 interface OverdueContextType {

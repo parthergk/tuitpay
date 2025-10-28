@@ -12,6 +12,7 @@ interface DashboardData {
     paidDate: string;
   }[];
   upcomingDues: {
+    id:string;
     name: string;
     amount: number;
     daysOverdue: number;
