@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useUserProfile } from "../../context/UserProfileProvider";
 import StatCard from "./StatCards";
 import ActivityCard from "./ActivityCard";
 import Upcoming from "./Upcoming";

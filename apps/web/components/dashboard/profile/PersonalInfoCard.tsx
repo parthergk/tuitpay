@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useUserProfile } from "../../../context/UserProfileProvider";
 
 type ProfileInputs = {
   name: string;
+  email: string;
   phone: string;
   tuitionClassName: string;
 };
 const PersonalInfoCard = () => {
   const [message, setMessage] = useState<string | null>(null);
-  const { userDetail } = useUserProfile();
 
   const {
     register,
@@ -18,9 +17,10 @@ const PersonalInfoCard = () => {
     formState: { errors, isSubmitting, isDirty },
   } = useForm<ProfileInputs>({
     defaultValues: {
-      name: userDetail?.name,
-      phone: userDetail?.phone,
-      tuitionClassName: userDetail?.tuitionClassName,
+      name: "Gaurav Kumar",
+      email: "gauravkumar81464@gmail.com",
+      phone: "7351500283",
+      tuitionClassName: "Parther Classes",
     },
   });
 
@@ -29,7 +29,7 @@ const PersonalInfoCard = () => {
       name: data.name,
       phone: data.phone,
       tuitionClassName: data.tuitionClassName,
-      email: userDetail?.email,
+      email: "gauravkumar81464@gmail.com",
     };
     try {
       const response = await fetch("http://localhost:3000/api/user/profile", {
@@ -46,7 +46,7 @@ const PersonalInfoCard = () => {
         throw new Error(result.error || "Profile not updated please try again");
       }
 
-      if (result.success) {        
+      if (result.success) {
         reset({
           name: result.data.name,
           phone: result.data.phone,
@@ -60,14 +60,14 @@ const PersonalInfoCard = () => {
       setMessage(errorMsg);
     }
   };
-  
-  useEffect(()=>{
+
+  useEffect(() => {
     const timeout = setTimeout(() => {
       setMessage(null);
     }, 5000);
 
-    return ()=>clearTimeout(timeout);
-  },[message])
+    return () => clearTimeout(timeout);
+  }, [message]);
   return (
     <div className=" w-full mt-6 rounded-lg p-5 bg-offwhite/50 backdrop-blur-sm shadow-xl">
       <h1 className="text-xl md:text-2xl lg:text-3xl text-heading">
@@ -80,84 +80,107 @@ const PersonalInfoCard = () => {
       )}
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="flex flex-col gap-4 mt-3"
+        className="flex flex-col gap-5 mt-3"
       >
-        <div>
-          <label
-            htmlFor="name"
-            className="block text-sm sm:text-base leading-snug text-[#334155] mb-1"
-          >
-            Name <span className="text-red-500">*</span>
-          </label>
-          <input
-            id="name"
-            type="text"
-            {...register("name", { required: "Name is required" })}
-            className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary ${
-              errors.name ? "border-red-500" : "border-slate-300"
-            }`}
-          />
-          {errors.name && (
-            <p className="mt-1 text-sm text-red-600">{errors.name.message}</p>
-          )}
+        <div className=" w-full flex flex-col sm:flex-row gap-5">
+          <div className=" w-full">
+            <label
+              htmlFor="name"
+              className="block text-sm sm:text-base leading-snug text-[#334155] mb-1"
+            >
+              Name <span className="text-red-500">*</span>
+            </label>
+            <input
+              id="name"
+              type="text"
+              {...register("name", { required: "Name is required" })}
+              className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary ${
+                errors.name ? "border-red-500" : "border-slate-300"
+              }`}
+            />
+            {errors.name && (
+              <p className="mt-1 text-sm text-red-600">{errors.name.message}</p>
+            )}
+          </div>
+          <div className=" w-full">
+            <label
+              htmlFor="email"
+              className="block text-sm sm:text-base leading-snug text-[#334155] mb-1"
+            >
+              Email <span className="text-red-500">*</span>
+            </label>
+            <input
+              id="email"
+              type="text"
+              {...register("email", { required: "Email is required" })}
+              className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary ${
+                errors.name ? "border-red-500" : "border-slate-300"
+              }`}
+            />
+            {errors.email && (
+              <p className="mt-1 text-sm text-red-600">
+                {errors.email.message}
+              </p>
+            )}
+          </div>
         </div>
 
-        {/* Phone */}
-        <div>
-          <label
-            htmlFor="phone"
-            className="block text-sm sm:text-base leading-snug text-[#334155] mb-1"
-          >
-            Phone <span className="text-red-500">*</span>
-          </label>
-          <input
-            id="phone"
-            type="tel"
-            {...register("phone", {
-              required: "Phone is required",
-              pattern: {
-                value: /^[\+]?[1-9][\d]{0,15}$/,
-                message: "Invalid phone number",
-              },
-            })}
-            className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary ${
-              errors.phone ? "border-red-500" : "border-slate-300"
-            }`}
-          />
-          {errors.phone && (
-            <p className="mt-1 text-sm text-red-600">{errors.phone.message}</p>
-          )}
+        <div className=" flex flex-col sm:flex-row gap-5">
+          <div className=" w-full">
+            <label
+              htmlFor="tuitionClassName"
+              className="block text-sm sm:text-base leading-snug text-[#334155] mb-1"
+            >
+              Tuition Class Name <span className="text-red-500">*</span>
+            </label>
+            <input
+              id="tuitionClassName"
+              type="text"
+              {...register("tuitionClassName", {
+                required: "Class name is required",
+                minLength: {
+                  value: 2,
+                  message: "At least 2 characters",
+                },
+              })}
+              className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary ${
+                errors.tuitionClassName ? "border-red-500" : "border-slate-300"
+              }`}
+            />
+            {errors.tuitionClassName && (
+              <p className="mt-1 text-sm text-red-600">
+                {errors.tuitionClassName.message}
+              </p>
+            )}
+          </div>
+          <div className=" w-full">
+            <label
+              htmlFor="phone"
+              className="block text-sm sm:text-base leading-snug text-[#334155] mb-1"
+            >
+              Phone <span className="text-red-500">*</span>
+            </label>
+            <input
+              id="phone"
+              type="tel"
+              {...register("phone", {
+                required: "Phone is required",
+                pattern: {
+                  value: /^[\+]?[1-9][\d]{0,15}$/,
+                  message: "Invalid phone number",
+                },
+              })}
+              className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary ${
+                errors.phone ? "border-red-500" : "border-slate-300"
+              }`}
+            />
+            {errors.phone && (
+              <p className="mt-1 text-sm text-red-600">
+                {errors.phone.message}
+              </p>
+            )}
+          </div>
         </div>
-
-        {/* Tuition Class Name */}
-        <div>
-          <label
-            htmlFor="tuitionClassName"
-            className="block text-sm sm:text-base leading-snug text-[#334155] mb-1"
-          >
-            Tuition Class Name <span className="text-red-500">*</span>
-          </label>
-          <input
-            id="tuitionClassName"
-            type="text"
-            {...register("tuitionClassName", {
-              required: "Class name is required",
-              minLength: {
-                value: 2,
-                message: "At least 2 characters",
-              },
-            })}
-            className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary ${
-              errors.tuitionClassName ? "border-red-500" : "border-slate-300"
-            }`}
-          />
-          {errors.tuitionClassName && (
-            <p className="mt-1 text-sm text-red-600">
-              {errors.tuitionClassName.message}
-            </p>
-          )}
-        </div>
-
         <button
           type="submit"
           disabled={!isDirty}

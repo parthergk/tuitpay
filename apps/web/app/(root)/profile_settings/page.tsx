@@ -1,19 +1,34 @@
 "use client";
-import React from "react";
-import PersonalInfoCard from "../../../components/dashboard/profile/PersonalInfoCard";
+import React, { useEffect, useState } from "react";
 import Password from "../../../components/dashboard/profile/Password";
-
+import PersonalInfoCard from "../../../components/dashboard/profile/PersonalInfoCard";
+import PlanInfo from "../../../components/dashboard/profile/PlanInfo";
 
 const Profile = () => {
-  
+  const [isOpnePlans, setIsOpnePlans] = useState(false);
+  async function fetchTeacher() {
+    const response = await fetch("http://localhost:8080/api/v1/teacher", {
+      method: "GET",
+      credentials: "include",
+    });
+    const result = await response.json();
+    console.log("Result", result);
+  }
+
+  useEffect(() => {
+    fetchTeacher();
+  }, []);
   return (
     <div className="bg-[#EAE2FF] min-h-screen w-full pt-16 md:pt-20 px-5">
       <div className=" mt-5 md:px-14 py-5">
         <h1 className="text-2xl md:text-3xl lg:text-4xl text-heading">
           Account Setting
         </h1>
-        <PersonalInfoCard/>
-        <Password/>
+        <div className=" flex flex-col-reverse sm:flex-row gap-5">
+          <PersonalInfoCard />
+          <PlanInfo/>
+        </div>
+        <Password />
       </div>
     </div>
   );

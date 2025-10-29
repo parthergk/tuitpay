@@ -23,10 +23,10 @@ const Profile: React.FC<ProfileProps> = ({ isShow }) => {
     >
       <div className="flex flex-col items-center px-1 py-1 rounded-md transition-colors mb-1">
         <h1 className="text-lg sm:text-xl md:text-2xl text-heading self-start">
-          {userDetail?.name}
+          {userDetail?.name} Gaurav Kumar
         </h1>
         <span className=" text-xs md:text-[13px] lg:text-sm text-sub">
-          {userDetail?.email}
+          {userDetail?.email} gauravkumar81464@gmail.com
         </span>
       </div>
 

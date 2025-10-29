@@ -13,6 +13,7 @@ import { connectTodb } from "@repo/db";
 import paymentRouter from "./routes/webhook/razorpay/payment.route";
 import paymentStatusRouter from "./routes/payment.routes";
 import sendOverduesRouter from "./routes/overdues.routes";
+import teacherRouter from "./routes/teacher.route";
 
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -37,6 +38,7 @@ async function startServer() {
     app.use("/api/v1/status", feeStatus);
     app.use("/api/v1/verify", paymentRouter);
     app.use("/api/v1/overdue", sendOverduesRouter);
+    app.use("/api/v1/teacher", teacherRouter);
     app.use("/api/v1/payment-status",paymentStatusRouter)
 
     app.listen(PORT, () => {
