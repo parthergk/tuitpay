@@ -19,7 +19,7 @@ const Profile: React.FC<ProfileProps> = ({ isShow }) => {
     <div
       className={`${
         isShow ? "block" : "hidden"
-      } absolute -right-1 top-14 p-3 flex flex-col gap-1.5  bg-gradient-to-br from-[#F0F4FF] via-[#ebe3ff] to-[#f0ebfd] rounded-lg border border-gray-200 shadow-sm`}
+      } absolute -right-1 top-14 p-3 flex flex-col gap-2.5 sm:gap-1.5  bg-gradient-to-br from-[#F0F4FF] via-[#ebe3ff] to-[#f0ebfd] rounded-lg border border-gray-200 shadow-sm`}
     >
       <div className="flex flex-col items-center px-1 py-1 rounded-md transition-colors mb-1">
         <h1 className="text-lg sm:text-xl md:text-2xl text-heading self-start">
