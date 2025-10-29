@@ -93,12 +93,7 @@ const Dashboard = () => {
 
   return (
     <>
-      {errorMsg && (
-        <div className="mb-3 py-1.5 px-3 bg-red-100 text-red-700 border border-red-400 rounded-md">
-          {errorMsg}
-        </div>
-      )}
-
+      
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6 ">
         <StatCard
           title="Total Students"
@@ -115,6 +110,11 @@ const Dashboard = () => {
           />
         ))}
       </div>
+      {errorMsg && (
+      <div className="mt-2 p-2 rounded-md text-sm font-medium bg-gradient-to-bl from-[#E8DFFF]/30 to-[#DDEBFF]/30 shadow-xl shadow-black/10 border border-white/50 text-[#E53935]">
+          {errorMsg}
+        </div>
+      )}
       <div className=" grid grid-cols-1 sm:grid-cols-2  gap-5">
        { dashboardData?.recentActivity && <ActivityCard activity={dashboardData?.recentActivity} />}
         { dashboardData?.upcomingDues && <Upcoming upcomingDues={dashboardData?.upcomingDues} />}

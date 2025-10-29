@@ -18,14 +18,18 @@ interface FormInputs {
 }
 
 const StudentForm: React.FC<PropInter> = ({ isOpen, setIsOpen, fetchData }) => {
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState<{
+    type: "success" | "error";
+    text: string;
+  } | null>(null);
 
-  const { formData, currentStep, setCurrentStep, setFormData } = useStudentForm();
+  const { formData, currentStep, setCurrentStep, setFormData } =
+    useStudentForm();
 
   const onSubmit = async (data: FormInputs) => {
     const completeData = { ...formData, ...data, isActivate: true };
 
-    setMessage("");
+    setMessage(null);
     try {
       const response = await fetch("http://localhost:8080/api/v1/student", {
         method: "POST",
@@ -35,21 +39,25 @@ const StudentForm: React.FC<PropInter> = ({ isOpen, setIsOpen, fetchData }) => {
       });
 
       const result = await response.json();
-      if (!response.ok || result.success === false) {        
+      if (!response.ok || result.success === false) {
         throw new Error(result.error || "Student not added! Please try again");
       }
-      setMessage(result.message || "Student added successfully!");
+      setMessage({
+        type: "success",
+        text: result.message || "Student added successfully!",
+      });
       setCurrentStep(1);
       setFormData({});
       fetchData();
       setTimeout(() => {
-        setMessage("");
+        setMessage(null);
         setIsOpen(false);
-      }, 1000);
+      }, 5000);
     } catch (err) {
-      setMessage(
-        err instanceof Error ? err.message : "Unexpected error occurred"
-      );
+      setMessage({
+        type: "error",
+        text: err instanceof Error ? err.message : "Unexpected error occurred",
+      });
     }
   };
 
@@ -74,9 +82,12 @@ const StudentForm: React.FC<PropInter> = ({ isOpen, setIsOpen, fetchData }) => {
         </div>
 
         {message && (
-          <div className="w-full inline-flex items-center justify-center py-1.5 px-4 mb-3 mt-1 rounded-md text-sm font-medium bg-gradient-to-bl from-[#E8DFFF]/30 to-[#DDEBFF]/30 shadow-xl shadow-black/10 border border-white/50 hover:scale-[1.02] transition-transform">
-            {message}
-            {/* Gaura */}
+          <div
+            className={`py-1.5 px-4 mb-3 mt-1 rounded-md text-sm font-medium bg-gradient-to-bl from-[#E8DFFF]/30 to-[#DDEBFF]/30 shadow-xl shadow-black/10 border border-white/50
+          ${message.type === "success" ? "text-[#0F9D58]" : "text-[#E53935]"}
+          `}
+          >
+            {message.text}
           </div>
         )}
 

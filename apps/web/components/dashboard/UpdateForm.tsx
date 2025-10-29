@@ -14,11 +14,14 @@ interface FormInputs {
 interface Props {
   setIsUpdate: React.Dispatch<React.SetStateAction<boolean>>;
   formData: FormInputs | null;
-  fetchData?: () => Promise<void>; // optional refetch callback after update
+  fetchData?: () => Promise<void>;
 }
 
 const UpdateForm: React.FC<Props> = ({ setIsUpdate, formData, fetchData }) => {
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState<{
+    type: "success" | "error";
+    text: string;
+  } | null>(null);
   const [loading, setLoading] = useState(false);
 
   const {
@@ -37,22 +40,25 @@ const UpdateForm: React.FC<Props> = ({ setIsUpdate, formData, fetchData }) => {
 
   const onSubmit: SubmitHandler<FormInputs> = async (data) => {
     if (!formData?.id) {
-      setMessage("Error: Missing student ID.");
+      setMessage({ type: "error", text: "Error: Missing student ID." });
       return;
     }
 
     try {
       setLoading(true);
-      setMessage("");
+      setMessage(null);
 
-      const response = await fetch(`http://localhost:8080/api/v1/student/${formData.id}`, {
-        method: "PUT",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
+      const response = await fetch(
+        `http://localhost:8080/api/v1/student/${formData.id}`,
+        {
+          method: "PUT",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        }
+      );
 
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
@@ -60,18 +66,19 @@ const UpdateForm: React.FC<Props> = ({ setIsUpdate, formData, fetchData }) => {
       }
 
       const result = await response.json();
-      setMessage("✅ Student updated successfully!");
+      setMessage({ type: "success", text: "✅ Student updated successfully!" });
 
-      // Optionally refresh data after successful update
       if (fetchData) await fetchData();
 
-      // Close modal after a short delay
       setTimeout(() => {
         setIsUpdate(false);
-      }, 1200);
+      }, 3000);
     } catch (error: any) {
       console.error("Update error:", error);
-      setMessage(`❌ ${error.message || "Something went wrong."}`);
+      setMessage({
+        type: "error",
+        text: `❌ ${error.message || "Something went wrong."}`,
+      });
     } finally {
       setLoading(false);
     }
@@ -94,13 +101,11 @@ const UpdateForm: React.FC<Props> = ({ setIsUpdate, formData, fetchData }) => {
 
         {message && (
           <div
-            className={`w-full text-center py-2 px-3 mb-3 mt-2 rounded-md text-sm font-medium shadow-md transition-all ${
-              message.startsWith("✅")
-                ? "bg-green-100 text-green-700 border border-green-300"
-                : "bg-red-100 text-red-700 border border-red-300"
-            }`}
+            className={`py-1.5 px-4 mb-3 mt-1 rounded-md text-sm font-medium bg-gradient-to-bl from-[#E8DFFF]/30 to-[#DDEBFF]/30 shadow-xl shadow-black/10 border border-white/50
+          ${message.type === "success" ? "text-[#0F9D58]" : "text-[#E53935]"}
+          `}
           >
-            {message}
+            {message.text}
           </div>
         )}
 

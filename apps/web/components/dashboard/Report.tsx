@@ -34,7 +34,6 @@ interface ReportData {
   monthlyRevenue: MonthlyRevenue[];
 }
 
-
 const Report: React.FC = () => {
   const [report, setReport] = useState<ReportData>({
     summaryStats: {
@@ -134,8 +133,8 @@ const Report: React.FC = () => {
       const monthlyRevenue: MonthlyRevenue[] = Array.from(monthMap.entries())
         .sort(([a], [b]) => monthOrder.indexOf(a) - monthOrder.indexOf(b))
         .map(([month, collected]) => ({ month, collected }));
-        console.log("Monthly", monthlyRevenue);
-        
+      console.log("Monthly", monthlyRevenue);
+
       setReport({
         summaryStats: {
           totalRevenue,
@@ -170,7 +169,11 @@ const Report: React.FC = () => {
   }
 
   if (error) {
-    return <div className="text-center py-10 text-red-600">⚠️ {error}</div>;
+    return (
+      <div className="mt-2 p-2 rounded-md text-sm font-medium bg-gradient-to-bl from-[#E8DFFF]/30 to-[#DDEBFF]/30 shadow-xl shadow-black/10 border border-white/50 text-[#E53935]">
+        ⚠️ {error}
+      </div>
+    );
   }
 
   return (

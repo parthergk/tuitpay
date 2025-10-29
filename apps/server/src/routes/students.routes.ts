@@ -197,6 +197,7 @@ studentRouter.put("/:id", verifyJwt, async (req: Request, res: Response) => {
     const parsedBody = StudentUpdateSchema.safeParse(data);
     if (!parsedBody.success) {
       res.status(422).json({
+        success: false,
         message: "Invalid student inputs",
         errors: parsedBody.error.format(),
       });
@@ -206,7 +207,7 @@ studentRouter.put("/:id", verifyJwt, async (req: Request, res: Response) => {
     const student = await Student.findOne({ _id: id, teacherId: userBody.id });
 
     if (!student) {
-      res.status(404).json({ message: "Student not found" });
+      res.status(404).json({success: false, message: "Student not found" });
       return;
     }
 
@@ -217,13 +218,13 @@ studentRouter.put("/:id", verifyJwt, async (req: Request, res: Response) => {
     student.feeDay = parsedBody.data.dueDate;
     await student.save();
 
-    res.status(200).json({ message: "Student updated successfully", student });
+    res.status(200).json({success: true, message: "Student updated successfully", student });
     return;
   } catch (error) {
     console.error("Error updating student:", error);
     res
       .status(500)
-      .json({ message: "Failed to update student. Please try again." });
+      .json({success: false, message: "Failed to update student. Please try again." });
     return;
   }
 });

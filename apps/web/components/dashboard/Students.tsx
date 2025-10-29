@@ -7,7 +7,7 @@ import DeleteForm from "./DeleteForm";
 import UpdateForm from "./UpdateForm";
 
 interface FormInputs {
-  id:string;
+  id: string;
   name: string;
   contact: string;
   class: string;
@@ -40,32 +40,54 @@ const Students = () => {
   const [formData, setFormData] = useState<FormInputs | null>(null);
   const [feeId, setFeeId] = useState("");
   const [student, setStudent] = useState<SelectedStudent | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   const [searchTerm, setSearchTerm] = useState("");
 
   const handleAddStudent = () => {
     setShowForm((prev) => !prev);
   };
+
   const [students, setStudents] = useState<Student[]>([]);
+
   const filteredStudents = students.filter((s) =>
     s.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
   async function fetchStudents() {
-    const response = await fetch("http://localhost:8080/api/v1/student", {
-      method: "GET",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    const result = await response.json();
-    setStudents(result.studentWithStatus);
+    try {
+      setError(null);
+      const response = await fetch("http://localhost:8080/api/v1/student", {
+        method: "GET",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("No students found. Please try again later.");
+      }
+      const result = await response.json();
+
+      setStudents(result.studentWithStatus);
+    } catch (err) {
+      console.error("Error fetching students:", err);
+      setError("Failed to load students. Please try again later.");
+    }
   }
 
   useEffect(() => {
     fetchStudents();
   }, []);
 
+  if (error) {
+    return (
+      <div className="mt-2 p-2 rounded-md text-sm font-medium bg-gradient-to-bl from-[#E8DFFF]/30 to-[#DDEBFF]/30 shadow-xl shadow-black/10 border border-white/50 text-[#E53935]">
+        ⚠️ {error}
+      </div>
+    );
+  }
   return (
     <>
       <div className=" flex justify-between items-center">
