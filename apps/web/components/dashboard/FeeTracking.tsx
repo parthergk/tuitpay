@@ -126,7 +126,7 @@ const FeeTracking: React.FC = () => {
 
       {/* Records Table */}
       <div className=" w-full mt-8 overflow-x-auto min-h-80 ">
-        <div className=" w-full h-full p-4 min-w-[810px] md:min-w-[600px] sm:max-h-80 overflow-y-auto space-y-3">
+        <div className=" w-full h-full  px-2 min-w-[810px] md:min-w-[600px] sm:max-h-80 overflow-y-auto space-y-3">
           {filteredData.length !== 0 ? (
             filteredData.map(([studentName, records]) => (
               <table
@@ -137,7 +137,7 @@ const FeeTracking: React.FC = () => {
                   {studentName}
                 </caption>
 
-                <thead className="text-left">
+                <thead className="text-left border-b border-neutral-300">
                   <tr>
                     <th className="py-2 px-3">Month</th>
                     <th className="py-2 px-3">Paid Amount</th>
@@ -152,19 +152,19 @@ const FeeTracking: React.FC = () => {
                   {records.map((fee, i) => (
                     <tr
                       key={i}
-                      className="border-b last:border-none hover:bg-slate-50"
+                      className="border-b border-neutral-300 last:border-none"
                     >
-                      <td className="py-2 px-3">{fee.month}</td>
-                      <td className="py-2 px-3 text-green-700 font-medium">
+                      <td className="py-3 px-3 font-semibold">{fee.month}</td>
+                      <td className="py-3 px-3 text-green-700 font-medium">
                         {fee.paidAmount ? `₹${fee.paidAmount}` : "-"}
                       </td>
-                      <td className="py-2 px-3 text-yellow-700 font-medium">
+                      <td className="py-3 px-3 text-yellow-700 font-medium">
                         {fee.unpaid ? `₹${fee.unpaid}` : "-"}
                       </td>
-                      <td className="py-2 px-3 text-red-700 font-medium">
+                      <td className="py-3 px-3 text-red-700 font-medium">
                         {fee.overdue ? `₹${fee.overdue}` : "-"}
                       </td>
-                      <td className="py-2 px-3">
+                      <td className="py-3 px-3">
                         {fee.paymentDate
                           ? new Date(fee.paymentDate).toLocaleDateString(
                               "en-GB",
@@ -176,16 +176,16 @@ const FeeTracking: React.FC = () => {
                             )
                           : "-"}
                       </td>
-                      <td className="py-2 px-3 text-red-700 font-medium">
+                      <td className="py-3 px-3 text-red-700 font-medium">
                         {
                           <button
                             disabled={fee.status.toLowerCase() === "paid"}
                             onClick={() => {
                               (setOpenMark(true), setFeeId(fee.id));
                             }}
-                            className={`text-sub hover:underline text-sm ${fee.status.toLowerCase() === "paid" ? "cursor-not-allowed" : "cursor-pointer"}`}
+                            className={` px-5 py-0.5 rounded-sm text-center hover:underline text-sm ${fee.status.toLowerCase() === "paid" ? "cursor-not-allowed bg-neutral-400 text-white " : "cursor-pointer bg-primary text-white"}`}
                           >
-                            <BadgeCheck className=" h-4 w-4" />
+                            <BadgeCheck className=" h-5 w-5" />
                           </button>
                         }
                       </td>
@@ -193,27 +193,27 @@ const FeeTracking: React.FC = () => {
                   ))}
 
                   {/* Totals */}
-                  <tr className="font-semibold text-heading">
-                    <td className="py-2 px-3">Total</td>
-                    <td className="py-2 px-3">
+                  <tr className=" text-heading">
+                    <td className="py-3 px-3 font-semibold">Total</td>
+                    <td className="py-3 px-3">
                       ₹
                       {records
                         .reduce((s, r) => s + r.paidAmount, 0)
                         .toLocaleString()}
                     </td>
-                    <td className="py-2 px-3">
+                    <td className="py-3 px-3">
                       ₹
                       {records
                         .reduce((s, r) => s + r.unpaid, 0)
                         .toLocaleString()}
                     </td>
-                    <td className="py-2 px-3">
+                    <td className="py-3 px-3">
                       ₹
                       {records
                         .reduce((s, r) => s + r.overdue, 0)
                         .toLocaleString()}
                     </td>
-                    <td className="py-2 px-3">—</td>
+                    <td className="py-3 px-3">—</td>
                   </tr>
                 </tbody>
               </table>

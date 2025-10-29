@@ -45,10 +45,10 @@ const Reminders = () => {
 
       {message && (
         <div
-          className={`mt-2 text-sm rounded-md p-2 ${
+          className={`mt-2 p-2 rounded-md text-sm font-medium bg-gradient-to-bl from-[#E8DFFF]/30 to-[#DDEBFF]/30 shadow-xl shadow-black/10 border border-white/50 ${
             message.type === "success"
-              ? "bg-green-100 text-green-700"
-              : "bg-red-100 text-red-700"
+              ? "text-[#0F9D58]"
+              : "text-[#E53935]"
           }`}
         >
           {message.text}
