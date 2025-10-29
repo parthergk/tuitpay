@@ -1,14 +1,13 @@
 "use client";
 import React, { lazy, Suspense, useState } from "react";
 import { Menu, X } from "lucide-react";
-import { useOpenPlan } from "../../../context/OpenPlanProvider";
 import RightBar from "../../../components/dashboard/RightBar";
 import User from "../../../components/User";
 
 import Dashboard from "../../../components/dashboard/Dashboard";
 import { OverdueProvider } from "../../../context/OverDueProvider";
 import { FeeRecordProvider } from "../../../context/FeeRecordProvider";
-import Plans from "../../../components/Plans";
+import UpgradePlan from "../../../components/UpgradePlan";
 const Students = lazy(() => import("../../../components/dashboard/Students"));
 const FeeTracking = lazy(
   () => import("../../../components/dashboard/FeeTracking")
@@ -17,7 +16,6 @@ const Report = lazy(() => import("../../../components/dashboard/Report"));
 const Reminder = lazy(() => import("../../../components/dashboard/Reminders"));
 
 export default function DashboardPage() {
-  const { isOpenPlans, setIsOpenPlans } = useOpenPlan();
   const [isOpen, setIsOpen] = useState(false);
   const [section, setSection] = useState("dashboard");
 
@@ -82,24 +80,7 @@ export default function DashboardPage() {
             </p>
           </div>
         </div>
-        {isOpenPlans && (
-          <div className="fixed h-full w-full inset-0 bg-opacity-30 flex items-center justify-center z-50 backdrop-blur-3xl rounded-lg">
-            <div className=" h-full w-full m-auto p-3 flex flex-col bg-gradient-to-bl from-[#E8DFFF] to-[#DDEBFF] border-l border-white/50 shadow-xl shadow-black/10 rounded-lg">
-              <div className=" w-full flex justify-between items-center">
-                <h1 className="text-[28px] sm:text-4xl text-heading">
-                  Upgrade Your Plan
-                </h1>
-                <button
-                  onClick={() => setIsOpenPlans((pre) => !pre)}
-                  className="text-gray-500 hover:text-gray-700 cursor-pointer"
-                >
-                  <X />
-                </button>
-              </div>
-              <Plans />
-            </div>
-          </div>
-        )}
+        <UpgradePlan />
         <FeeRecordProvider>
           <OverdueProvider>
             {sections.map(
