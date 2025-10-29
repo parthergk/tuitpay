@@ -1,13 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
+
 type ProfileInputs = {
   name: string;
   email: string;
   phone: string;
   tuitionClassName: string;
 };
-const PersonalInfoCard = () => {
+
+interface Props{
+  teacherInfo: ProfileInputs
+}
+const PersonalInfoCard:React.FC<Props> = ({teacherInfo}) => {
   const [message, setMessage] = useState<string | null>(null);
 
   const {
@@ -17,10 +22,10 @@ const PersonalInfoCard = () => {
     formState: { errors, isSubmitting, isDirty },
   } = useForm<ProfileInputs>({
     defaultValues: {
-      name: "Gaurav Kumar",
-      email: "gauravkumar81464@gmail.com",
-      phone: "7351500283",
-      tuitionClassName: "Parther Classes",
+      name: teacherInfo.name,
+      email: teacherInfo.email,
+      phone: teacherInfo.phone,
+      tuitionClassName: teacherInfo.tuitionClassName,
     },
   });
 
@@ -29,7 +34,7 @@ const PersonalInfoCard = () => {
       name: data.name,
       phone: data.phone,
       tuitionClassName: data.tuitionClassName,
-      email: "gauravkumar81464@gmail.com",
+      email: data.email,
     };
     try {
       const response = await fetch("http://localhost:3000/api/user/profile", {

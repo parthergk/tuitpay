@@ -1,30 +1,40 @@
 import React from "react";
 import { useOpenPlan } from "../../../context/OpenPlanProvider";
 
-const PlanInfo = () => {
+interface Props{
+  planInfo:{
+    planType: string;
+    planStatus: string;
+    studentLimit: number;
+    planActivatedAt: string;
+    planExpiresAt: string;
+  }
+}
+
+const PlanInfo:React.FC<Props> = ({planInfo}) => {
+  
   const { setIsOpenPlans } = useOpenPlan();
   return (
-    <div className="flex flex-col w-full h-full max-w-sm mt-6 rounded-lg p-5 bg-offwhite/50 backdrop-blur-sm shadow-xl">
+    <div className="flex flex-col w-full h-full md:max-w-sm mt-6 rounded-lg p-5 bg-offwhite/50 backdrop-blur-sm shadow-xl">
       <h1 className="text-xl md:text-2xl lg:text-3xl text-heading">
         Your Plan
       </h1>
       <div className=" flex flex-col gap-3 mt-3 px-2 text-sm sm:text-base leading-snug text-[#334155] mb-1">
         <p className=" flex justify-between">
-          <span className="font-medium text-heading">Plan Type</span> {"pro"}
+          <span className="font-medium text-heading">Plan Type</span> {planInfo.planType}
         </p>
         <p className=" flex justify-between">
-          <span className="font-medium text-heading">Status</span>{" "}
-          <span className=" bg-primary text-white px-2 rounded-lg">Active</span>
+          <span className="font-medium text-heading">Status</span>
+          <span className=" bg-primary text-white px-2 rounded-lg">{planInfo.planStatus}</span>
         </p>
         <p className=" flex justify-between">
-          <span className="font-medium text-heading">Student Limit</span> 100
+          <span className="font-medium text-heading">Student Limit</span> {planInfo.studentLimit}
         </p>
         <p className=" flex justify-between">
-          <span className="font-medium text-heading">Activeted</span> Oct, 1,
-          2025
+          <span className="font-medium text-heading">Activeted</span> {new Date(planInfo.planActivatedAt).toDateString()}
         </p>
         <p className=" flex justify-between">
-          <span className="font-medium text-heading">Expires</span> Nov, 1, 2025
+          <span className="font-medium text-heading">Expires</span>{new Date(planInfo.planExpiresAt).toDateString()}
         </p>
       </div>
       <button
