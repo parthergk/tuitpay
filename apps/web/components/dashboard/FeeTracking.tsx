@@ -1,6 +1,9 @@
+import { BadgeCheck } from "lucide-react";
 import React, { useEffect, useState } from "react";
+import MarkAsPaid from "../student/MarkAsPaid";
 
 interface RawFeeRecord {
+  _id: string;
   amount: number;
   paidAmount: number;
   status: "paid" | "pending" | "overdue";
@@ -13,6 +16,7 @@ interface RawFeeRecord {
 }
 
 interface ProcessedFeeRecord {
+  id: string;
   month: string;
   paidAmount: number;
   unpaid: number;
@@ -31,6 +35,8 @@ const FeeTracking: React.FC = () => {
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [openMark, setOpenMark] = useState(false);
+  const [feeId, setFeeId] = useState("");
 
   const fetchRecord = async () => {
     try {
@@ -61,6 +67,7 @@ const FeeTracking: React.FC = () => {
           if (!acc[studentName]) acc[studentName] = [];
 
           acc[studentName].push({
+            id: record._id,
             month: new Date(record.dueDate).toLocaleString("default", {
               month: "long",
             }),
@@ -137,6 +144,7 @@ const FeeTracking: React.FC = () => {
                     <th className="py-2 px-3">Unpaid</th>
                     <th className="py-2 px-3">Overdue</th>
                     <th className="py-2 px-3">Payment Date</th>
+                    <th className="py-2 px-3">Mark as paid</th>
                   </tr>
                 </thead>
 
@@ -167,6 +175,19 @@ const FeeTracking: React.FC = () => {
                               }
                             )
                           : "-"}
+                      </td>
+                      <td className="py-2 px-3 text-red-700 font-medium">
+                        {
+                          <button
+                            disabled={fee.status.toLowerCase() === "paid"}
+                            onClick={() => {
+                              (setOpenMark(true), setFeeId(fee.id));
+                            }}
+                            className={`text-sub hover:underline text-sm ${fee.status.toLowerCase() === "paid" ? "cursor-not-allowed" : "cursor-pointer"}`}
+                          >
+                            <BadgeCheck className=" h-4 w-4" />
+                          </button>
+                        }
                       </td>
                     </tr>
                   ))}
@@ -204,6 +225,13 @@ const FeeTracking: React.FC = () => {
           )}
         </div>
       </div>
+      {openMark && (
+        <MarkAsPaid
+          setOpenMark={setOpenMark}
+          feeId={feeId}
+          fetchData={fetchRecord}
+        />
+      )}
     </div>
   );
 };

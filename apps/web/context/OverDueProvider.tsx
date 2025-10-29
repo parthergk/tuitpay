@@ -5,7 +5,7 @@ interface Overdue {
   name: string;
   amount: number;
   daysOverdue: number;
-  lastReminder: string;
+  lastReminderAt: string;
 }
 
 interface OverdueContextType {

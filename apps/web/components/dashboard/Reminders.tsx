@@ -4,17 +4,23 @@ import { useOverDue } from "../../context/OverDueProvider";
 const Reminders = () => {
   const { overDues } = useOverDue();
   const [loadingId, setLoadingId] = useState<string | null>(null);
-  const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
+  const [message, setMessage] = useState<{
+    type: "success" | "error";
+    text: string;
+  } | null>(null);
 
   async function handleSendOverdue(id: string) {
     try {
       setLoadingId(id);
       setMessage(null);
 
-      const response = await fetch(`http://localhost:8080/api/v1/overdue/${id}`, {
-        method: "GET",
-        credentials: "include",
-      });
+      const response = await fetch(
+        `http://localhost:8080/api/v1/overdue/${id}`,
+        {
+          method: "GET",
+          credentials: "include",
+        }
+      );
 
       const result = await response.json();
 
@@ -24,7 +30,10 @@ const Reminders = () => {
 
       setMessage({ type: "success", text: result.message });
     } catch (error: any) {
-      setMessage({ type: "error", text: error.message || "Something went wrong" });
+      setMessage({
+        type: "error",
+        text: error.message || "Something went wrong",
+      });
     } finally {
       setLoadingId(null);
     }
@@ -37,7 +46,9 @@ const Reminders = () => {
       {message && (
         <div
           className={`mt-2 text-sm rounded-md p-2 ${
-            message.type === "success" ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"
+            message.type === "success"
+              ? "bg-green-100 text-green-700"
+              : "bg-red-100 text-red-700"
           }`}
         >
           {message.text}
