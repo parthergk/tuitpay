@@ -1,13 +1,17 @@
 import React, { useState } from "react";
 
 interface Props {
-  student: {id:string, name: string} | null;
+  student: { id: string; name: string } | null;
   setIsDelete: React.Dispatch<React.SetStateAction<boolean>>;
   fetchData: () => Promise<void>;
 }
 
 const DeleteForm: React.FC<Props> = ({ student, setIsDelete, fetchData }) => {
   const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState<{
+    type: "success" | "error";
+    text: string;
+  } | null>(null);
 
   async function handleDelete() {
     setLoading(true);
@@ -23,18 +27,21 @@ const DeleteForm: React.FC<Props> = ({ student, setIsDelete, fetchData }) => {
       if (!response.ok) throw new Error("Please try again");
 
       const resData = await response.json();
-      
+
       if (!resData.success) {
-        alert(resData.error || "Failed to delete record");
+        setMessage({
+          type: "error",
+          text: resData.error || "Failed to delete record",
+        });
         return;
       }
 
       await fetchData();
-      alert("Student deleted successfully!");
+      setMessage({ type: "success", text: "Student deleted successfully!" });
       setIsDelete(false);
     } catch (err) {
       console.error(err);
-      alert("Failed to delete record");
+      setMessage({ type: "error", text: "Failed to delete record" });
     } finally {
       setLoading(false);
     }
@@ -46,6 +53,15 @@ const DeleteForm: React.FC<Props> = ({ student, setIsDelete, fetchData }) => {
         <h2 className="text-lg sm:text-xl md:text-2xl text-gray-800">
           Are you sure?
         </h2>
+        {message && (
+          <div
+            className={`py-1.5 px-4 mb-3 mt-1 rounded-md text-sm font-medium bg-gradient-to-bl from-[#E8DFFF]/30 to-[#DDEBFF]/30 shadow-xl shadow-black/10 border border-white/50
+          ${message.type === "success" ? "text-[#0F9D58]" : "text-[#E53935]"}
+          `}
+          >
+            {message.text}
+          </div>
+        )}
         <form
           onSubmit={(e) => {
             e.preventDefault();

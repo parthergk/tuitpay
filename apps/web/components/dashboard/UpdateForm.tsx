@@ -66,7 +66,10 @@ const UpdateForm: React.FC<Props> = ({ setIsUpdate, formData, fetchData }) => {
       }
 
       const result = await response.json();
-      setMessage({ type: "success", text: "✅ Student updated successfully!" });
+      setMessage({
+        type: "success",
+        text: result.message || "✅ Student updated successfully!",
+      });
 
       if (fetchData) await fetchData();
 

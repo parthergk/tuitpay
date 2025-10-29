@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 
 interface Prop {
@@ -12,6 +12,10 @@ interface FormValues {
 }
 
 const MarkAsPaid: React.FC<Prop> = ({ setOpenMark, feeId, fetchData }) => {
+  const [message, setMessage] = useState<{
+      type: "success" | "error";
+      text: string;
+    } | null>(null);
   const {
     register,
     handleSubmit,
@@ -43,16 +47,16 @@ const MarkAsPaid: React.FC<Prop> = ({ setOpenMark, feeId, fetchData }) => {
 
       const resData = await response.json();
       if (!resData.status) {
-        alert(resData.error || "Failed to update fee status");
+        setMessage({type:"error", text: resData.error || "Failed to update fee status"});
         return;
       }
 
       fetchData();
-      alert("Fee marked as paid!");
+      setMessage({type: "success", text:"Fee marked as paid!"});
       setOpenMark(false);
     } catch (err) {
       console.error(err);
-      alert("Failed to update fee status");
+      setMessage({type: "error", text:"Failed to update fee status"});
     }
   };
 
@@ -62,6 +66,15 @@ const MarkAsPaid: React.FC<Prop> = ({ setOpenMark, feeId, fetchData }) => {
         <h2 className="text-lg sm:text-xl md:text-2xl text-gray-800">
           Mark as Paid
         </h2>
+        {message && (
+          <div
+            className={`py-1.5 px-4 mb-3 mt-1 rounded-md text-sm font-medium bg-gradient-to-bl from-[#E8DFFF]/30 to-[#DDEBFF]/30 shadow-xl shadow-black/10 border border-white/50
+          ${message.type === "success" ? "text-[#0F9D58]" : "text-[#E53935]"}
+          `}
+          >
+            {message.text}
+          </div>
+        )}
         <form
           onSubmit={handleSubmit(onSubmit)}
           className="flex flex-col gap-3 mt-2"
