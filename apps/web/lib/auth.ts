@@ -38,6 +38,7 @@ export const authOptions: NextAuthOptions = {
             return {
               id: user._id.toString(),
               email: user.email,
+              name: user.name,
               plan: user.planType,
             };
           }
@@ -58,6 +59,7 @@ export const authOptions: NextAuthOptions = {
           return {
             id: user._id.toString(),
             email: user.email,
+            name: user.name,
             plan: user.planType,
           };
         } catch (error) {
@@ -75,6 +77,7 @@ export const authOptions: NextAuthOptions = {
       
       if (user) {
         token.id = user.id;
+        token.name = user.name;
         token.plan = user.plan;
         token.email = user.email;
       }
@@ -91,6 +94,7 @@ export const authOptions: NextAuthOptions = {
 
     async session({ session, token }) {
       session.user.id = token.id as string;
+      session.user.name = token.name as string;
       session.user.plan = token.plan as string;
       session.user.email = token.email as string;
       return session;
