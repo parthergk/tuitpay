@@ -52,25 +52,25 @@ paymentRouter.post("/", async (req: Request, res: Response) => {
       ]);
 
       if (!order) {
-        res
-          .status(404)
-          .json({
-            status: "error",
-            message: "Order not found or already processed",
-          });
+        res.status(404).json({
+          status: "error",
+          message: "Order not found or already processed",
+        });
         return;
       }
       const user = order?.userId;
       const plan = order?.planId;
 
-      const durationDays = plan?.durationDays || 30;
-      const expiresAt = getTodayDate();
-      expiresAt.setDate(expiresAt.getDate() + durationDays);
+      let expiresAt = null;
+      if (plan?.durationDays) {
+        expiresAt = getTodayDate();
+        expiresAt.setDate(expiresAt.getDate() + plan.durationDays);
+      }
 
       await User.findByIdAndUpdate(user?._id, {
         planType: plan?.type,
         planStatus: "active",
-        studentLimit: plan?.studentLimit,
+        studentLimit: plan?.studentLimit ?? null,
         planActivatedAt: getTodayDate(),
         planExpiresAt: expiresAt,
       });
@@ -107,15 +107,13 @@ paymentRouter.post("/", async (req: Request, res: Response) => {
       );
 
       if (!order) {
-        res
-          .status(404)
-          .json({
-            status: "error",
-            message: "Order not found for failed payment",
-          });
+        res.status(404).json({
+          status: "error",
+          message: "Order not found for failed payment",
+        });
         return;
       }
-
+      await User.findByIdAndUpdate(order.userId, { planStatus: "expired" });
       console.log(`❌ Payment failed for order: ${order._id}`);
 
       res.status(200).json({

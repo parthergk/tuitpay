@@ -67,7 +67,7 @@ const Plans = () => {
           if (data.success) {
             console.log("Payment success");
             setMessage(data.message);
-            setTimeout(() => router.push("/dashboard"), 5000);
+            router.push("/dashboard")
           } else {
             console.log("Payment failed");
             setMessage(data.message);

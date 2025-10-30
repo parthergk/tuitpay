@@ -28,13 +28,13 @@ const PlanInfo:React.FC<Props> = ({planInfo}) => {
           <span className=" bg-primary text-white px-2 rounded-lg">{planInfo.planStatus}</span>
         </p>
         <p className=" flex justify-between">
-          <span className="font-medium text-heading">Student Limit</span> {planInfo.studentLimit}
+          <span className="font-medium text-heading">Student Limit</span> {planInfo.studentLimit ? planInfo.studentLimit : "unlimited"}
         </p>
         <p className=" flex justify-between">
           <span className="font-medium text-heading">Activeted</span> {new Date(planInfo.planActivatedAt).toDateString()}
         </p>
         <p className=" flex justify-between">
-          <span className="font-medium text-heading">Expires</span>{new Date(planInfo.planExpiresAt).toDateString()}
+          <span className="font-medium text-heading">Expires</span>{planInfo.planExpiresAt ? new Date(planInfo.planExpiresAt).toDateString(): "Lifetime (no expiry)"}
         </p>
       </div>
       <button
