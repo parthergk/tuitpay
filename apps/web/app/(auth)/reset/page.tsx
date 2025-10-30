@@ -1,6 +1,5 @@
 "use client";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
 import React, { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
@@ -17,8 +16,10 @@ const Reset = () => {
     formState: { errors, isSubmitting },
   } = useForm<Inputs>();
   const router = useRouter();
-  const [message, setMessage] = useState<string>("");
-  const [errorMsg, setErrorMsg] = useState<string>("");
+  const [message, setMessage] = useState<{
+    type: "success" | "error";
+    text: string;
+  } | null>(null);
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     const { email, password } = data;
@@ -39,14 +40,12 @@ const Reset = () => {
         throw new Error(result.message || "Operation failed");
       }
 
-      setMessage(result.message);
-      setErrorMsg("");
+      setMessage({type: "success",text:result.message});
       reset();
     } catch (err) {
       const errorMessage =
         err instanceof Error ? err.message : "Network error. Please try again.";
-      setErrorMsg(errorMessage);
-      setMessage("");
+      setMessage({type:"error",text:errorMessage});
     }
   };
 
@@ -59,9 +58,13 @@ const Reset = () => {
         Enter your email and new password below
       </span>
 
-     {(message || errorMsg) && (
-        <div className="w-full inline-flex items-center justify-center py-2 px-4 mb-5 rounded-md text-sm font-medium bg-gradient-to-bl from-[#E8DFFF]/30 to-[#DDEBFF]/30 shadow-xl shadow-black/10 border border-white/50 hover:scale-[1.02] transition-transform">
-          {message || errorMsg}
+      {message && (
+        <div
+          className={`mt-2 p-2 rounded-md text-sm font-medium bg-gradient-to-bl from-[#E8DFFF]/30 to-[#DDEBFF]/30 shadow-xl shadow-black/10 border border-white/50 ${
+            message.type === "success" ? "text-[#0F9D58]" : "text-[#E53935]"
+          }`}
+        >
+          {message.text}
         </div>
       )}
 
@@ -111,7 +114,9 @@ const Reset = () => {
             className="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
           />
           {errors.password && (
-            <p className="mt-1 text-sm text-red-600">{errors.password.message}</p>
+            <p className="mt-1 text-sm text-red-600">
+              {errors.password.message}
+            </p>
           )}
         </div>
 

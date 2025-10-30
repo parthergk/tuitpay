@@ -15,8 +15,10 @@ const ForgotPassword = () => {
     formState: { errors, isSubmitting },
   } = useForm<Inputs>();
   const router = useRouter();
-  const [message, setMessage] = useState<string>("");
-  const [errorMsg, setErrorMsg] = useState<string>("");
+  const [message, setMessage] = useState<{
+    type: "success" | "error";
+    text: string;
+  } | null>(null);
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     const email = data.email;
@@ -36,13 +38,13 @@ const ForgotPassword = () => {
         throw new Error(data.error || "Operation failed");
       }
 
-      setMessage(data.message);
+      setMessage({ type: "success", text: data.message });
       localStorage.setItem("verifyEmail", email);
       reset();
     } catch (err) {
       const errorMessage =
         err instanceof Error ? err.message : "Network error. Please try again.";
-      setErrorMsg(errorMessage);
+      setMessage({ type: "error", text: errorMessage });
     }
   };
   return (
@@ -53,13 +55,20 @@ const ForgotPassword = () => {
       <span className="text-sm sm:text-base leading-snug text-muted mt-3">
         Enter your email to reset your password
       </span>
-      {(message || errorMsg) && (
-        <div className="w-full inline-flex items-center justify-center py-2 px-4 mt-5 rounded-md text-sm font-medium bg-gradient-to-bl from-[#E8DFFF]/30 to-[#DDEBFF]/30 shadow-xl shadow-black/10 border border-white/50 hover:scale-[1.02] transition-transform">
-          {message || errorMsg}
+      {message && (
+        <div
+          className={`mt-2 p-2 rounded-md text-sm font-medium bg-gradient-to-bl from-[#E8DFFF]/30 to-[#DDEBFF]/30 shadow-xl shadow-black/10 border border-white/50 ${
+            message.type === "success" ? "text-[#0F9D58]" : "text-[#E53935]"
+          }`}
+        >
+          {message.text}
         </div>
       )}
 
-      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4 mt-3">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="flex flex-col gap-4 mt-3"
+      >
         <div>
           <label
             htmlFor="email"

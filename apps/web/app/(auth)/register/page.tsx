@@ -21,13 +21,14 @@ const Register = () => {
 
   const router = useRouter();
   const [show, setShow] = useState(false);
-  const [submitError, setSubmitError] = useState("");
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState<{
+    type: "success" | "error";
+    text: string;
+  } | null>(null);
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     try {
-      setSubmitError("");
-      setMessage("");
+      setMessage(null);
 
       const response = await fetch("/api/auth/register", {
         method: "POST",
@@ -41,14 +42,14 @@ const Register = () => {
         throw new Error(result.error || "Registration failed.");
       }
 
-      setMessage(result.message);
+      setMessage({ type: "success", text: result.message });
       localStorage.setItem("verifyEmail", result.data.email);
       reset();
 
       router.push("/resend");
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : "Server error";
-      setSubmitError(errorMessage);
+      setMessage({ type: "error", text: errorMessage });
     }
   };
 
@@ -61,9 +62,13 @@ const Register = () => {
         Connect with Feexy:
       </span>
 
-      {(message || submitError) && (
-        <div className="w-full inline-flex items-center justify-center py-2 px-4 mt-5 rounded-md text-sm font-medium bg-gradient-to-bl from-[#E8DFFF]/30 to-[#DDEBFF]/30 shadow-xl shadow-black/10 border border-white/50 hover:scale-[1.02] transition-transform">
-          {message || submitError}
+      {message && (
+        <div
+          className={`mt-2 p-2 rounded-md text-sm font-medium bg-gradient-to-bl from-[#E8DFFF]/30 to-[#DDEBFF]/30 shadow-xl shadow-black/10 border border-white/50 ${
+            message.type === "success" ? "text-[#0F9D58]" : "text-[#E53935]"
+          }`}
+        >
+          {message.text}
         </div>
       )}
 
@@ -109,7 +114,7 @@ const Register = () => {
           <div className=" w-full border-t border-gray-300"></div>
         </div>
       </div>
-      
+
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
         <div>
           <label

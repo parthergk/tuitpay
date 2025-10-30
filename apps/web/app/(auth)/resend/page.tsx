@@ -4,8 +4,10 @@ import React, { useEffect, useState } from "react";
 
 const Resend = () => {
   const [isResending, setIsResending] = useState<boolean>(false);
-  const [resendMessage, setResendMessage] = useState<string>("");
-  const [submitError, setSubmitError] = useState<string>("");
+  const [message, setMessage] = useState<{
+      type: "success" | "error";
+      text: string;
+    } | null>(null);
   const [email, setEmail] = useState<string>("");
 
   useEffect(() => {
@@ -15,8 +17,7 @@ const Resend = () => {
 
   const handleResendCode = async () => {
     setIsResending(true);
-    setResendMessage("");
-    setSubmitError("");
+    setMessage(null);
     try {
       const res = await fetch("/api/auth/resend-verification", {
         method: "POST",
@@ -34,13 +35,13 @@ const Resend = () => {
         console.log("Error from the not success");
         throw new Error(data.error || "Operation failed");
       }
-      setResendMessage("Verification code sent successfully!");
+      setMessage({type:"success",text:"Verification code sent successfully!"});
     } catch (error) {
       const errorMessage =
         error instanceof Error
           ? error.message
           : "Failed to resend code. Please try again.";
-      setSubmitError(errorMessage);
+      setMessage({type:"error", text:errorMessage});
     } finally {
       setIsResending(false);
     }
@@ -53,9 +54,13 @@ const Resend = () => {
       <p className="mt-3 text-base md:text-lg text-sub max-w-xs self-start">
         We sent you an email with a link to activate your Feexy account.
       </p>
-      {(resendMessage || submitError) && (
-        <div className="w-full inline-flex items-center justify-center py-2 px-4 mt-5 rounded-md text-sm font-medium bg-gradient-to-bl from-[#E8DFFF]/30 to-[#DDEBFF]/30 shadow-xl shadow-black/10 border border-white/50 hover:scale-[1.02] transition-transform">
-          {resendMessage || submitError}
+      {message && (
+        <div
+          className={`mt-2 p-2 rounded-md text-sm font-medium bg-gradient-to-bl from-[#E8DFFF]/30 to-[#DDEBFF]/30 shadow-xl shadow-black/10 border border-white/50 ${
+            message.type === "success" ? "text-[#0F9D58]" : "text-[#E53935]"
+          }`}
+        >
+          {message.text}
         </div>
       )}
       <div className="w-full flex gap-2 items-center justify-center py-2 px-4 mt-5 mb-2 rounded-md text-base md:text-lg text-sub bg-gradient-to-bl from-[#E8DFFF]/30 to-[#DDEBFF]/30 shadow-xl shadow-black/10 border border-white/50 hover:scale-[1.02] transition-transform">

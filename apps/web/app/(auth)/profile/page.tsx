@@ -53,7 +53,7 @@ const CompleteProfile = () => {
         Fill in your details to complete your profile
       </span>
       {message  && (
-        <div className="w-full inline-flex items-center justify-center py-2 px-4 mt-5 mb-2 rounded-md text-sm font-medium bg-gradient-to-bl from-[#E8DFFF]/30 to-[#DDEBFF]/30 shadow-xl shadow-black/10 border border-white/50 hover:scale-[1.02] transition-transform">
+        <div className="w-full inline-flex items-center justify-center py-2 px-4 mt-5 mb-2 rounded-md text-sm font-medium bg-gradient-to-bl from-[#E8DFFF]/30 to-[#DDEBFF]/30 shadow-xl shadow-black/10 border border-white/50 hover:scale-[1.02] transition-transform text-[#E53935]">
           {message}
         </div>
       )}
