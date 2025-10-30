@@ -1,28 +1,26 @@
-import { Payment } from "@repo/db";
 import { Request, Response, Router } from "express";
+import crypto from "crypto";
 
 const paymentStatusRouter: Router = Router();
 
-paymentStatusRouter.get("/", async (req: Request, res: Response) => {
-  try {
-    const { order_id } = req.query;
-    if (!order_id) {
-      res.status(400).json({ status: "error", message: "Missing order_id" });
-      return;
-    }
+paymentStatusRouter.post("/", async (req: Request, res: Response) => {
+  const { razorpay_order_id, razorpay_payment_id, razorpay_signature } =
+    req.body;
 
-    const payment = await Payment.findOne({ razorpayOrderId: order_id });
-    if (!payment) {
-      res.status(404).json({ status: "error", message: "Not found" });
-      return;
-    }
+  const hmac = crypto
+    .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET!)
+    .update(`${razorpay_order_id}|${razorpay_payment_id}`);
+  const generatedSignature = hmac.digest("hex");
 
-    res.json({ status: payment.status });
-    return;
-  } catch (e) {
-    console.error(e);
-    res.status(500).json({ status: "error" });
-    return;
+  if (generatedSignature === razorpay_signature) {
+    res
+      .status(200)
+      .json({ success: true, message: "Payment successful and verified" });
+  } else {
+    console.log("Invalid webhook signature! Payment verification failed");
+    res
+      .status(400)
+      .json({ success: false, message: "Payment verification failed" });
   }
 });
 

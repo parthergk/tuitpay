@@ -9,7 +9,7 @@ planRouter.get("/new", async (req: Request, res: Response) => {
     {
       type: "free",
       studentLimit: 20,
-      durationDays: 30,
+      durationDays: null,
       title: "Free",
       price: 0,
       description:
@@ -23,10 +23,10 @@ planRouter.get("/new", async (req: Request, res: Response) => {
     },
     {
       type: "pro",
-      studentLimit: undefined,
+      studentLimit: null,
       durationDays: 30,
       title: "Pro",
-      price: 499,
+      price: 199,
       description:
         "Perfect for coaching centers managing multiple teachers and larger student groups.",
       features: [

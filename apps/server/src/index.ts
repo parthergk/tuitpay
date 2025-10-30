@@ -39,7 +39,7 @@ async function startServer() {
     app.use("/api/v1/verify", paymentRouter);
     app.use("/api/v1/overdue", sendOverduesRouter);
     app.use("/api/v1/teacher", teacherRouter);
-    app.use("/api/v1/payment-status",paymentStatusRouter)
+    app.use("/api/v1/verifyPayment",paymentStatusRouter)
 
     app.listen(PORT, () => {
       console.log(`Server is runing on port: ${PORT}`);

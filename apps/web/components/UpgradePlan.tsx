@@ -4,7 +4,7 @@ import { X } from "lucide-react";
 import Plans from "./Plans";
 
 const UpgradePlan = () => {
-      const { isOpenPlans, setIsOpenPlans } = useOpenPlan();
+  const { isOpenPlans, setIsOpenPlans } = useOpenPlan();
   return (
     <>
       {isOpenPlans && (
