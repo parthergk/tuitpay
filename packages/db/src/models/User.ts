@@ -19,17 +19,17 @@ const userSchema = new Schema<IUser>(
     planId: { type: mongoose.Types.ObjectId, ref: "Plan" },
     planType: {
       type: String,
-      enum: ["free", "pro", "custom"],
+      enum: ["free", "pro"],
       default: "free",
     },
     planStatus: {
       type: String,
-      enum: ["active", "expired", "canceled"],
+      enum: ["active", "expired"],
       default: "active",
     },
     planActivatedAt: { type: Date },
     planExpiresAt: { type: Date },
-    studentLimit: { type: Number, default: 10 },
+    studentLimit: { type: Number, default: 20 },
     planPrice: { type: Number, default: 0 },
   },
   { timestamps: true }

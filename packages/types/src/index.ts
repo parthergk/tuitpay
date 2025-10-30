@@ -53,6 +53,7 @@ export interface IPlan {
   features?: string[]; 
   buttonText?: string; 
   highlight?: boolean;
+  isActive:boolean;
   createdAt: Date;
   updatedAt: Date;
 }

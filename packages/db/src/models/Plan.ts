@@ -5,7 +5,7 @@ const plansSchema = new Schema<IPlan>(
   {
     type: {
       type: String,
-      enum: ["free", "pro", "custom"],
+      enum: ["free", "pro"],
       default: "free",
       required: true,
     },
@@ -17,6 +17,7 @@ const plansSchema = new Schema<IPlan>(
     features: { type: [String], required: true },
     buttonText: { type: String, required: false },
     highlight: { type: Boolean, default: false },
+    isActive: { type: Boolean, default: true }
   },
   { timestamps: true }
 );
