@@ -11,6 +11,7 @@ import HowToUseSection from "../../../components/LandingPage/Sections/HowToUseSe
 import CTA from "../../../components/LandingPage/CTA";
 import TestimonialSection from "../../../components/LandingPage/Sections/TestimonialSection";
 import PriceSection from "../../../components/LandingPage/Sections/PriceSection";
+import Header from "../../../components/nav/Header";
 
 
 interface Inputs {
@@ -44,6 +45,8 @@ export default function Home() {
   };
 
   return (
+    <>
+    <Header />
     <div className=" w-full min-h-screen flex flex-col bg-[#EAE2FF]">
       <HeroSection />
       <TrustSection />
@@ -54,5 +57,6 @@ export default function Home() {
       <CTA />
       <Footer />
     </div>
+    </>
   );
 }

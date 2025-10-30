@@ -56,8 +56,9 @@ const FeeTracking: React.FC = () => {
       }
 
       const result = await response.json();
-      if (!result.success || !Array.isArray(result.data)) {
-        throw new Error("Invalid API response format");
+      
+      if (!result.success) {
+        setError(result.error)
       }
 
       const groupedData = result.data.reduce(

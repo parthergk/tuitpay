@@ -92,14 +92,6 @@ dashboardRouter.get(
         .select("amount paidAmount dueDate status paidDate")
         .populate<{ studentId: IStudent }>("studentId", "name");
 
-      if (!feeRecords || feeRecords.length === 0) {
-        res.status(404).json({
-          success: false,
-          error: "No fee records found for this teacher.",
-        });
-        return;
-      }
-
       res.status(200).json({
         success: true,
         message: "Fee records fetched successfully.",

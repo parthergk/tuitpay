@@ -41,6 +41,7 @@ const Students = () => {
   const [feeId, setFeeId] = useState("");
   const [student, setStudent] = useState<SelectedStudent | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -57,6 +58,7 @@ const Students = () => {
   async function fetchStudents() {
     try {
       setError(null);
+      setIsLoading(true);
       const response = await fetch("http://localhost:8080/api/v1/student", {
         method: "GET",
         credentials: "include",
@@ -69,9 +71,10 @@ const Students = () => {
         throw new Error("No students found. Please try again later.");
       }
       const result = await response.json();
-
+      setIsLoading(false);
       setStudents(result.studentWithStatus);
     } catch (err) {
+      setIsLoading(false);
       console.error("Error fetching students:", err);
       setError("Failed to load students. Please try again later.");
     }
@@ -109,9 +112,15 @@ const Students = () => {
       <div className=" w-full mt-8 overflow-x-auto min-h-80 shadow-lg  border border-white/50 rounded-lg">
         <StudentsHeader />
 
-        <div className=" w-full h-full p-4 min-w-[810px] md:min-w-[600px] sm:max-h-80 overflow-y-scroll">
+        <div className=" w-full h-full p-4 min-w-[810px] md:min-w-[600px] sm:max-h-80 overflow-y-auto">
           <ul className=" w-full space-y-3">
-            {students.length > 0 ? (
+            {isLoading ? (
+              <div className="animate-pulse space-y-3">
+                {[...Array(5)].map((_, i) => (
+                  <div key={i} className="h-5 bg-slate-200 rounded-md"></div>
+                ))}
+              </div>
+            ) : students.length > 0 ? (
               filteredStudents.map((student) => (
                 <li
                   key={student._id}
@@ -174,9 +183,7 @@ const Students = () => {
               ))
             ) : (
               <div className="animate-pulse space-y-3">
-                {[...Array(5)].map((_, i) => (
-                  <div key={i} className="h-5 bg-slate-200 rounded-md"></div>
-                ))}
+                No stundet found Please add students
               </div>
             )}
           </ul>

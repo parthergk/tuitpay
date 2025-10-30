@@ -53,7 +53,7 @@ const Plans = () => {
         name: "Feexy",
         description: `${plan.type}`,
         order_id: order.orderId,
-        handler: async function (response) {
+        handler: async function (response:any) {
           const verifyRes = await fetch(
             "http://localhost:8080/api/v1/verifyPayment",
             {
