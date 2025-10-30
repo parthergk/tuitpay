@@ -22,6 +22,10 @@ async function checkPlanLimit(req: Request, res: Response, next: NextFunction) {
       return;
     }
 
+    if (user.studentLimit === null || user.studentLimit === undefined) {
+      return next();
+    }
+    
     const studentCount = await Student.countDocuments({ teacherId: userId });
 
     if (studentCount >= user.studentLimit) {
