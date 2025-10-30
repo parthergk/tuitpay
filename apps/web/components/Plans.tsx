@@ -65,9 +65,8 @@ const Plans = () => {
           );
           const data = await verifyRes.json();
           if (data.success) {
-            console.log("Payment success");
+            console.log("Session updated",await session.update());
             setMessage(data.message);
-            router.push("/dashboard")
           } else {
             console.log("Payment failed");
             setMessage(data.message);
@@ -133,7 +132,10 @@ const Plans = () => {
                 </div>
 
                 <p className="mt-2 text-gray-600">
-                  Duration: { plan.durationDays !== null ? `${plan.durationDays} days`: "Lifetime (no expiry)"}
+                  Duration:{" "}
+                  {plan.durationDays !== null
+                    ? `${plan.durationDays} days`
+                    : "Lifetime (no expiry)"}
                 </p>
 
                 <ul className="mt-6 space-y-2 text-sm text-gray-700">

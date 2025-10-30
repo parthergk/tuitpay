@@ -71,12 +71,21 @@ export const authOptions: NextAuthOptions = {
   ],
 
   callbacks: {
-    async jwt({ token, user }) {
+    async jwt({token, user, trigger}) {
+      
       if (user) {
         token.id = user.id;
         token.plan = user.plan;
         token.email = user.email;
       }
+
+      if (trigger === "update") {
+        const upUser = await User.findById(token.id);
+        if (upUser) {
+          token.plan = upUser.planType;
+        }
+      }
+
       return token;
     },
 
