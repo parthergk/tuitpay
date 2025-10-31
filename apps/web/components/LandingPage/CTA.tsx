@@ -31,16 +31,16 @@ const CTA = () => {
         <div className="max-w-2xl">
           <motion.h1
             variants={item}
-            className="text-3xl md:text-5xl font-bold text-heading drop-shadow-md"
+            className="text-3xl sm:text-4xl font-forum text-heading mb-4"
           >
-            Get Started Today
+            Ready to Simplify Fee Management?
           </motion.h1>
+
           <motion.p
             variants={item}
             className="mt-4 text-base md:text-lg text-sub"
           >
-            Ready to experience the smarter way to manage and track fee — free
-            to try.
+            Join hundreds of tutors who have already transformed how they manage payments.
           </motion.p>
           <motion.button
             variants={item}
