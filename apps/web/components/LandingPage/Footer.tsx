@@ -2,7 +2,7 @@ import { Linkedin, Instagram, Twitter } from "lucide-react";
 
 const Footer = () => {
   return (
-    <footer className="relative bg-primary text-white mt-5 w-full pt-14 md:pt-28 px-5">
+    <footer className="relative bg-primary text-white w-full pt-14 md:pt-28 px-5">
       {/* Subtle Noise Texture */}
       <div
         className="absolute inset-0 opacity-10"
