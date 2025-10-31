@@ -123,6 +123,7 @@ export const authOptions: NextAuthOptions = {
       if (trigger === "update") {
         const upUser = await User.findById(token.id);
         if (upUser) {
+          token.name = upUser.name;
           token.plan = upUser.planType;
           token.profileComplete = upUser.profileComplete;
         }
