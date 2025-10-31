@@ -1,10 +1,25 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "motion/react";
-import Plans from "../../../../components/Plans";
 import CTA from "../../../../components/LandingPage/CTA";
+import PriceCard from "../../../../components/LandingPage/Cards/PriceCard";
+import { IPlan } from "@repo/types";
 
 const Price = () => {
+    const [plans, setPlans] = useState<IPlan[]>([]);
+    
+      useEffect(() => {
+        const fetchProducts = async () => {
+          try {
+            const res = await fetch("http://localhost:8080/api/v1/plan");
+            const {plans} = await res.json();
+            setPlans(plans);
+          } catch (error) {
+            console.log("Error during the fetching the plan", error);
+          }
+        };
+        fetchProducts();
+      }, [plans]);
   return (
     <section className="relative z-0 flex flex-col bg-[linear-gradient(to_bottom_right,#FFFFFF_0%,#E0ECFF_25%,#EAE2FF_50%,#F8E8DB_75%,#FFFFFF_100%)]">
       {/* Subtle noise background */}
@@ -16,10 +31,8 @@ const Price = () => {
           backgroundRepeat: "repeat",
         }}
       />
-
-      <div className=" flex flex-col lg:flex-row lg:gap-10 px-2 sm:px-4 pt-20">
         {/* Hero Section */}
-        <div className="relative w-full  lg:max-w-xl  mx-auto pt-28 sm:pt-36 lg:pt-44 text-center lg:text-start">
+        <div className="relative w-full mx-auto pt-28 sm:pt-36 lg:pt-44 text-center">
           <motion.h1
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
@@ -40,12 +53,17 @@ const Price = () => {
         </div>
 
         {/* Pricing Plans */}
-        <div className="relative w-full max-w-7xl mx-auto mt-10 lg:mt-20">
-          <Plans />
+        <div className="relative w-full mx-auto mt-10 lg:mt-20">
+
+        <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-2 gap-10">
+          {plans && plans.map((plan, index) => (
+              <PriceCard key={index} {...plan} />
+            ))}
         </div>
-      </div>
+            </div>
+
       {/* FAQ Section */}
-      <div className="relative w-full max-w-4xl mx-auto mt-32 md:mt-48 text-center px-2 sm:px-4">
+      <div className="relative w-full max-w-4xl mx-auto mt-32 md:mt-48 text-center ">
         <motion.h2
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}

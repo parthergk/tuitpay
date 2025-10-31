@@ -2,30 +2,58 @@
 import React, { useState } from "react";
 import { motion } from "motion/react";
 import { Mail, MapPin, Phone, Send } from "lucide-react";
+import { useForm, SubmitHandler } from "react-hook-form";
 import CTA from "../../../../components/LandingPage/CTA";
 
+type ContactFormInputs = {
+  name: string;
+  email: string;
+  subject: string;
+  message: string;
+};
 
-const Contact = () => {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    subject: "",
-    message: "",
-  });
+const Contact: React.FC = () => {
+  const [message, setMessage] = useState<{
+    type: "success" | "error";
+    text: string;
+  } | null>(null);
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<ContactFormInputs>();
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Form submitted:", formData);
-    // Handle form submission here
+  const onSubmit: SubmitHandler<ContactFormInputs> = async (data) => {
+    try {
+      setLoading(true);
+      setMessage(null);
+
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+
+      if (!response.ok) {
+        const err = await response.json();
+        throw new Error(err.message || "Something went wrong");
+      }
+
+      setMessage({type:"success",text:"Message sent successfully!"});
+      reset();
+    } catch (error: any) {
+      console.error("Error submitting form:", error);
+      setMessage({type:"error",text:error.message || "Failed to send message."});
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <section className="relative z-0 flex flex-col bg-[linear-gradient(to_bottom_right,#FFFFFF_0%,#E0ECFF_25%,#EAE2FF_50%,#F8E8DB_75%,#FFFFFF_100%)]">
-      {/* Subtle noise background */}
       <div
         className="absolute inset-0 opacity-5"
         style={{
@@ -57,9 +85,9 @@ const Contact = () => {
           </motion.p>
         </section>
 
-        {/* Contact Content */}
+        {/* Contact Section */}
         <div className="flex flex-col lg:flex-row gap-12 lg:gap-16 mb-20">
-          {/* Contact Information */}
+          {/* Left Section */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -125,22 +153,6 @@ const Contact = () => {
                 </motion.div>
               ))}
             </div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6, duration: 0.5 }}
-              viewport={{ once: true }}
-              className="mt-8 p-6 rounded-xl bg-gradient-to-br from-primary/10 to-primary/5 border border-primary/20"
-            >
-              <h3 className="font-semibold text-heading mb-2">
-                Quick Support Available
-              </h3>
-              <p className="text-sm text-sub leading-relaxed">
-                Our support team typically responds within 24 hours on business
-                days. For urgent matters, please call us directly.
-              </p>
-            </motion.div>
           </motion.div>
 
           {/* Contact Form */}
@@ -152,14 +164,25 @@ const Contact = () => {
             className="flex-1"
           >
             <form
-              onSubmit={handleSubmit}
-              className="bg-white/60 backdrop-blur-md border border-white/50 rounded-2xl p-8 shadow-lg"
+              onSubmit={handleSubmit(onSubmit)}
+              className="bg-white/60 backdrop-blur-md border border-white/50 rounded-xl p-6 shadow-lg"
             >
               <h2 className="text-2xl font-forum text-heading mb-6">
                 Send us a Message
               </h2>
-
+              {message && (
+                <div
+                  className={`mt-2 p-2 rounded-md text-sm font-medium bg-gradient-to-bl from-[#E8DFFF]/30 to-[#DDEBFF]/30 shadow-xl shadow-black/10 border border-white/50 ${
+                    message.type === "success"
+                      ? "text-[#0F9D58]"
+                      : "text-[#E53935]"
+                  }`}
+                >
+                  {message.text}
+                </div>
+              )}
               <div className="space-y-5">
+                {/* Name */}
                 <div>
                   <label
                     htmlFor="name"
@@ -168,17 +191,19 @@ const Contact = () => {
                     Your Name
                   </label>
                   <input
-                    type="text"
                     id="name"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    required
-                    className="w-full px-4 py-3 rounded-lg border border-gray-300 bg-white/80 focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none transition-all"
+                    {...register("name", { required: "Name is required" })}
+                    className="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
                     placeholder="John Doe"
                   />
+                  {errors.name && (
+                    <p className="text-red-500 text-sm mt-1">
+                      {errors.name.message}
+                    </p>
+                  )}
                 </div>
 
+                {/* Email */}
                 <div>
                   <label
                     htmlFor="email"
@@ -187,17 +212,26 @@ const Contact = () => {
                     Email Address
                   </label>
                   <input
-                    type="email"
                     id="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    required
-                    className="w-full px-4 py-3 rounded-lg border border-gray-300 bg-white/80 focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none transition-all"
+                    type="email"
+                    {...register("email", {
+                      required: "Email is required",
+                      pattern: {
+                        value: /^\S+@\S+$/i,
+                        message: "Enter a valid email address",
+                      },
+                    })}
+                    className="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
                     placeholder="john@example.com"
                   />
+                  {errors.email && (
+                    <p className="text-red-500 text-sm mt-1">
+                      {errors.email.message}
+                    </p>
+                  )}
                 </div>
 
+                {/* Subject */}
                 <div>
                   <label
                     htmlFor="subject"
@@ -206,17 +240,21 @@ const Contact = () => {
                     Subject
                   </label>
                   <input
-                    type="text"
                     id="subject"
-                    name="subject"
-                    value={formData.subject}
-                    onChange={handleChange}
-                    required
-                    className="w-full px-4 py-3 rounded-lg border border-gray-300 bg-white/80 focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none transition-all"
+                    {...register("subject", {
+                      required: "Subject is required",
+                    })}
+                    className="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
                     placeholder="How can we help?"
                   />
+                  {errors.subject && (
+                    <p className="text-red-500 text-sm mt-1">
+                      {errors.subject.message}
+                    </p>
+                  )}
                 </div>
 
+                {/* Message */}
                 <div>
                   <label
                     htmlFor="message"
@@ -226,22 +264,39 @@ const Contact = () => {
                   </label>
                   <textarea
                     id="message"
-                    name="message"
-                    value={formData.message}
-                    onChange={handleChange}
-                    required
                     rows={6}
+                    {...register("message", {
+                      required: "Message cannot be empty",
+                    })}
                     className="w-full px-4 py-3 rounded-lg border border-gray-300 bg-white/80 focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none transition-all resize-none"
                     placeholder="Tell us more about your inquiry..."
                   ></textarea>
+                  {errors.message && (
+                    <p className="text-red-500 text-sm mt-1">
+                      {errors.message.message}
+                    </p>
+                  )}
                 </div>
 
                 <button
                   type="submit"
-                  className="w-full bg-primary hover:bg-primary/90 text-white font-semibold px-6 py-3 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 flex items-center justify-center gap-2"
+                  disabled={loading}
+                  className={`w-full font-semibold px-4 py-2 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 flex items-center justify-center gap-2 disabled:opacity-60
+                    ${
+                      loading
+                        ? "bg-gray-300 text-gray-600 cursor-not-allowed"
+                        : "bg-primary hover:bg-[#ea580c] active:bg-[#c2410c] text-white"
+                    }
+                    `}
                 >
-                  <Send className="w-5 h-5" />
-                  Send Message
+                  {loading ? (
+                    <span>Sending...</span>
+                  ) : (
+                    <>
+                      <Send className="w-5 h-5" />
+                      Send Message
+                    </>
+                  )}
                 </button>
               </div>
             </form>

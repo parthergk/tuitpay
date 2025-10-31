@@ -15,7 +15,7 @@ const About = () => {
     visible: {
       opacity: 1,
       y: 0,
-      transition: { delay: 2, duration: 0.6, ease: "easeOut" },
+      transition: { delay: 1.8, duration: 0.6, ease: "easeOut" },
     },
   };
 
@@ -31,7 +31,7 @@ const About = () => {
         }}
       ></div>
 
-      <div className="relative w-full max-w-7xl mx-auto px-4 sm:px-8 md:px-10 pt-28 sm:pt-36 lg:pt-44">
+      <div className="relative w-full max-w-7xl mx-auto pt-28 sm:pt-36 lg:pt-44">
         {/* Hero Section */}
         <section className="flex flex-col sm:flex-row items-center justify-between gap-16 sm:gap-20 md:gap-28 text-start pb-12 sm:pb-16 lg:pb-20">
           <div className="flex-1 space-y-6">
@@ -40,7 +40,7 @@ const About = () => {
                 variants={slideLeftVariants}
                 initial="hidden"
                 animate="visible"
-                transition={{ delay: 1.8, duration: 0.8, ease: "easeOut" }}
+                transition={{ delay: 1, duration: 0.8, ease: "easeOut" }}
                 className="block"
               >
                 Making Fee Management
@@ -49,7 +49,7 @@ const About = () => {
                 variants={slideLeftVariants}
                 initial="hidden"
                 animate="visible"
-                transition={{ delay: 2, duration: 0.8, ease: "easeOut" }}
+                transition={{ delay: 1.5, duration: 0.8, ease: "easeOut" }}
                 className="block"
               >
                 Simple for Every Tutor
