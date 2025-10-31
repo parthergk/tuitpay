@@ -8,6 +8,7 @@ declare module "next-auth" {
       plan: string;
       name: string;
       email: string;
+      profileComplete: boolean;
     };
   }
 
@@ -16,6 +17,7 @@ declare module "next-auth" {
     plan: string;
     name: string;
     email: string;
+    profileComplete: boolean;
   }
 }
 
@@ -25,5 +27,6 @@ declare module "next-auth/jwt" {
     plan: string;
     name: string;
     email: string;
+    profileComplete: boolean;
   }
 }

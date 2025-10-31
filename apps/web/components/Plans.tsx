@@ -65,7 +65,7 @@ const Plans = () => {
           );
           const data = await verifyRes.json();
           if (data.success) {
-            console.log("Session updated",await session.update());
+            await session.update()
             setMessage(data.message);
           } else {
             console.log("Payment failed");

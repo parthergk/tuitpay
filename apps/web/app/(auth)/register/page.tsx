@@ -75,7 +75,7 @@ const Register = () => {
       <div className="my-5">
         <button
           type="button"
-          onClick={() => signIn("google")}
+          onClick={() => signIn("google",{callbackUrl: "/dashboard"})}
           className="w-full inline-flex items-center justify-center py-2 px-4 mb-7 rounded-md text-sm font-medium bg-gradient-to-bl from-[#E8DFFF]/30 to-[#DDEBFF]/30 shadow-xl shadow-black/10 border border-white/50 hover:scale-[1.02] transition-transform"
         >
           {/* Google SVG Icon */}

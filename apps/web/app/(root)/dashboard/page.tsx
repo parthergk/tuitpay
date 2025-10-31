@@ -1,5 +1,5 @@
 "use client";
-import React, { lazy, Suspense, useState } from "react";
+import React, { lazy, Suspense, useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
 import RightBar from "../../../components/dashboard/RightBar";
 import User from "../../../components/User";
@@ -8,6 +8,8 @@ import Dashboard from "../../../components/dashboard/Dashboard";
 import { OverdueProvider } from "../../../context/OverDueProvider";
 import { FeeRecordProvider } from "../../../context/FeeRecordProvider";
 import UpgradePlan from "../../../components/UpgradePlan";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 const Students = lazy(() => import("../../../components/dashboard/Students"));
 const FeeTracking = lazy(
   () => import("../../../components/dashboard/FeeTracking")
@@ -16,8 +18,23 @@ const Report = lazy(() => import("../../../components/dashboard/Report"));
 const Reminder = lazy(() => import("../../../components/dashboard/Reminders"));
 
 export default function DashboardPage() {
+  const {data:session, status } = useSession();
+  const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const [section, setSection] = useState("dashboard");
+
+  useEffect(()=>{
+    if(status === "loading") return;
+
+    if (status === "unauthenticated") {
+      router.push('/login')
+      return
+    }
+
+    if (session?.user.profileComplete === false) {
+      router.replace('/profile');
+    }
+  },[status, session, router]);
 
   const sections = [
     { name: "dashboard", component: <Dashboard /> },
@@ -55,6 +72,9 @@ export default function DashboardPage() {
     },
   ];
 
+  if (status === 'loading' || session?.user.profileComplete === false) {
+    return <p>Loading...</p>;
+  }
   return (
     <div className="relative sm:h-screen md:p-5 bg-[linear-gradient(to_bottom_right,#FFFFFF_0%,#E0ECFF_25%,#EAE2FF_50%,#F8E8DB_75%,#FFFFFF_100%)] flex gap-1 sm:gap-5">
       <RightBar isOpen={isOpen} setIsOpen={setIsOpen} setSection={setSection} />

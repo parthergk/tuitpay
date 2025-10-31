@@ -7,6 +7,7 @@ export interface IUser {
   phone: string;
   password: string;
   isVerified: boolean;
+  profileComplete: boolean;
   tuitionClassName: string;
 
   verificationToken: string | null

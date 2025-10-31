@@ -1,6 +1,5 @@
 import React from "react";
 import { useOpenPlan } from "../../../context/OpenPlanProvider";
-import { useSession } from "next-auth/react";
 
 interface Props {
   planInfo: {
@@ -13,7 +12,6 @@ interface Props {
 }
 
 const PlanInfo: React.FC<Props> = ({ planInfo }) => {
-  const session = useSession();
   const { setIsOpenPlans } = useOpenPlan();
   return (
     <div className="flex flex-col w-full h-full md:max-w-sm mt-6 rounded-lg p-5 bg-offwhite/50 backdrop-blur-sm shadow-xl">

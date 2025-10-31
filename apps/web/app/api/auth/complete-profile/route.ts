@@ -31,6 +31,7 @@ export async function POST(req: NextRequest) {
         name: parsedBody.data.name,
         phone: parsedBody.data.phone,
         tuitionClassName: parsedBody.data.tuitionClassName,
+        profileComplete: true
       },
       {
         runValidators: true,

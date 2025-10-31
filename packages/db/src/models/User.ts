@@ -7,8 +7,9 @@ const userSchema = new Schema<IUser>(
     name: { type: String, default: null },
     email: { type: String, required: true, unique: true },
     phone: { type: String, default: null, sparse: true },
-    password: { type: String, required: true },
+    password: { type: String},
     isVerified: { type: Boolean, default: false, required: true },
+    profileComplete: {type: Boolean, default: false, required: true},
     tuitionClassName: { type: String, default: null },
 
     verificationToken: { type: String, default: null },

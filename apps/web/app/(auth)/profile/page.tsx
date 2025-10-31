@@ -11,7 +11,7 @@ type ProfileInputs = {
 };
 
 const CompleteProfile = () => {
-  const {data:session} = useSession();
+  const {data:session, update} = useSession();
   const email = session?.user.email;
   const {
     register,
@@ -37,6 +37,7 @@ const CompleteProfile = () => {
         throw new Error(result.error || "Profile update failed.");
       }
 
+      await update();
       router.push("/dashboard");
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : "Server error";
