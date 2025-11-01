@@ -31,9 +31,9 @@ const About = () => {
         }}
       ></div>
 
-      <div className="relative w-full max-w-7xl mx-auto pt-28 sm:pt-36 lg:pt-44">
+      <div className="relative w-full  mx-auto pt-28 sm:pt-36 lg:pt-44">
         {/* Hero Section */}
-        <section className="flex flex-col sm:flex-row items-center justify-between gap-16 sm:gap-20 md:gap-28 text-start pb-12 sm:pb-16 lg:pb-20">
+        <section className="flex px-4 flex-col sm:flex-row items-center justify-between gap-16 sm:gap-20 md:gap-28 text-start pb-12 sm:pb-16 lg:pb-20">
           <div className="flex-1 space-y-6">
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-forum text-heading leading-tight">
               <motion.span
@@ -76,7 +76,7 @@ const About = () => {
         </section>
 
         {/* What Makes Feexy Different */}
-        <section className="py-24 sm:py-32 text-center">
+        <section className="py-24 px-4 sm:py-32 text-center">
           <motion.h2
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -119,7 +119,7 @@ const About = () => {
         </section>
 
         {/* Mission Section */}
-        <section className="py-24 sm:py-32 text-center">
+        <section className="py-24 px-4 sm:py-32 text-center">
           <motion.h2
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}

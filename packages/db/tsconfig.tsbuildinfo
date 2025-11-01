@@ -1,1 +1,1 @@
-{"root":["./src/index.ts","./src/lib/connection.ts","./src/models/feepayment.ts","./src/models/notificationlog.ts","./src/models/payment.ts","./src/models/plan.ts","./src/models/student.ts","./src/models/user.ts"],"version":"5.8.2"}
+{"root":["./src/index.ts","./src/lib/connection.ts","./src/models/contact.ts","./src/models/feepayment.ts","./src/models/notificationlog.ts","./src/models/payment.ts","./src/models/plan.ts","./src/models/student.ts","./src/models/user.ts"],"version":"5.8.2"}

@@ -63,7 +63,7 @@ const Contact: React.FC = () => {
         }}
       ></div>
 
-      <div className="relative w-full max-w-7xl mx-auto px-4 sm:px-8 md:px-10 pt-28 sm:pt-36 lg:pt-44">
+      <div className="relative w-full px-4 sm:px-8 pt-28 sm:pt-36 lg:pt-44">
         {/* Hero Section */}
         <section className="text-center mb-20">
           <motion.h1
@@ -157,8 +157,8 @@ const Contact: React.FC = () => {
 
           {/* Contact Form */}
           <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, y: 100 }}
+            whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
             className="flex-1"

@@ -31,7 +31,7 @@ export const StudentUpdateSchema = z.object({
   class: z.string(),
   monthlyFee: z.number(),
   dueDate: z.number(),
-})
+});
 
 export const CodeSchema = z.object({
   email: z.string().email(),
@@ -42,4 +42,11 @@ export const PlanSchema = z.object({
   type: z.enum(["free", "pro", "custom"]),
   price: z.number(),
   studentLimit: z.number(),
+});
+
+export const ContactSchema = z.object({
+  name: z.string(),
+  email: z.string().email(),
+  subject: z.string(),
+  message: z.string(),
 });

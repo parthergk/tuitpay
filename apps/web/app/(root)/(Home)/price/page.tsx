@@ -32,7 +32,7 @@ const Price = () => {
         }}
       />
         {/* Hero Section */}
-        <div className="relative w-full mx-auto pt-28 sm:pt-36 lg:pt-44 text-center">
+        <div className="relative w-full px-4 pt-28 sm:pt-36 lg:pt-44 text-center">
           <motion.h1
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
@@ -53,9 +53,9 @@ const Price = () => {
         </div>
 
         {/* Pricing Plans */}
-        <div className="relative w-full mx-auto mt-10 lg:mt-20">
+        <div className="relative w-full px-4 mt-10 lg:mt-20">
 
-        <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-2 gap-10">
+        <div className="  grid grid-cols-1 md:grid-cols-2 gap-10">
           {plans && plans.map((plan, index) => (
               <PriceCard key={index} {...plan} />
             ))}
@@ -63,7 +63,7 @@ const Price = () => {
             </div>
 
       {/* FAQ Section */}
-      <div className="relative w-full max-w-4xl mx-auto mt-32 md:mt-48 text-center ">
+      <div className="relative w-full px-4 mt-32 md:mt-48 text-center ">
         <motion.h2
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}

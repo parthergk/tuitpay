@@ -5,3 +5,4 @@ export {default as Payment} from "./models/Payment";
 export {default as Plan} from "./models/Plan";
 export {default as FeePayment} from "./models/FeePayment";
 export {default as NotificationLog} from "./models/NotificationLog";
+export {default as Contact} from "./models/Contact";
