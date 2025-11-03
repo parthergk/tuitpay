@@ -101,3 +101,12 @@ export interface IFeePayment {
   createdAt: Date;
   updatedAt: Date;
 }
+
+export interface IContact {
+  _id:mongoose.ObjectId;
+  name: string;
+  email:string;
+  subject: string;
+  message: string;
+  createdAt: Date;
+}

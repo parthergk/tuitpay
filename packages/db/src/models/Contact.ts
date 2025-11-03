@@ -1,4 +1,5 @@
-import { model, Schema } from "mongoose";
+import { IContact } from "@repo/types";
+import { Model, model, models, Schema } from "mongoose";
 
 const contactSchema = new Schema({
     name: {type: String, required: true},
@@ -7,5 +8,5 @@ const contactSchema = new Schema({
     message: {type: String, required: true},
 });
 
- const Contact = model("Contact", contactSchema);
+ const Contact =(models.Contact as Model<IContact>) || model<IContact>("Contact", contactSchema);
  export default Contact;

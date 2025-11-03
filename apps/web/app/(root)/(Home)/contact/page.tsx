@@ -170,17 +170,7 @@ const Contact: React.FC = () => {
               <h2 className="text-2xl font-forum text-heading mb-6">
                 Send us a Message
               </h2>
-              {message && (
-                <div
-                  className={`mt-2 p-2 rounded-md text-sm font-medium bg-gradient-to-bl from-[#E8DFFF]/30 to-[#DDEBFF]/30 shadow-xl shadow-black/10 border border-white/50 ${
-                    message.type === "success"
-                      ? "text-[#0F9D58]"
-                      : "text-[#E53935]"
-                  }`}
-                >
-                  {message.text}
-                </div>
-              )}
+              
               <div className="space-y-5">
                 {/* Name */}
                 <div>
@@ -298,6 +288,17 @@ const Contact: React.FC = () => {
                     </>
                   )}
                 </button>
+                {message && (
+                <div
+                  className={`mt-2 p-2 rounded-md text-sm font-medium bg-gradient-to-bl from-[#E8DFFF]/30 to-[#DDEBFF]/30 shadow-xl shadow-black/10 border border-white/50 ${
+                    message.type === "success"
+                      ? "text-[#0F9D58]"
+                      : "text-[#E53935]"
+                  }`}
+                >
+                  {message.text}
+                </div>
+              )}
               </div>
             </form>
           </motion.div>
