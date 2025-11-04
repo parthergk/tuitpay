@@ -31,7 +31,7 @@ const StudentForm: React.FC<PropInter> = ({ isOpen, setIsOpen, fetchData }) => {
 
     setMessage(null);
     try {
-      const response = await fetch("http://localhost:8080/api/v1/student", {
+      const response = await fetch(`${process.env.SERVER_URL}/api/v1/student`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",

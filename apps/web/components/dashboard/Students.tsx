@@ -59,7 +59,7 @@ const Students = () => {
     try {
       setError(null);
       setIsLoading(true);
-      const response = await fetch("http://localhost:8080/api/v1/student", {
+      const response = await fetch(`${process.env.SERVER_URL}/api/v1/student`, {
         method: "GET",
         credentials: "include",
         headers: {

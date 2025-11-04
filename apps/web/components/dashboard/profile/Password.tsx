@@ -22,7 +22,7 @@ const Password = () => {
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     try {
       const response = await fetch(
-        "http://localhost:3000/api/auth/change_password",
+        `${process.env.CLIENT_URL}/api/auth/change_password`,
         {
           method: "PUT",
           body: JSON.stringify(data),

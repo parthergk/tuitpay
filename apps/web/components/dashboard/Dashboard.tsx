@@ -55,7 +55,7 @@ const Dashboard = () => {
   const fetchDashboardData = async () => {
     try {
       const response = await fetch(
-        "http://localhost:8080/api/v1/dashboard/summary",
+        `${process.env.SERVER_URL}/api/v1/dashboard/summary`,
         {
           method: "GET",
           headers: {

@@ -13,7 +13,7 @@ const Plans = () => {
   useEffect(() => {
     const fetchPlans = async () => {
       try {
-        const res = await fetch("http://localhost:8080/api/v1/plan");
+        const res = await fetch(`${process.env.SERVER_URL}/api/v1/plan`);
         const { plans } = await res.json();
         setPlans(plans);
       } catch (error) {
@@ -38,7 +38,7 @@ const Plans = () => {
       price: plan.price,
     };
     try {
-      const ordres = await fetch("http://localhost:8080/api/v1/order", {
+      const ordres = await fetch(`${process.env.SERVER_URL}/api/v1/order`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
@@ -55,7 +55,7 @@ const Plans = () => {
         order_id: order.orderId,
         handler: async function (response:any) {
           const verifyRes = await fetch(
-            "http://localhost:8080/api/v1/verifyPayment",
+            `${process.env.SERVER_URL}/api/v1/verifyPayment`,
             {
               method: "POST",
               headers: { "Content-Type": "application/json" },

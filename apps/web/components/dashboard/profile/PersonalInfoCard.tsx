@@ -37,7 +37,7 @@ const PersonalInfoCard:React.FC<Props> = ({teacherInfo}) => {
       email: data.email,
     };
     try {
-      const response = await fetch("http://localhost:3000/api/user/profile", {
+      const response = await fetch(`${process.env.CLIENT_URL}/api/user/profile`, {
         method: "PUT",
         body: JSON.stringify(payload),
         headers: {

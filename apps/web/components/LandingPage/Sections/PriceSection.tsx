@@ -9,7 +9,7 @@ const PriceSection = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const res = await fetch("http://localhost:8080/api/v1/plan");
+        const res = await fetch(`${process.env.SERVER_URL}/api/v1/plan`);
         const {plans} = await res.json();
         setPlans(plans);
       } catch (error) {

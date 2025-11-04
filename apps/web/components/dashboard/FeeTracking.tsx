@@ -44,7 +44,7 @@ const FeeTracking: React.FC = () => {
       setError(null);
 
       const response = await fetch(
-        "http://localhost:8080/api/v1/dashboard/feeRecord",
+        `${process.env.SERVER_URL}/api/v1/dashboard/feeRecord`,
         {
           method: "GET",
           credentials: "include",
