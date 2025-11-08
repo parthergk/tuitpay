@@ -17,7 +17,7 @@ const DeleteForm: React.FC<Props> = ({ student, setIsDelete, fetchData }) => {
     setLoading(true);
     try {
       const response = await fetch(
-        `${process.env.SERVER_URL}/api/v1/student/${student?.id}`,
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/student/${student?.id}`,
         {
           method: "DELETE",
           credentials: "include",

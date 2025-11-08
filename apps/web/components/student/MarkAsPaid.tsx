@@ -26,7 +26,7 @@ const MarkAsPaid: React.FC<Prop> = ({ setOpenMark, feeId, fetchData }) => {
 
   const onSubmit = async (data: FormValues) => {
     try {
-      const response = await fetch(`${process.env.SERVER_URL}/api/v1/status`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/status`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

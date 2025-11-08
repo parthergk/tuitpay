@@ -14,7 +14,7 @@ const page = () => {
     const fetchPlan = async () => {
       try {
         const response = await fetch(
-          `${process.env.SERVER_URL}/api/v1/plan/${params.id}`
+          `${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/plan/${params.id}`
         );
         const { plan } = await response.json();
         setPlan(plan);
@@ -47,7 +47,7 @@ const page = () => {
       price: plan.price,
     };
     try {
-      const response = await fetch(`${process.env.SERVER_URL}/api/v1/order`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/order`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",

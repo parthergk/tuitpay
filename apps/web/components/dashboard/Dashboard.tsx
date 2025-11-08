@@ -52,10 +52,12 @@ const Dashboard = () => {
     },
   ];
 
+  console.log("Process url",process.env.NEXT_PUBLIC_SERVER_URL);
+  
   const fetchDashboardData = async () => {
     try {
       const response = await fetch(
-        `${process.env.SERVER_URL}/api/v1/dashboard/summary`,
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/dashboard/summary`,
         {
           method: "GET",
           headers: {

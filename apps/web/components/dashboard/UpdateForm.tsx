@@ -49,7 +49,7 @@ const UpdateForm: React.FC<Props> = ({ setIsUpdate, formData, fetchData }) => {
       setMessage(null);
 
       const response = await fetch(
-        `${process.env.SERVER_URL}/api/v1/student/${formData.id}`,
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/student/${formData.id}`,
         {
           method: "PUT",
           credentials: "include",

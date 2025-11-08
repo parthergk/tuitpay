@@ -15,7 +15,7 @@ const Reminders = () => {
       setMessage(null);
 
       const response = await fetch(
-        `${process.env.SERVER_URL}/api/v1/overdue/${id}`,
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/overdue/${id}`,
         {
           method: "GET",
           credentials: "include",

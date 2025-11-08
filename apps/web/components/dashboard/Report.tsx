@@ -53,7 +53,7 @@ const Report: React.FC = () => {
       setError(null);
 
       const response = await fetch(
-        `${process.env.SERVER_URL}/api/v1/dashboard/feeRecord`,
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/dashboard/feeRecord`,
         {
           method: "GET",
           credentials: "include",

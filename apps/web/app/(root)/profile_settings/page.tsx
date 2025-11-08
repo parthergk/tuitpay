@@ -15,7 +15,7 @@ const Profile = () => {
       setLoading(true);
       setError("");
 
-      const response = await fetch(`${process.env.SERVER_URL}/api/v1/teacher`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/teacher`, {
         method: "GET",
         credentials: "include",
       });
