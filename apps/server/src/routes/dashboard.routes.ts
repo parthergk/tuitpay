@@ -1,6 +1,6 @@
 import { Request, Response, Router } from "express";
 import { verifyJwt } from "../middleware/verifyJwt";
-import { FeePayment, Student, User } from "@repo/db";
+import { FeePayment, Student } from "@repo/db";
 import { IStudent } from "@repo/types";
 
 const dashboardRouter: Router = Router();
