@@ -3,9 +3,9 @@ import { verifyJwt } from "../middleware/verifyJwt";
 import { FeePayment } from "@repo/db";
 import { getTodayDate } from "../utils/dateUtils";
 
-const feeStatusRouter: Router = Router();
+const feeStatus: Router = Router();
 
-feeStatusRouter.post("/", verifyJwt, async (req: Request, res: Response) => {
+feeStatus.post("/", verifyJwt, async (req: Request, res: Response) => {
   const userBody = req.user;
   const { data } = req.body;
 
@@ -63,4 +63,4 @@ feeStatusRouter.post("/", verifyJwt, async (req: Request, res: Response) => {
   }
 });
 
-export default feeStatusRouter;
+export default feeStatus;
