@@ -1,0 +1,42 @@
+name: deploying feexy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Deploy to EC2 via SSH
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.MACHINE_IP }}
+          username: ubuntu
+          key: ${{ secrets.PRIVATE_SSH_KEY }}
+          port: 22
+          script: |
+            cd feexy
+            git pull origin main
+
+            # Enable pnpm
+            corepack enable
+            pnpm install --frozen-lockfile
+
+            # Build web
+            cd apps/web
+            pnpm run build
+
+            # Build backend
+            cd ../server
+            pnpm run build
+
+            # Return to project root
+            cd ../../
+
+            # Restart PM2 services
+            pm2 restart ecosystem.config.js
