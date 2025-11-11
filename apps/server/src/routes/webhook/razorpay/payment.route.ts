@@ -75,7 +75,6 @@ paymentRouter.post("/", async (req: Request, res: Response) => {
         planExpiresAt: expiresAt,
       });
 
-      console.log("Payment completed for order:", order._id);
       // console.log("User email:", order.userId?.email);
       // console.log("Plan:", order.planId?.name);
 

@@ -133,7 +133,6 @@ const Report: React.FC = () => {
       const monthlyRevenue: MonthlyRevenue[] = Array.from(monthMap.entries())
         .sort(([a], [b]) => monthOrder.indexOf(a) - monthOrder.indexOf(b))
         .map(([month, collected]) => ({ month, collected }));
-      console.log("Monthly", monthlyRevenue);
 
       setReport({
         summaryStats: {

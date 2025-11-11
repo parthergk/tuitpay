@@ -16,7 +16,6 @@ const transporter = nodemailer.createTransport({
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    console.log("Body:", body);
 
     const parsed = ContactSchema.safeParse(body);
     if (!parsed.success) {

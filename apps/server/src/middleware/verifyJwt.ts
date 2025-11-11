@@ -2,16 +2,11 @@ import { NextFunction, Request, Response } from "express";
 import { getToken } from "next-auth/jwt";
 
 export async function verifyJwt(req: Request, res: Response, next: NextFunction):Promise<void> {
-  console.log("Next auth secret", process.env.NEXTAUTH_SECRET);
-  console.log("Cookies", req.cookies);
-  console.log("Header", req.headers);
-  
   try {
     const token = await getToken({
       req: { cookies: req.cookies, headers: req.headers } as any,
       secret: process.env.NEXTAUTH_SECRET,
     });
-    console.log("Token",token);
     
     if (!token) {
        res.status(401).json({ error: "Not authenticated" });

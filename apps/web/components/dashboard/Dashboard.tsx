@@ -52,7 +52,6 @@ const Dashboard = () => {
     },
   ];
 
-  console.log("Process url",process.env.NEXT_PUBLIC_SERVER_URL);
   
   const fetchDashboardData = async () => {
     try {

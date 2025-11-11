@@ -4,7 +4,6 @@ import { getToken } from "next-auth/jwt";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function PUT(req: NextRequest) {
-  console.log("Route called");
 
   const body = await req.json();
 

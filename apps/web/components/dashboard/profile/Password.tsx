@@ -57,9 +57,7 @@ const Password = () => {
 
   useEffect(() => {
     if (passwordValue && passwordValue.length > 0) {
-      console.log("Inside first if");
       if (passwordValue === confirmPassword) {
-        console.log("Inside second if");
         setAllowSubmit(true);
       }
     }
