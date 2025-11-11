@@ -4,9 +4,9 @@ import React from "react";
 const TrustSection = () => {
   const trusted = [
     { url: "/image/user/coaching.png", alt: "coaching" },
-    { url: "/image/user/TuitClasses.png", alt: "tuitClasses" },
+    { url: "/image/user/tuitClasses.png", alt: "tuitClasses" },
     { url: "/image/user/DeeTuitions.png", alt: "deeTuiyions" },
-    { url: "/image/user/MathTuit.png", alt: "mathTuit" },
+    { url: "/image/user/mathTuit.png", alt: "mathTuit" },
   ];
 
   return (
