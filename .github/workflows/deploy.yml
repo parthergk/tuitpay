@@ -23,8 +23,6 @@ jobs:
             cd feexy
             git pull origin main
 
-            # Enable pnpm
-            corepack enable
             pnpm install --frozen-lockfile
 
             # Build web
