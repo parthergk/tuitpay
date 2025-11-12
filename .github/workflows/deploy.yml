@@ -1,4 +1,4 @@
-name: deploying feexy
+name: Deploying Smritya to EC2
 
 on:
   push:
@@ -8,6 +8,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -20,9 +21,16 @@ jobs:
           key: ${{ secrets.PRIVATE_SSH_KEY }}
           port: 22
           script: |
+            export NVM_DIR="$HOME/.nvm"
+            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+            nvm use 22
+
             cd feexy
             git pull origin main
 
+            corepack enable
+            corepack prepare pnpm@latest --activate
+            
             pnpm install --frozen-lockfile
 
             # Build web
