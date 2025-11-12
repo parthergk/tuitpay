@@ -59,7 +59,7 @@ const Register = () => {
         Create your free account
       </h1>
       <span className="text-sm sm:text-base leading-snug text-muted mt-3">
-        Connect with Feexy:
+        Connect with Smritya:
       </span>
 
       {message && (

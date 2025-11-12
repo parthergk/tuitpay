@@ -80,7 +80,7 @@ const Contact: React.FC = () => {
             transition={{ delay: 0.4, duration: 0.6 }}
             className="text-lg sm:text-xl text-sub max-w-2xl mx-auto leading-relaxed"
           >
-            Have questions about Feexy? We'd love to hear from you. Send us a
+            Have questions about Smritya? We'd love to hear from you. Send us a
             message and we'll respond as soon as possible.
           </motion.p>
         </section>
@@ -110,8 +110,8 @@ const Contact: React.FC = () => {
                 {
                   icon: Mail,
                   title: "Email",
-                  content: "support@feexy.in",
-                  link: "mailto:support@feexy.in",
+                  content: "support@smritya.com",
+                  link: "mailto:support@smritya.com",
                 },
                 {
                   icon: Phone,

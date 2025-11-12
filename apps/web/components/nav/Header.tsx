@@ -48,7 +48,7 @@ const Header = () => {
           className="text-lg font-semibold tracking-widest"
         >
           <Link href="/" aria-label="Go to homepage">
-            Feexy
+            Smritya
           </Link>
         </motion.h1>
 

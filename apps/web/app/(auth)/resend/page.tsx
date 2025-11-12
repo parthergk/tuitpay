@@ -52,7 +52,7 @@ const Resend = () => {
         Almost there
       </h1>
       <p className="mt-3 text-base md:text-lg text-sub max-w-xs self-start">
-        We sent you an email with a link to activate your Feexy account.
+        We sent you an email with a link to activate your Smritya account.
       </p>
       {message && (
         <div

@@ -62,7 +62,7 @@ const About = () => {
               animate="visible"
               className="text-base sm:text-lg text-sub max-w-2xl leading-relaxed"
             >
-              Feexy helps private tutors and coaching centers easily track
+              Smritya helps private tutors and coaching centers easily track
               student fees, send reminders, and get paid on time — all from one
               simple dashboard.
             </motion.p>
@@ -75,7 +75,7 @@ const About = () => {
           </div>
         </section>
 
-        {/* What Makes Feexy Different */}
+        {/* What Makes Smritya Different */}
         <section className="py-24 px-4 sm:py-32 text-center">
           <motion.h2
             initial={{ opacity: 0, y: 50 }}
@@ -84,7 +84,7 @@ const About = () => {
             viewport={{ once: true }}
             className="text-3xl sm:text-4xl font-forum text-heading mb-6"
           >
-            What Makes Feexy Different
+            What Makes Smritya Different
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 70 }}
@@ -93,7 +93,7 @@ const About = () => {
             viewport={{ once: true }}
             className="mb-12 text-base italic leading-relaxed text-muted max-w-2xl mx-auto"
           >
-            At Feexy, we believe managing fees should be as easy as teaching
+            At Smritya, we believe managing fees should be as easy as teaching
             your favorite subject. No spreadsheets. No stress. Just simple,
             smooth fee management.
           </motion.p>
@@ -136,9 +136,9 @@ const About = () => {
             viewport={{ once: true }}
             className="mx-auto text-base sm:text-lg text-sub max-w-4xl leading-relaxed mb-10"
           >
-            We built Feexy with one goal in mind — to take the stress out of fee
+            We built Smritya with one goal in mind — to take the stress out of fee
             tracking. As teachers and tutors, your time is better spent
-            teaching, not chasing payments. Feexy automates all the small but
+            teaching, not chasing payments. Smritya automates all the small but
             important things — recording payments, sending reminders, and
             organizing student details — so you can focus on what truly matters:
             your students.

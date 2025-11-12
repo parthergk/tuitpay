@@ -17,7 +17,7 @@ const Footer = () => {
         {/* Brand Info */}
         <div>
           <h2 className="text-xl font-bold flex items-center gap-2 text-white tracking-widest">
-            Feexy
+            Smritya
           </h2>
           <p className="mt-3 text-sm text-orange-50 leading-relaxed">
             Empowering teachers and institutes to manage fees, track students,

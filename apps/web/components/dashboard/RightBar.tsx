@@ -53,7 +53,7 @@ const RightBar: React.FC<Props> = ({ isOpen, setIsOpen, setSection }) => {
             className=" md:hidden"
             onClick={() => setIsOpen(false)}
           />
-          <h2 className="text-lg tracking-widest">FEEXY</h2>
+          <h2 className="text-lg tracking-widest">SMRITYA</h2>
         </div>
 
         <ul className=" w-full mt-12 md:mt-5 flex flex-col gap-5 md:gap-3 text-lg text-sub">
