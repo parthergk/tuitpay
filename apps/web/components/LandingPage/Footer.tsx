@@ -30,16 +30,16 @@ const Footer = () => {
           <ul className="space-y-2">
             <li>
               <a
-                href="#"
-                className="text-orange-50 hover:text-black transition"
+                href="/about"
+                className="text-orange-50 hover:text-[#ffe7b3] transition"
               >
-                Features
+                About
               </a>
             </li>
             <li>
               <a
-                href="#"
-                className="text-orange-50 hover:text-black transition"
+                href="/price"
+                className="text-orange-50 hover:text-[#ffe7b3] transition"
               >
                 Pricing
               </a>
@@ -47,15 +47,15 @@ const Footer = () => {
             <li>
               <a
                 href="#"
-                className="text-orange-50 hover:text-black transition"
+                className="text-orange-50 hover:text-[#ffe7b3] transition"
               >
                 How it Works
               </a>
             </li>
             <li>
               <a
-                href="#"
-                className="text-orange-50 hover:text-black transition"
+                href="/contact"
+                className="text-orange-50 hover:text-[#ffe7b3] transition"
               >
                 Contact Us
               </a>
@@ -68,16 +68,16 @@ const Footer = () => {
           <ul className="space-y-2">
             <li>
               <a
-                href="#"
-                className="text-orange-50 hover:text-black transition"
+                href="terms-conditions"
+                className="text-orange-50 hover:text-[#ffe7b3] transition"
               >
                 Terms & Conditions
               </a>
             </li>
             <li>
               <a
-                href="#"
-                className="text-orange-50 hover:text-black transition"
+                href="/privacy-policy"
+                className="text-orange-50 hover:text-[#ffe7b3] transition"
               >
                 Privacy Policy
               </a>
@@ -90,19 +90,19 @@ const Footer = () => {
         <div className="flex gap-4 items-start">
           <a
             href="#"
-            className="p-2 rounded-full border border-white text-white hover:bg-black hover:border-black transition"
+            className="p-2 rounded-full border border-white text-white hover:bg-primary transition"
           >
             <Linkedin size={18} />
           </a>
           <a
             href="#"
-            className="p-2 rounded-full border border-white text-white hover:bg-black hover:border-black transition"
+            className="p-2 rounded-full border border-white text-white hover:bg-primary transition"
           >
             <Twitter size={18} />
           </a>
           <a
             href="#"
-            className="p-2 rounded-full border border-white text-white hover:bg-black hover:border-black transition"
+            className="p-2 rounded-full border border-white text-white hover:bg-primary transition"
           >
             <Instagram size={18} />
           </a>
@@ -111,7 +111,7 @@ const Footer = () => {
 
       {/* Bottom */}
       <div className="relative border-t border-orange-300/40 mt-10 py-6 text-sm text-orange-50 text-center">
-        © {new Date().getFullYear()} YourBrand. All rights reserved.
+        © {new Date().getFullYear()} Smritya. All rights reserved.
       </div>
     </footer>
   );
