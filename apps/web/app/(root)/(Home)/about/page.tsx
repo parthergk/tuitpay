@@ -3,6 +3,7 @@ import React from "react";
 import { motion, Variants } from "motion/react";
 import { HeartHandshake, Rocket, Sparkles, Users } from "lucide-react";
 import CTA from "../../../../components/LandingPage/CTA";
+import Image from "next/image";
 
 const About = () => {
   const slideLeftVariants: Variants = {
@@ -62,7 +63,7 @@ const About = () => {
               animate="visible"
               className="text-base sm:text-lg text-sub max-w-2xl leading-relaxed"
             >
-              Smritya helps private tutors and coaching centers easily track
+              Yadxy helps private tutors and coaching centers easily track
               student fees, send reminders, and get paid on time — all from one
               simple dashboard.
             </motion.p>
@@ -70,12 +71,12 @@ const About = () => {
 
           <div className="flex-1 flex justify-center sm:justify-end">
             <div className="w-[280px] h-[240px] sm:w-[360px] sm:h-[300px] bg-gray-200 rounded-2xl flex items-center justify-center text-gray-500">
-              Image
+              <Image src="/image/dashboard.webp" alt="about" width={1200} height={700}/>
             </div>
           </div>
         </section>
 
-        {/* What Makes Smritya Different */}
+        {/* What Makes Yadxy Different */}
         <section className="py-24 px-4 sm:py-32 text-center">
           <motion.h2
             initial={{ opacity: 0, y: 50 }}
@@ -84,7 +85,7 @@ const About = () => {
             viewport={{ once: true }}
             className="text-3xl sm:text-4xl font-forum text-heading mb-6"
           >
-            What Makes Smritya Different
+            What Makes Yadxy Different
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 70 }}
@@ -93,7 +94,7 @@ const About = () => {
             viewport={{ once: true }}
             className="mb-12 text-base italic leading-relaxed text-muted max-w-2xl mx-auto"
           >
-            At Smritya, we believe managing fees should be as easy as teaching
+            At Yadxy, we believe managing fees should be as easy as teaching
             your favorite subject. No spreadsheets. No stress. Just simple,
             smooth fee management.
           </motion.p>
@@ -136,9 +137,9 @@ const About = () => {
             viewport={{ once: true }}
             className="mx-auto text-base sm:text-lg text-sub max-w-4xl leading-relaxed mb-10"
           >
-            We built Smritya with one goal in mind — to take the stress out of fee
+            We built Yadxy with one goal in mind — to take the stress out of fee
             tracking. As teachers and tutors, your time is better spent
-            teaching, not chasing payments. Smritya automates all the small but
+            teaching, not chasing payments. Yadxy automates all the small but
             important things — recording payments, sending reminders, and
             organizing student details — so you can focus on what truly matters:
             your students.

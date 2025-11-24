@@ -1,4 +1,4 @@
-name: Deploying Smritya to EC2
+name: Deploying Yadxy to EC2
 
 on:
   push:

@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { motion } from "motion/react";
-import { Mail, MapPin, Phone, Send } from "lucide-react";
+import { Linkedin, Mail, MapPin, Phone, Send } from "lucide-react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import CTA from "../../../../components/LandingPage/CTA";
 
@@ -80,7 +80,7 @@ const Contact: React.FC = () => {
             transition={{ delay: 0.4, duration: 0.6 }}
             className="text-lg sm:text-xl text-sub max-w-2xl mx-auto leading-relaxed"
           >
-            Have questions about Smritya? We'd love to hear from you. Send us a
+            Have questions about Yadxy? We'd love to hear from you. Send us a
             message and we'll respond as soon as possible.
           </motion.p>
         </section>
@@ -110,8 +110,8 @@ const Contact: React.FC = () => {
                 {
                   icon: Mail,
                   title: "Email",
-                  content: "support@smritya.com",
-                  link: "mailto:support@smritya.com",
+                  content: "support@Yadxy.com",
+                  link: "mailto:support@Yadxy.com",
                 },
                 {
                   icon: Phone,
@@ -119,12 +119,17 @@ const Contact: React.FC = () => {
                   content: "+91 XXX XXX XXXX",
                   link: "tel:+91XXXXXXXXXX",
                 },
+                // {
+                //   icon: MapPin,
+                //   title: "Office",
+                //   content: "Mumbai, Maharashtra, India",
+                //   link: null,
+                // },
                 {
-                  icon: MapPin,
-                  title: "Office",
-                  content: "Mumbai, Maharashtra, India",
-                  link: null,
-                },
+                  icon: Linkedin,
+                  title: "Linkedin",
+                  content: "linkedin.com/gaurav-kumar-b5a76626b"
+                }
               ].map(({ icon: Icon, title, content, link }, i) => (
                 <motion.div
                   key={i}

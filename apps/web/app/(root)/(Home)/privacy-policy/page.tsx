@@ -14,7 +14,7 @@ const PrivacyPolicy = () => {
       ></div>
 
       <div className="relative w-full max-w-4xl mx-auto px-4 sm:px-6 md:px-8 py-28 sm:py-36 lg:py-44">
-        <h1 className="text-heading text-3xl sm:text-4xl md:text-5xl mb-6">Privacy Policy for Smritya</h1>
+        <h1 className="text-heading text-3xl sm:text-4xl md:text-5xl mb-6">Privacy Policy for Yadxy</h1>
         <p className="text-base text-gray-600 mb-10">
           <strong>Last Updated:</strong> (Add Date)
         </p>
@@ -44,7 +44,7 @@ const PrivacyPolicy = () => {
           <div>
             <h2 className="text-heading text-2xl  mb-3">3. Payment Processing</h2>
             <p className="text-base leading-relaxed">
-              Payments are handled by <strong>Razorpay</strong>. Smritya does not store or
+              Payments are handled by <strong>Razorpay</strong>. Yadxy does not store or
               access sensitive card or bank information. All payment data is processed
               securely through Razorpay’s infrastructure.
             </p>
@@ -53,7 +53,7 @@ const PrivacyPolicy = () => {
           <div>
             <h2 className="text-heading text-2xl mb-3">4. Cookies and Tracking</h2>
             <p className="text-base leading-relaxed">
-              Smritya uses cookies to maintain login sessions and enhance user experience.
+              Yadxy uses cookies to maintain login sessions and enhance user experience.
               Cookies are small text files stored on your device to help us recognize you.
             </p>
           </div>
@@ -70,7 +70,7 @@ const PrivacyPolicy = () => {
           <div>
             <h2 className="text-heading text-2xl mb-3">6. Data Sharing</h2>
             <p className="text-base leading-relaxed">
-              Smritya does <strong>not sell or share</strong> personal data with advertisers.
+              Yadxy does <strong>not sell or share</strong> personal data with advertisers.
               Limited data may be shared only with trusted partners for:
             </p>
             <ul className="list-disc list-inside text-base leading-relaxed">
@@ -90,7 +90,7 @@ const PrivacyPolicy = () => {
           <div>
             <h2 className="text-heading text-2xl mb-3">8. Children’s Privacy</h2>
             <p className="text-base leading-relaxed">
-              Smritya is not intended for users under the age of 13. We do not knowingly
+              Yadxy is not intended for users under the age of 13. We do not knowingly
               collect personal data from children.
             </p>
           </div>
@@ -98,7 +98,7 @@ const PrivacyPolicy = () => {
           <div>
             <h2 className="text-heading text-2xl mb-3">9. Changes to This Policy</h2>
             <p className="text-base leading-relaxed">
-              We may update this Privacy Policy from time to time. Continued use of Smritya
+              We may update this Privacy Policy from time to time. Continued use of Yadxy
               after changes implies acceptance of the updated policy.
             </p>
           </div>
@@ -107,8 +107,8 @@ const PrivacyPolicy = () => {
             <h2 className="text-heading text-2xl mb-3">10. Contact</h2>
             <p className="text-base leading-relaxed">
               For privacy concerns, email us at{" "}
-              <a href="mailto:support@smritya.in" className="text-primary hover:underline">
-                support@smritya.in
+              <a href="mailto:support@Yadxy.in" className="text-primary hover:underline">
+                support@Yadxy.in
               </a>.
             </p>
           </div>

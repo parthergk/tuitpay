@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { MenuIcon, X } from "lucide-react";
 import { motion, Variants } from "motion/react";
+import Image from "next/image";
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -47,8 +48,8 @@ const Header = () => {
           animate="visible"
           className="text-lg font-semibold tracking-widest"
         >
-          <Link href="/" aria-label="Go to homepage">
-            Smritya
+          <Link href="/" aria-label="Go to homepage" className=" text-primary">
+            Yadxy
           </Link>
         </motion.h1>
 

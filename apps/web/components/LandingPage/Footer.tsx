@@ -17,7 +17,7 @@ const Footer = () => {
         {/* Brand Info */}
         <div>
           <h2 className="text-xl font-bold flex items-center gap-2 text-white tracking-widest">
-            Smritya
+            Yadxy
           </h2>
           <p className="mt-3 text-sm text-orange-50 leading-relaxed">
             Empowering teachers and institutes to manage fees, track students,
@@ -111,7 +111,7 @@ const Footer = () => {
 
       {/* Bottom */}
       <div className="relative border-t border-orange-300/40 mt-10 py-6 text-sm text-orange-50 text-center">
-        © {new Date().getFullYear()} Smritya. All rights reserved.
+        © {new Date().getFullYear()} Yadxy. All rights reserved.
       </div>
     </footer>
   );

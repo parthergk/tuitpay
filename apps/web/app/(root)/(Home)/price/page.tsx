@@ -77,12 +77,12 @@ const Price = () => {
         <div className="space-y-8 text-left">
           {[
             {
-              q: "Can I try Smritya for free?",
+              q: "Can I try Yadxy for free?",
               a: "Yes! You can start with our free trial — no credit card required.",
             },
             {
-              q: "Is Smritya difficult to set up?",
-              a: "Not at all. Smritya is designed for tutors with no tech background. You’ll be ready in minutes.",
+              q: "Is Yadxy difficult to set up?",
+              a: "Not at all. Yadxy is designed for tutors with no tech background. You’ll be ready in minutes.",
             },
             {
               q: "Can I cancel anytime?",
@@ -90,7 +90,7 @@ const Price = () => {
             },
             {
               q: "What if I need help?",
-              a: "You can reach our support team anytime at support@smritya.com. We’re here to help!",
+              a: "You can reach our support team anytime at support@Yadxy.com. We’re here to help!",
             },
           ].map((faq, i) => (
             <motion.div

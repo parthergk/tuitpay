@@ -50,7 +50,7 @@ const Plans = () => {
         key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
         amount: order.amount,
         currency: "INR",
-        name: "Smritya",
+        name: "Yadxy",
         description: `${plan.type}`,
         order_id: order.orderId,
         handler: async function (response:any) {

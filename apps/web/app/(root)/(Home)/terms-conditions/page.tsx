@@ -14,7 +14,7 @@ const TermsConditions = () => {
       ></div>
 
       <div className="relative w-full max-w-4xl mx-auto px-4 sm:px-6 md:px-8 py-28 sm:py-36 lg:py-44">
-        <h1 className="text-heading text-3xl sm:text-4xl md:text-5xl mb-6">Terms & Conditions for Smritya</h1>
+        <h1 className="text-heading text-3xl sm:text-4xl md:text-5xl mb-6">Terms & Conditions for Yadxy</h1>
         <p className="text-base text-gray-600 mb-10">
           <strong>Last Updated:</strong> (Add Date)
         </p>
@@ -23,8 +23,8 @@ const TermsConditions = () => {
           <div>
             <h2 className="text-heading text-2xl mb-3">1. Introduction</h2>
             <p className="text-base leading-relaxed">
-              Welcome to <strong>Smritya</strong>. Smritya is a tuition fee tracking platform
-              for teachers operating in India. By creating an account or using Smritya,
+              Welcome to <strong>Yadxy</strong>. Yadxy is a tuition fee tracking platform
+              for teachers operating in India. By creating an account or using Yadxy,
               you agree to these Terms & Conditions. If you do not agree, please do not
               use the service.
             </p>
@@ -33,7 +33,7 @@ const TermsConditions = () => {
           <div>
             <h2 className="text-heading text-2xl mb-3">2. Eligibility</h2>
             <p className="text-base leading-relaxed">
-              You must be at least <strong>18 years old</strong> to use Smritya.
+              You must be at least <strong>18 years old</strong> to use Yadxy.
             </p>
           </div>
 
@@ -48,7 +48,7 @@ const TermsConditions = () => {
           <div>
             <h2 className="text-heading text-2xl font-semibold mb-3">4. Service Description</h2>
             <p className="text-base leading-relaxed">
-              Smritya allows teachers to manage students, track fees, send reminders, and
+              Yadxy allows teachers to manage students, track fees, send reminders, and
               accept payments. We may add, modify, or remove features at any time.
             </p>
           </div>
@@ -59,7 +59,7 @@ const TermsConditions = () => {
               <li>Payments are processed through <strong>Razorpay</strong>.</li>
               <li>Subscription fees are billed on the selected billing cycle.</li>
               <li>
-                Refunds may be issued only under exceptional cases at Smritya’s sole
+                Refunds may be issued only under exceptional cases at Yadxy’s sole
                 discretion.
               </li>
             </ul>
@@ -77,14 +77,14 @@ const TermsConditions = () => {
             <h2 className="text-heading text-2xl mb-3">7. Intellectual Property Rights</h2>
             <p className="text-base leading-relaxed">
               All trademarks, code, design, logos, and other platform content belong to
-              Smritya.
+              Yadxy.
             </p>
           </div>
 
           <div>
             <h2 className="text-heading text-2xl mb-3">8. Data Security and Availability</h2>
             <p className="text-base leading-relaxed">
-              Smritya does not guarantee <strong>100% uptime</strong> and is not responsible for
+              Yadxy does not guarantee <strong>100% uptime</strong> and is not responsible for
               any data loss.
             </p>
           </div>
@@ -100,7 +100,7 @@ const TermsConditions = () => {
           <div>
             <h2 className="text-heading text-2xl mb-3">10. Limitation of Liability</h2>
             <p className="text-base leading-relaxed">
-              Smritya is not liable for any financial, data, or reputation loss resulting
+              Yadxy is not liable for any financial, data, or reputation loss resulting
               from use of the service.
             </p>
           </div>
@@ -114,8 +114,8 @@ const TermsConditions = () => {
             <h2 className="text-heading text-2xl mb-3">12. Contact</h2>
             <p className="text-base leading-relaxed">
               For support or legal inquiries, email us at{" "}
-              <a href="mailto:support@smritya.in" className="text-primary hover:underline">
-                support@smritya.in
+              <a href="mailto:support@yadxy.in" className="text-primary hover:underline">
+                support@yadxy.in
               </a>.
             </p>
           </div>
