@@ -70,8 +70,13 @@ const About = () => {
           </div>
 
           <div className="flex-1 flex justify-center sm:justify-end">
-            <div className="w-[280px] h-[240px] sm:w-[360px] sm:h-[300px] bg-gray-200 rounded-2xl flex items-center justify-center text-gray-500">
-              <Image src="/image/dashboard.webp" alt="about" width={1200} height={700}/>
+            <div className="w-[320px] h-[180px] sm:w-[640px] sm:h-[340px] relative">
+              <Image
+                src="/image/about/image1.png"
+                alt="about"
+                fill
+                className="object-cover shadow-2xl rounded-sm"
+              />
             </div>
           </div>
         </section>
@@ -119,36 +124,44 @@ const About = () => {
           </div>
         </section>
 
-        {/* Mission Section */}
-        <section className="py-24 px-4 sm:py-32 text-center">
-          <motion.h2
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2, duration: 0.6 }}
-            viewport={{ once: true }}
-            className="text-3xl sm:text-4xl font-forum text-heading mb-6"
-          >
-            Our Mission
-          </motion.h2>
-          <motion.p
-            initial={{ opacity: 0, y: 70 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5, duration: 0.6, ease: "easeOut" }}
-            viewport={{ once: true }}
-            className="mx-auto text-base sm:text-lg text-sub max-w-4xl leading-relaxed mb-10"
-          >
-            We built Yadxy with one goal in mind — to take the stress out of fee
-            tracking. As teachers and tutors, your time is better spent
-            teaching, not chasing payments. Yadxy automates all the small but
-            important things — recording payments, sending reminders, and
-            organizing student details — so you can focus on what truly matters:
-            your students.
-          </motion.p>
+{/* Mission Section */}
+<section className="py-24 px-4 sm:py-32 text-center">
+  <motion.h2
+    initial={{ opacity: 0, y: 50 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    transition={{ delay: 0.2, duration: 0.6 }}
+    viewport={{ once: true }}
+    className="text-3xl sm:text-4xl font-forum text-heading mb-6"
+  >
+    Our Mission
+  </motion.h2>
 
-          <div className="w-full max-w-3xl mx-auto h-[240px] sm:h-[300px] bg-gray-200 rounded-2xl flex items-center justify-center text-gray-500">
-            Image
-          </div>
-        </section>
+  <motion.p
+    initial={{ opacity: 0, y: 70 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    transition={{ delay: 0.5, duration: 0.6, ease: "easeOut" }}
+    viewport={{ once: true }}
+    className="mx-auto text-base sm:text-lg text-sub max-w-4xl leading-relaxed mb-10"
+  >
+    We built Yadxy with one goal in mind — to take the stress out of fee
+    tracking. As teachers and tutors, your time is better spent teaching,
+    not chasing payments. Yadxy automates all the small but important
+    things — recording payments, sending reminders, and organizing student
+    details — so you can focus on what truly matters: your students.
+  </motion.p>
+
+  <div className="flex justify-center mt-12">
+    <div className="relative w-[320px] h-[180px] sm:w-[860px] sm:h-[360px] rounded-lg shadow-xl bg-gray-200/70 overflow-hidden">
+      <Image
+        src="/image/about/image3.png"
+        alt="Our Mission"
+        fill
+        className="object-cover"
+      />
+    </div>
+  </div>
+</section>
+
 
         <CTA />
       </div>
