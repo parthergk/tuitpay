@@ -107,8 +107,8 @@ const PrivacyPolicy = () => {
             <h2 className="text-heading text-2xl mb-3">10. Contact</h2>
             <p className="text-base leading-relaxed">
               For privacy concerns, email us at{" "}
-              <a href="mailto:support@Yadxy.in" className="text-primary hover:underline">
-                support@Yadxy.in
+              <a href="mailto:team@yadxy.in" className="text-primary hover:underline">
+                team@yadxy.in
               </a>.
             </p>
           </div>

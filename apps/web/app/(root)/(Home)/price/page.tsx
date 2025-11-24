@@ -90,7 +90,7 @@ const Price = () => {
             },
             {
               q: "What if I need help?",
-              a: "You can reach our support team anytime at support@Yadxy.com. We’re here to help!",
+              a: "You can reach our support team anytime at team@yadxy.com. We’re here to help!",
             },
           ].map((faq, i) => (
             <motion.div

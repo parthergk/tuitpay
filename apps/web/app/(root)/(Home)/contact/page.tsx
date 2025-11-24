@@ -110,8 +110,8 @@ const Contact: React.FC = () => {
                 {
                   icon: Mail,
                   title: "Email",
-                  content: "support@Yadxy.com",
-                  link: "mailto:support@Yadxy.com",
+                  content: "team@yadxy.com",
+                  link: "mailto:team@yadxy.com",
                 },
                 {
                   icon: Phone,

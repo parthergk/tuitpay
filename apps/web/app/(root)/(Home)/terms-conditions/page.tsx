@@ -114,8 +114,8 @@ const TermsConditions = () => {
             <h2 className="text-heading text-2xl mb-3">12. Contact</h2>
             <p className="text-base leading-relaxed">
               For support or legal inquiries, email us at{" "}
-              <a href="mailto:support@yadxy.in" className="text-primary hover:underline">
-                support@yadxy.in
+              <a href="mailto:team@yadxy.in" className="text-primary hover:underline">
+                team@yadxy.in
               </a>.
             </p>
           </div>
