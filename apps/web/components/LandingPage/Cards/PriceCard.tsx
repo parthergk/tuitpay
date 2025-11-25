@@ -1,3 +1,4 @@
+"use client"
 import { CircleCheck } from "lucide-react";
 import React from "react";
 import { motion } from "motion/react";

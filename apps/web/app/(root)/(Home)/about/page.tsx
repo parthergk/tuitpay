@@ -1,171 +1,99 @@
-"use client";
 import React from "react";
-import { motion, Variants } from "motion/react";
-import { HeartHandshake, Rocket, Sparkles, Users } from "lucide-react";
-import CTA from "../../../../components/LandingPage/CTA";
-import Image from "next/image";
+import { Metadata } from "next";
+import MotionSection from "../../../../components/LandingPage/about/MotionSection";
+
+export const metadata: Metadata = {
+  title: "About Yadxy – Fee Tracking Made Simple for Tutors",
+  description:
+    "Discover how Yadxy automates tuition fee tracking with WhatsApp reminders, UPI payments, and student management for tutors and coaching centers.",
+  keywords: [
+    "about yadxy",
+    "tuition fee management software",
+    "automated fee tracking",
+    "coaching center software",
+    "fee reminder system",
+  ],
+  alternates: { canonical: "https://yadxy.com/about" },
+  openGraph: {
+    title: "About Yadxy – Fee Tracking Made Simple for Tutors",
+    description:
+      "Learn how Yadxy helps tutors save time with automated fee tracking, WhatsApp reminders, and seamless payment management.",
+    url: "https://yadxy.com/about",
+    images: [
+      {
+        url: "https://yadxy.com/main.png",
+        width: 1200,
+        height: 630,
+        alt: "Yadxy tuition fee tracking platform for teachers",
+      },
+    ],
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "About Yadxy – Fee Tracking Made Simple for Tutors",
+    description:
+      "Learn the mission behind Yadxy and why we made fee tracking simple for tutors and coaching centers.",
+    images: ["https://yadxy.com/main.png"],
+  },
+};
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    {
+      "@type": "ListItem",
+      position: 1,
+      name: "Home",
+      item: "https://yadxy.com",
+    },
+    {
+      "@type": "ListItem",
+      position: 2,
+      name: "About",
+      item: "https://yadxy.com/about",
+    },
+  ],
+};
+
+const aboutPageSchema = {
+  "@context": "https://schema.org",
+  "@type": "AboutPage",
+  mainEntity: {
+    "@type": "Organization",
+    name: "Yadxy",
+    description:
+      "Yadxy helps private tutors and coaching centers easily track student fees, send reminders, and get paid on time.",
+    foundingDate: "2024",
+    url: "https://yadxy.com",
+  },
+};
 
 const About = () => {
-  const slideLeftVariants: Variants = {
-    hidden: { opacity: 0, x: -50 },
-    visible: { opacity: 1, x: 0 },
-  };
-
-  const fadeUpVariants: Variants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { delay: 1.8, duration: 0.6, ease: "easeOut" },
-    },
-  };
-
   return (
-    <section className="relative z-0 flex flex-col bg-[linear-gradient(to_bottom_right,#FFFFFF_0%,#E0ECFF_25%,#EAE2FF_50%,#F8E8DB_75%,#FFFFFF_100%)]">
-      {/* Subtle noise background */}
-      <div
-        className="absolute inset-0 opacity-5"
-        style={{
-          backgroundImage: "url('/image/noise.png')",
-          backgroundSize: "128px",
-          backgroundRepeat: "repeat",
-        }}
-      ></div>
-
-      <div className="relative w-full  mx-auto pt-28 sm:pt-36 lg:pt-44">
-        {/* Hero Section */}
-        <section className="flex px-4 flex-col sm:flex-row items-center justify-between gap-16 sm:gap-20 md:gap-28 text-start pb-12 sm:pb-16 lg:pb-20">
-          <div className="flex-1 space-y-6">
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-forum text-heading leading-tight">
-              <motion.span
-                variants={slideLeftVariants}
-                initial="hidden"
-                animate="visible"
-                transition={{ delay: 1, duration: 0.8, ease: "easeOut" }}
-                className="block"
-              >
-                Making Fee Management
-              </motion.span>
-              <motion.span
-                variants={slideLeftVariants}
-                initial="hidden"
-                animate="visible"
-                transition={{ delay: 1.5, duration: 0.8, ease: "easeOut" }}
-                className="block"
-              >
-                Simple for Every Tutor
-              </motion.span>
-            </h1>
-
-            <motion.p
-              variants={fadeUpVariants}
-              initial="hidden"
-              animate="visible"
-              className="text-base sm:text-lg text-sub max-w-2xl leading-relaxed"
-            >
-              Yadxy helps private tutors and coaching centers easily track
-              student fees, send reminders, and get paid on time — all from one
-              simple dashboard.
-            </motion.p>
-          </div>
-
-          <div className="flex-1 flex justify-center sm:justify-end">
-            <div className="w-[320px] h-[180px] sm:w-[640px] sm:h-[340px] relative">
-              <Image
-                src="/image/about/image1.png"
-                alt="about"
-                fill
-                className="object-cover shadow-2xl rounded-sm"
-              />
-            </div>
-          </div>
-        </section>
-
-        {/* What Makes Yadxy Different */}
-        <section className="py-24 px-4 sm:py-32 text-center">
-          <motion.h2
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2, duration: 0.6 }}
-            viewport={{ once: true }}
-            className="text-3xl sm:text-4xl font-forum text-heading mb-6"
-          >
-            What Makes Yadxy Different
-          </motion.h2>
-          <motion.p
-            initial={{ opacity: 0, y: 70 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5, duration: 0.6, ease: "easeOut" }}
-            viewport={{ once: true }}
-            className="mb-12 text-base italic leading-relaxed text-muted max-w-2xl mx-auto"
-          >
-            At Yadxy, we believe managing fees should be as easy as teaching
-            your favorite subject. No spreadsheets. No stress. Just simple,
-            smooth fee management.
-          </motion.p>
-
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-10 md:gap-12">
-            {[
-              { icon: Sparkles, text: "Built for Tutors, Not Accountants" },
-              { icon: HeartHandshake, text: "Focus on Teaching, Not Tracking" },
-              { icon: Rocket, text: "Automated Reminders & UPI Payments" },
-              { icon: Users, text: "Trusted by Growing Coaching Centers" },
-            ].map(({ icon: Icon, text }, i) => (
-              <div
-                key={i}
-                className="py-6 sm:py-8 px-4 sm:px-6 rounded-2xl shadow-md shadow-black/10 border border-white/50 bg-gradient-to-bl from-[#E8DFFF]/40 to-[#DDEBFF]/40 hover:shadow-xl transition-all duration-300 backdrop-blur-sm"
-              >
-                <Icon className="mx-auto w-10 h-10 text-primary mb-4" />
-                <p className="text-center text-base font-medium text-gray-700">
-                  {text}
-                </p>
-              </div>
-            ))}
-          </div>
-        </section>
-
-{/* Mission Section */}
-<section className="py-24 px-4 sm:py-32 text-center">
-  <motion.h2
-    initial={{ opacity: 0, y: 50 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    transition={{ delay: 0.2, duration: 0.6 }}
-    viewport={{ once: true }}
-    className="text-3xl sm:text-4xl font-forum text-heading mb-6"
-  >
-    Our Mission
-  </motion.h2>
-
-  <motion.p
-    initial={{ opacity: 0, y: 70 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    transition={{ delay: 0.5, duration: 0.6, ease: "easeOut" }}
-    viewport={{ once: true }}
-    className="mx-auto text-base sm:text-lg text-sub max-w-4xl leading-relaxed mb-10"
-  >
-    We built Yadxy with one goal in mind — to take the stress out of fee
-    tracking. As teachers and tutors, your time is better spent teaching,
-    not chasing payments. Yadxy automates all the small but important
-    things — recording payments, sending reminders, and organizing student
-    details — so you can focus on what truly matters: your students.
-  </motion.p>
-
-  <div className="flex justify-center mt-12">
-    <div className="relative w-[320px] h-[180px] sm:w-[860px] sm:h-[360px] rounded-lg shadow-xl bg-gray-200/70 overflow-hidden">
-      <Image
-        src="/image/about/image3.png"
-        alt="Our Mission"
-        fill
-        className="object-cover"
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
-    </div>
-  </div>
-</section>
-
-
-        <CTA />
-      </div>
-    </section>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(aboutPageSchema) }}
+      />
+      <section className="relative z-0 flex flex-col bg-[linear-gradient(to_bottom_right,#FFFFFF_0%,#E0ECFF_25%,#EAE2FF_50%,#F8E8DB_75%,#FFFFFF_100%)]">
+        {/* Subtle noise background */}
+        <div
+          className="absolute inset-0 opacity-5"
+          style={{
+            backgroundImage: "url('/image/noise.png')",
+            backgroundSize: "128px",
+            backgroundRepeat: "repeat",
+          }}
+        ></div>
+        <MotionSection />
+      </section>
+    </>
   );
 };
 

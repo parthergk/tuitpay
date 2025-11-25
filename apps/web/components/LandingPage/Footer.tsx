@@ -89,19 +89,19 @@ const Footer = () => {
         {/* Socials */}
         <div className="flex gap-4 items-start">
           <a
-            href="#"
+            href="https://www.linkedin.com/company/yadxy"
             className="p-2 rounded-full border border-white text-white hover:bg-primary transition"
           >
             <Linkedin size={18} />
           </a>
           <a
-            href="#"
+            href="https://x.com/YadxyApp"
             className="p-2 rounded-full border border-white text-white hover:bg-primary transition"
           >
             <Twitter size={18} />
           </a>
           <a
-            href="#"
+            href="https://www.instagram.com/yadxyapp"
             className="p-2 rounded-full border border-white text-white hover:bg-primary transition"
           >
             <Instagram size={18} />

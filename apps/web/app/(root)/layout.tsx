@@ -1,4 +1,3 @@
-"use client";
 import React from "react";
 import { StudentFormProvider } from "../../context/StudentFormProvider";
 import { OpenPlanProvider } from "../../context/OpenPlanProvider";

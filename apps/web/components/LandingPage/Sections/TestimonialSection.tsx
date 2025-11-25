@@ -1,3 +1,4 @@
+"use client"
 import React from "react";
 import { motion } from "motion/react";
 import InfiniteMovingCards from "../InfiniteMovingCards";

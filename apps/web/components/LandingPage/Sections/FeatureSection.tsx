@@ -1,3 +1,4 @@
+"use client"
 import React from "react";
 import FeatureCard from "../Cards/FeatureCard";
 import { motion } from "motion/react";

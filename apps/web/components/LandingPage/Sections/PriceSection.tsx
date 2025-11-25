@@ -1,3 +1,4 @@
+"use client"
 import React, { useEffect, useState } from "react";
 import PriceCard from "../Cards/PriceCard";
 import { motion } from "motion/react";
