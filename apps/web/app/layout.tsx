@@ -78,7 +78,7 @@ const organizationSchema = {
   "@type": "Organization",
   name: "Yadxy",
   url: "https://yadxy.com",
-  logo: "https://yadxy.com/main.png",
+  logo: "https://yadxy.com/index.png",
   description: siteDescription,
   sameAs: [
     "https://www.instagram.com/yadxyapp",
@@ -106,8 +106,8 @@ const softwareSchema = {
   url: "https://yadxy.com",
   applicationCategory: "FinanceApplication",
   operatingSystem: "Web",
-  logo: "https://yadxy.com/main.png",
-  image: "https://yadxy.com/main.png",
+  logo: "https://yadxy.com/index.png",
+  image: "https://yadxy.com/index.png",
   author: {
     "@type": "Person",
     name: "Parther",

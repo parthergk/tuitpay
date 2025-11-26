@@ -17,13 +17,13 @@ export const metadata:Metadata = {
     title: "Contact Yadxy – Get Support for Fee Tracking Software",
     description: "Reach out to Yadxy for questions, support, or feedback.",
     url: "https://yadxy.com/contact",
-    images: ["https://yadxy.com/main.png"],
+    images: ["https://yadxy.com/index.png"],
   },
   twitter: {
     card: "summary_large_image",
     title: "Contact Yadxy – Get Support for Fee Tracking Software",
     description: "Get in touch with the Yadxy team for support and inquiries.",
-    images: ["https://yadxy.com/main.png"],
+    images: ["https://yadxy.com/index.png"],
   },
 };
 
