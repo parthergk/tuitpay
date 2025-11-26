@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     url: "https://yadxy.com",
     images: [
       {
-        url: "https://yadxy.com/index.png",
+        url: "https://yadxy.com/yadxy-social-1200x630.jpg",
         width: 1200,
         height: 630,
         alt: "Yadxy fee tracking software for tutors",
@@ -44,7 +44,7 @@ export const metadata: Metadata = {
     title: "Yadxy – Smart Fee Tracker for Tutors & Coaching Centers",
     description:
       "Yadxy automates tuition fee reminders, student management, and UPI payments.",
-    images: ["https://yadxy.com/index.png"],
+    images: ["https://yadxy.com/yadxy-summary-large.jpg"],
   },
 };
 

@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import ContactForm from "../../../../components/LandingPage/contact/ContactForm";
 
-export const metadata:Metadata = {
+export const metadata: Metadata = {
   title: "Contact Yadxy – Get Support for Fee Tracking Software",
   description:
     "Have questions about Yadxy fee tracking software? Contact our support team for help with automated reminders, UPI payments, and student management.",
@@ -17,13 +17,21 @@ export const metadata:Metadata = {
     title: "Contact Yadxy – Get Support for Fee Tracking Software",
     description: "Reach out to Yadxy for questions, support, or feedback.",
     url: "https://yadxy.com/contact",
-    images: ["https://yadxy.com/index.png"],
+    images: [
+      {
+        url: "https://yadxy.com/yadxy-social-1200x630.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Yadxy tuition fee tracking platform for teachers",
+      },
+    ],
+    type: "website",
   },
   twitter: {
     card: "summary_large_image",
     title: "Contact Yadxy – Get Support for Fee Tracking Software",
     description: "Get in touch with the Yadxy team for support and inquiries.",
-    images: ["https://yadxy.com/index.png"],
+    images: ["https://yadxy.com/yadxy-summary-large.jpg"],
   },
 };
 

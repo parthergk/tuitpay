@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     url: "https://yadxy.com/price",
     images: [
       {
-        url: "https://yadxy.com/index.png",
+        url: "https://yadxy.com/yadxy-social-1200x630.jpg",
         width: 1200,
         height: 630,
         alt: "Yadxy pricing page for teachers and coaching centers",
@@ -41,7 +41,7 @@ export const metadata: Metadata = {
     title: "Yadxy Pricing – Simple & Affordable Fee Tracking Plans for Tutors",
     description:
       "Affordable plans for tutors and coaching centers. Access automated reminders, UPI payments, and fee tracking.",
-    images: ["https://yadxy.com/index.png"],
+    images: ["https://yadxy.com/yadxy-summary-large.jpg"],
   },
 };
 

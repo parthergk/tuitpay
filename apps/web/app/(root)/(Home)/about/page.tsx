@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     url: "https://yadxy.com/about",
     images: [
       {
-        url: "https://yadxy.com/index.png",
+        url: "https://yadxy.com/yadxy-social-1200x630.jpg",
         width: 1200,
         height: 630,
         alt: "Yadxy tuition fee tracking platform for teachers",
@@ -34,7 +34,7 @@ export const metadata: Metadata = {
     title: "About Yadxy – Fee Tracking Made Simple for Tutors",
     description:
       "Learn the mission behind Yadxy and why we made fee tracking simple for tutors and coaching centers.",
-    images: ["https://yadxy.com/index.png"],
+    images: ["https://yadxy.com/yadxy-summary-large.jpg"],
   },
 };
 
