@@ -22,6 +22,7 @@ export interface IUser {
   planExpiresAt: Date;
   studentLimit: number;
   planPrice: number;
+  isPremiumActive: boolean;
 
   createdAt: Date;
   updatedAt: Date;
@@ -39,6 +40,7 @@ export interface IStudent {
   joinDate: Date;
   feeDay: number;
   lastFeeDueDate: Date;
+  stopReminder: Boolean;
   createdAt: Date;
   updatedAt: Date;
 }

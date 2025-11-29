@@ -27,6 +27,7 @@ export const metadata: Metadata = {
         alt: "Yadxy tuition fee tracking platform for teachers",
       },
     ],
+    
     type: "website",
   },
   twitter: {

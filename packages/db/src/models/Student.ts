@@ -13,6 +13,7 @@ const studentSchema = new Schema<IStudent>(
     joinDate: { type: Date, required: true },
     feeDay: { type: Number, required: true, min: 1, max: 31, default: 1 },
     lastFeeDueDate: { type: Date },
+    stopReminder: {type: Boolean, default: false}
   },
   { timestamps: true }
 );

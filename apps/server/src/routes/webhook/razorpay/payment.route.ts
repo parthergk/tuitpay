@@ -1,6 +1,6 @@
 import { Request, Response, Router } from "express";
 import crypto from "crypto";
-import { Payment, User } from "@repo/db";
+import { Payment, Student, User } from "@repo/db";
 import { IPlan, IUser } from "@repo/types";
 import { getTodayDate } from "../../../utils/dateUtils";
 
@@ -67,13 +67,22 @@ paymentRouter.post("/", async (req: Request, res: Response) => {
         expiresAt.setDate(expiresAt.getDate() + plan.durationDays);
       }
 
-      await User.findByIdAndUpdate(user?._id, {
+       await User.findByIdAndUpdate(user?._id, {
         planType: plan?.type,
         planStatus: "active",
         studentLimit: plan?.studentLimit ?? null,
         planActivatedAt: getTodayDate(),
         planExpiresAt: expiresAt,
+        isPremiumActive: true
       });
+
+      const studetns = await Student.find({
+        teacherId: user._id
+      })
+
+      for(const student of studetns){
+        student.stopReminder= false
+      }
 
       // console.log("User email:", order.userId?.email);
       // console.log("Plan:", order.planId?.name);

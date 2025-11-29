@@ -32,6 +32,7 @@ const userSchema = new Schema<IUser>(
     planExpiresAt: { type: Date, default: null },
     studentLimit: { type: Number, default: 20 },
     planPrice: { type: Number, default: 0 },
+    isPremiumActive: {type: Boolean, default:false}
   },
   { timestamps: true }
 );

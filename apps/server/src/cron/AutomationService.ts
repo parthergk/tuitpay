@@ -1,9 +1,14 @@
-import { connectTodb, FeePayment, NotificationLog, Student } from "@repo/db";
+import {
+  connectTodb,
+  FeePayment,
+  NotificationLog,
+  Student,
+  User,
+} from "@repo/db";
 import { smsSender } from "../lib/twilioClient";
 import { whatsappSender } from "../lib/whatsappClient";
 import { getTodayDate } from "../utils/dateUtils";
 import { IStudent, IFeePayment } from "@repo/types";
-
 
 export class FeeAutomationService {
   static async generateMonthlyFees(): Promise<void> {
@@ -24,6 +29,10 @@ export class FeeAutomationService {
   private static async shouldGenerateNewFee(student: IStudent, today: Date) {
     const currentMonth = today.getMonth();
     const currentYear = today.getFullYear();
+
+    if (student.stopReminder) {
+      return false;
+    }
 
     const feeExists = await FeePayment.findOne({
       studentId: student._id,
@@ -48,9 +57,7 @@ export class FeeAutomationService {
 
   private static async createFeeRecord(student: IStudent, today: Date) {
     const dueDate = new Date(
-      Date.UTC(today.getFullYear(),
-      today.getMonth(),
-      student.feeDay)
+      Date.UTC(today.getFullYear(), today.getMonth(), student.feeDay)
     );
 
     const reminderDate = new Date(dueDate);
@@ -99,7 +106,6 @@ export class FeeAutomationService {
         );
         continue;
       }
-
 
       if (fee.nextReminderAt && fee.nextReminderAt <= now) {
         await this.sendNotification(student, fee, "reminder");
@@ -167,11 +173,15 @@ export class FeeAutomationService {
         break;
       case "whatsapp":
         console.log(`Sending WhatsApp to ${student.name}`);
-        whatsappSender({
-          name: student.name,
-          contact: student.contact,
-          teacherId: student.teacherId
-        }, {dueDate:fee.dueDate, amount: fee.amount}, type);
+        whatsappSender(
+          {
+            name: student.name,
+            contact: student.contact,
+            teacherId: student.teacherId,
+          },
+          { dueDate: fee.dueDate, amount: fee.amount },
+          type
+        );
         break;
       default:
         throw new Error(`Unsupported channel: ${channel}`);
